@@ -1,0 +1,91 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 10px;
+  background-color: #2980b9;
+  /* Navbar background color */
+  display: flex;
+  justify-content: space-between;
+  /* Align items to both ends */
+  align-items: center;
+  padding-bottom: 50px;
+}
+
+/* Fixed position for the profile container */
+.admin-container {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-container p {
+  margin-right: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  margin-top: -10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  /* Changed to white for better contrast */
+  min-width: 160px;
+  /* Increased width */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  /* Rounded corners */
+  z-index: 1;
+  right: 0;
+  top: 50px;
+  transition: all 0.3s ease;
+  /* Smooth transition */
+  padding: 10px 0;
+  /* Added padding for better spacing */
+}
+
+.dropdown-content a {
+  color: #333;
+  /* Darker color for better readability */
+  padding: 12px 20px;
+  /* More padding for better click area */
+  text-decoration: none;
+  display: flex;
+  /* Use flexbox for icon and text alignment */
+  align-items: center;
+  /* Center align icon and text */
+}
+
+.dropdown-content a i {
+  margin-right: 10px;
+  /* Space between icon and text */
+}
+
+.dropdown-content a:hover {
+  background-color: #e0e0e0;
+  /* Subtle hover effect */
+  color: #007bff;
+  /* Change text color on hover */
+  transition: background-color 0.2s ease;
+  /* Smooth transition */
+}
+
+.dropdown-content a.active {
+  background-color: #007bff;
+  /* Highlight active item */
+  color: white;
+  /* Change text color for active item */
+}

@@ -1,0 +1,74 @@
+<div class="main-popup-container">
+    <div class="popup-background"></div>
+    <div class="popup-content">
+        <div class="main-popup-content">
+            <div class="popup-top">
+                <div class="headline">
+                    <h1>New Equipment</h1>
+                </div>
+                <div class="paragraph">
+                    <p>Input Information</p>
+                </div>
+
+                <div class="floating-button">
+                    <div class="close-popup popup-button">
+<!--                        --><?php //= UseIcon('close') ?>
+                    </div>
+                </div>
+            </div>
+            <form class="">
+                <div class="popup-bot">
+                    <div class="form-container" >
+                        <div class="form-group">
+                            <label for="name">Equipment Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter equipment name"  required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="alert_level">Alert Level</label>
+                            <input type="number" id="alert_level" name="alert_level" placeholder="Enter alert level"  required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Enter equipment description" name="description"  required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="picture">Picture</label>
+                            <input type="file" id="picture" name="picture" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" id="price" step="0.01" placeholder="Enter price"  name="price" required/>
+                        </div>
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" required>
+                            <option value="">-- Select Category --</option>
+                            <option value="equipment">Equipment</option>
+                            <option value="tools">Tools</option>
+                            <option value="material">Material</option>
+                        </select>
+                        <label for="course">Course:</label>
+                        <select id="course" name="course" required>
+                            <option value="">-- Select Course --</option>
+                            <option value="RAC Servicing (DomRAC)">RAC Servicing (DomRAC)</option>
+                            <option value="Basic Shielded Metal Arc Welding">Basic Shielded Metal Arc Welding</option>
+                            <option value="Advanced Shielded Metal Arc Welding">Advanced Shielded Metal Arc Welding</option>
+                            <option value="Pc operation">Pc operation</option>
+                            <option value="Bread and pastry production NC II">Bread and pastry production NC II</option>
+                            <option value="Computer aid design (CAD)">Computer aid design (CAD)</option>
+                            <option value="Culinary arts">Culinary arts</option>
+                            <option value="Dressmaking NC II">Dressmaking NC II</option>
+                            <option value="Food and beverage service NC II">Food and beverage service NC II</option>
+                            <option value="Hair care">Hair care</option>
+                            <option value="Junior beautician">Junior beautician</option>
+                            <option value="Gas metal Arc Welding -- GMAW NC I">Gas metal Arc Welding -- GMAW NC I</option>
+                            <option value="Gas metal Arc Welding -- GMAW NC II">Gas metal Arc Welding -- GMAW NC II</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button>Save Equipment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

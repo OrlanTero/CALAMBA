@@ -1,0 +1,20 @@
+[
+    {
+        "first_name": "John",
+        "middle_name": "A",
+        "last_name": "Doe",
+        "suffix": "",
+        "borrow_datetime": "2024-08-14 10:30:00",
+        "item_to_borrow": "Laptop",
+        "location": "Library"
+    },
+    {
+        "first_name": "Jane",
+        "middle_name": "",
+        "last_name": "Smith",
+        "suffix": "Jr",
+        "borrow_datetime": "2024-08-13 14:45:00",
+        "item_to_borrow": "Projector",
+        "location": "Conference Room"
+    }
+]

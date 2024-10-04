@@ -1,0 +1,49 @@
+<?php
+session_start();
+include 'db_connection.php';
+
+// Get user input
+$username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
+
+// Initialize response array
+$response = array();
+
+if (!empty($username) && !empty($password)) {
+    // Query the database
+    $sql = "SELECT * FROM users WHERE username=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        // Verify password
+        if (password_verify($password, $row['password'])) {
+            // Login successful
+            $_SESSION['username'] = $username;
+            $response['success'] = true;
+            $response['message'] = "Login successful";
+        } else {
+            // Incorrect password
+            $response['success'] = false;
+            $response['message'] = "Incorrect password";
+        }
+    } else {
+        // Username not found
+        $response['success'] = false;
+        $response['message'] = "Username not found";
+    }
+
+    $stmt->close();
+} else {
+    // Missing username or password
+    $response['success'] = false;
+    $response['message'] = "Username and password are required";
+}
+
+// Return JSON response
+header('Content-Type: application/json');
+echo json_encode($response);
+?>

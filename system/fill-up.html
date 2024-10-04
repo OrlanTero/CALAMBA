@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Borrowing Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('logo/cmdc.jpg');
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 80px auto; /* Center the form */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+            text-align: center; /* Center the heading */
+        }
+
+        form {
+            padding: 20px;
+        }
+
+        .form-input {
+            margin-bottom: 10px;
+        }
+
+        .form-input label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-input input[type="text"], .form-input select {
+            width: calc(100% - 12px); /* Adjust width */
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+        }
+
+        button[type="button"], button[type="submit"] {
+            background-color: #2980b9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px; /* Add margin */
+        }
+
+        button[type="button"]:hover, button[type="submit"]:hover {
+            background-color: #2471a3;
+        }
+
+        #review {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Borrowing Form</h1>
+
+        <form id="borrowingForm">
+            <div class="form-input">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <div class="form-input">
+                <label for="middleName">Middle Name:</label>
+                <input type="text" id="middleName" name="middleName">
+            </div>
+
+            <div class="form-input">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <div class="form-input">
+                <label for="suffix">Suffix:</label>
+                <input type="text" id="suffix" name="suffix">
+            </div>
+
+            <div class="form-input">
+                <label>Role:</label>
+                <div class="role-option">
+                    <input type="radio" id="student" name="roles" value="student" required>
+                    <label for="student">Student</label>
+                </div>
+                <div class="role-option">
+                    <input type="radio" id="Instructor" name="roles" value="Instructor">
+                    <label for="Instructor">Instructor</label>
+                </div>
+            </div>
+
+            <div class="form-input">
+                <label for="borrowedItem">Item to Borrow:</label>
+                <select id="borrowedItem" name="borrowedItem" required>
+                    <option value="drill">Drill</option>
+                    <option value="stove">Stove</option>
+                    <option value="grinder">Grinder</option>
+                </select>
+            </div>
+
+            <div class="form-input">
+                <label for="location">Location:</label>
+                <select id="location" name="location" required>
+                    <option value="room 1">Room 1</option>
+                    <option value="room 2">Room 2</option>
+                    <option value="room 3">Room 3</option>
+                </select>
+            </div>
+
+            <button type="button" onclick="reviewForm()">Review</button>
+            <button type="button" onclick="submitForm()" style="display: none;">Submit</button>
+        </form>
+
+        <div id="review">
+            <h2>Review Borrowing Information</h2>
+            <p id="firstNameInfo"></p>
+            <p id="middleNameInfo"></p>
+            <p id="lastNameInfo"></p>
+            <p id="suffixInfo"></p>
+            <p id="roleInfo"></p>
+            <p id="borrowedItemInfo"></p>
+            <p id="locationInfo"></p>
+            <button onclick="editForm()">Edit</button>
+            <button onclick="finalSubmit()">Confirm</button>
+        </div>
+    </div>
+
+    <script>
+        function reviewForm() {
+            const firstName = document.getElementById("firstName").value;
+            const middleName = document.getElementById("middleName").value;
+            const lastName = document.getElementById("lastName").value;
+            const suffix = document.getElementById("suffix").value;
+            const roles = document.querySelector('input[name="roles"]:checked').value;
+            const borrowedItem = document.getElementById("borrowedItem").value;
+            const location = document.getElementById("location").value;
+
+            document.getElementById("firstNameInfo").innerText = "First Name: " + firstName;
+            document.getElementById("middleNameInfo").innerText = "Middle Name: " + middleName;
+            document.getElementById("lastNameInfo").innerText = "Last Name: " + lastName;
+            document.getElementById("suffixInfo").innerText = "Suffix: " + suffix;
+            document.getElementById("roleInfo").innerText = "Role: " + roles;
+            document.getElementById("borrowedItemInfo").innerText = "Item to Borrow: " + borrowedItem;
+            document.getElementById("locationInfo").innerText = "Location: " + location;
+
+            document.getElementById("borrowingForm").style.display = "none";
+            document.getElementById("review").style.display = "block";
+            document.querySelector('button[type="button"][onclick="reviewForm()"]').style.display = "none";
+            document.querySelector('button[type="button"][onclick="submitForm()"]').style.display = "inline-block";
+        }
+
+        function submitForm() {
+            const formData = new FormData(document.getElementById('borrowingForm'));
+
+            fetch('submit_form.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Display response from PHP script
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Error submitting form: " + error);
+            });
+        }
+
+        function finalSubmit() {
+            // This function is called when the user confirms the submission
+            submitForm(); // Call the submitForm function to handle the submission
+        }
+
+        function editForm() {
+            document.getElementById("borrowingForm").style.display = "block";
+            document.getElementById("review").style.display = "none";
+            document.querySelector('button[type="button"][onclick="reviewForm()"]').style.display = "inline-block";
+            document.querySelector('button[type="button"][onclick="submitForm()"]').style.display = "none";
+        }
+    </script>
+</body>
+</html>
+

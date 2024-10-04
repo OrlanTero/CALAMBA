@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Inventory Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("logo/BG.jpg");
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            background-color: #2980b9; /* Navbar background color */
+        }
+
+        .navbar-logo {
+            width: 80px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .admin-container {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .admin-container p {
+            margin-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            right: 20px;
+            top: 60px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .container-wrapper {
+            display: flex;
+            width: 100%;
+            margin-top: 60px; 
+            margin-left: 350px;       
+        }
+
+        .container {
+            width: calc(100% - 300px); /* Adjusted width for the dashboard content */
+            background-color: lightblue; /* Container background color */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            height: 700px;
+            overflow-y: auto; /* Added vertical scroll */
+        }
+
+        h1 {
+            color: #333; /* Heading color */
+            margin-top: 0;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dashboard-square {
+            background-color: #3498db; /* Square background color */
+            color: #fff; /* Text color */
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dashboard-square span {
+            font-weight: bold;
+        }
+
+        /* Slide-in menu styles */
+        .menu {
+            position: fixed;
+            top: 70px; /* Adjusted top position to go below navbar and logo */
+            left: 0;
+            width: 300px;
+            height: calc(100% - 80px); /* Adjusted height to fit below navbar */
+            background-color: #2980b9; /* Matched the color with the theme */
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto; /* Added vertical scroll for menu */
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            padding: 20px;
+            text-decoration: none;
+            border-bottom: 1px solid #555;
+            transition: background-color 0.3s ease;
+            left: 300px;
+        }
+
+        .menu a:hover {
+            background-color: #2471a3; /* Button hover background color */
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <img src="logo/logo.jpg" alt="Logo" class="navbar-logo" onclick="toggleMenu()">
+    <div class="admin-container">
+        <p>Admin</p>
+        <img src="logo/logo.jpg" alt="Profile Picture" class="profile-picture" onclick="toggleDropdown()">
+        <div class="dropdown-content" id="dropdown-content">
+            <a href="#">Profile</a>
+            <a href="../index.php">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-wrapper">
+    <div class="container">
+        <h1>Dashboard</h1>
+
+        <!-- Dashboard content -->
+        <div class="dashboard-content">
+            <div class="dashboard-square">
+                <p>Total Equipment: <span id="total-equipment">0</span></p>
+            </div>
+            <div class="dashboard-square">
+                <p>Total Users: <span id="total-users">0</span></p>
+            </div>
+            <div class="dashboard-square">
+                <p>Total Available: <span id="total-available">0</span></p>
+            </div>
+            <div class="dashboard-square">
+                <p>Total Borrowers: <span id="total-borrowers">0</span></p>
+            </div>
+            <div class="dashboard-square">
+                <p>Total Borrowed: <span id="total-borrowed">0</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide-in menu -->
+<div class="menu" id="menu">
+    <a href="inventory.html">Add Equipment</a>
+    <a href="equipment_condition.html">Equipment loss/damaged record</a>
+    <a href="catalog.html">List of Equipment</a>
+    <a href="borrow.html">Record</a>
+    <a href="../index.php">Logout</a>
+</div>
+
+<script>
+    function toggleDropdown() {
+        var dropdownContent = document.getElementById("dropdown-content");
+        dropdownContent.classList.toggle("show");
+    }
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        var containerWrapper = document.querySelector('.container-wrapper');
+
+        if (menu.style.left === "0px") {
+            menu.style.left = "-300px";
+            containerWrapper.style.marginLeft = "350";
+            
+        } else {
+            menu.style.left = "0px";
+        }
+    }
+
+    // Fetch dashboard data and display it
+    fetch('fetch_dashboard_data.php')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('total-equipment').textContent = data.totalEquipment;
+            document.getElementById('total-users').textContent = data.totalUsers;
+            document.getElementById('total-available').textContent = data.totalAvailable;
+            document.getElementById('total-borrowers').textContent = data.totalBorrowers;
+            document.getElementById('total-borrowed').textContent = data.totalBorrowed;
+        })
+        .catch(error => console.error('Error fetching dashboard data:', error));
+</script>
+
+</body>
+</html>

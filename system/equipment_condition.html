@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Status - Inventory Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("logo/BG.jpg");
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            background-color: #2980b9; /* Navbar background color */
+        }
+
+        .navbar-logo {
+            width: 80px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .admin-container {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .admin-container p {
+            margin-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            right: 20px;
+            top: 60px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .container-wrapper {
+            display: flex;
+            width: 100%; /* Full width */
+            margin-top: 60px; /* Adjusted margin to make space for navbar */
+            margin-left: 300px;
+        }
+
+        .container {
+            width: calc(100% - 300px); /* Adjusted width for the content */
+            background-color: lightblue; /* Container background color */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            height: 700px;
+            overflow-y: auto; /* Added vertical scroll */
+        }
+
+        h1 {
+            color: #333; /* Heading color */
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .records-table th, .records-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .records-table th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+        }
+
+        .records-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .records-table tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Slide-in menu styles */
+        .menu {
+            position: fixed;
+            top: 60px; /* Adjusted top position to go below navbar */
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #2980b9; /* Matched the color with the theme */
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            padding: 20px;
+            text-decoration: none;
+            border-bottom: 1px solid #555;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu a:hover {
+            background-color: #2471a3; /* Button hover background color */
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <img src="logo/logo.jpg" alt="Logo" class="navbar-logo" onclick="toggleMenu()">
+    <div class="admin-container">
+        <p>Admin</p>
+        <img src="logo/logo.jpg" alt="Profile Picture" class="profile-picture" onclick="toggleDropdown()">
+        <div class="dropdown-content" id="dropdown-content">
+            <a href="#">Profile</a>
+            <a href="../index.php">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-wrapper">
+    <div class="container">
+        <h1>Equipment Status</h1>
+
+        <!-- Form to add equipment status -->
+        <form id="status-form">
+            <div class="form-group">
+                <label for="equipment-name">Equipment Name:</label>
+                <input type="text" id="equipment-name" name="equipmentName" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Damaged">Damaged</option>
+                    <option value="Lost">Lost</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="responsible-person">Responsible Person:</label>
+                <input type="text" id="responsible-person" name="responsiblePerson" required>
+            </div>
+            <button type="submit" class="btn">Add Record</button>
+        </form>
+
+        <!-- Table to list equipment status -->
+        <table class="records-table">
+            <thead>
+                <tr>
+                    <th>Equipment Name</th>
+                    <th>Status</th>
+                    <th>Responsible Person</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="records-tbody">
+                <!-- Records will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Slide-in menu -->
+<div class="menu" id="menu">
+    <a href="dashboard_admin.html">Dash board</a>
+    <a href="inventory.html">Add Equipment</a>
+    <a href="catalog.html">List of Equipment</a>
+    <a href="borrow.html">Record</a>
+    <a href="equipment_status.html">Equipment Status</a>
+    <a href="../index.php">Logout</a>
+</div>
+
+<script>
+    function toggleDropdown() {
+        var dropdownContent = document.getElementById("dropdown-content");
+        dropdownContent.classList.toggle("show");
+    }
+
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        var containerWrapper = document.querySelector('.container-wrapper');
+
+        if (menu.style.left === "0px") {
+            menu.style.left = "-300px";
+            containerWrapper.style.marginLeft = "350";
+            
+        } else {
+            menu.style.left = "0px";
+        }
+    }
+
+    document.getElementById('status-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Fetch form data
+        const equipmentName = document.getElementById('equipment-name').value;
+        const status = document.getElementById('status').value;
+        const responsiblePerson = document.getElementById('responsible-person').value;
+        const date = new Date().toLocaleDateString();
+
+        // Insert new record into the table
+        const tbody = document.getElementById('records-tbody');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${equipmentName}</td>
+            <td>${status}</td>
+            <td>${responsiblePerson}</td>
+            <td>${date}</td>
+        `;
+        tbody.appendChild(newRow);
+
+        // Clear form fields
+        document.getElementById('status-form').reset();
+    });
+</script>
+
+</body>
+</html>
