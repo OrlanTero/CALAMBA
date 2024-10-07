@@ -8,6 +8,11 @@
         background-color: #2980b9;
         transition: left 0.3s ease;
         z-index: 999;
+        display: block;
+    }
+
+    .custom-menu.show {
+        left: -300px ;
     }
 
     .custom-menu .menu-header {
@@ -61,6 +66,7 @@
                 <i class="fas fa-list"></i><span>Equipment Manager</span>
             </div>
             <div class="link-contents">
+                <div class="link"><a href="requests.php" id="borrow-admin"><i class="fas fa-history"></i> Requests</a></div>
                 <div class="link"><a href="borrow.php" id="borrow-admin"><i class="fas fa-history"></i> Borrowed</a></div>
                 <div class="link"><a href="returned.php" id="returned-admin"><i class="fas fa-undo"></i> Returned</a></div>
                 <div class="link"><a href="not_returned.php" id="not-returned-admin"><i class="fas fa-times"></i> Not Returned</a></div>

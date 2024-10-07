@@ -129,6 +129,16 @@ class Connection
         return $fetchAll ? $stmt->fetchAll() : $stmt->fetch();
     }
 
+    public function SelectPage($table, $where, $fetchAll, $start = 1, $limit = 10)
+    {
+        $w = isset($where) ? " WHERE " . $this->ConditionToQ($where, " AND ", "=") : "";
+        $query = "SELECT * FROM " . $table . $w .  " LIMIT $limit OFFSET $start";   
+        $stmt = $this->CONNECTION->prepare($query);
+        $stmt->execute();
+
+        return $fetchAll ? $stmt->fetchAll() : $stmt->fetch();
+    }
+
     public function Select($table, $where, $fetchAll, $condition = "=", $order = "")
     {
         $w = isset($where) ? " WHERE " . $this->ConditionToQ($where, " AND ", $condition) : "";
@@ -405,6 +415,14 @@ class Connection
     public function Search($table, $search, $into, $where)
     {
         $query = $this->MakeSearchQuery($table, $search, $into, $where);
+        $stmt = $this->CONNECTION->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function SearchPage($table, $search, $into, $where, $start = 0, $limit = 10)
+    {
+        $query = $this->MakeSearchQuery($table, $search, $into, $where)  . (empty($where) ? '' :  "")  . ' ' .  " LIMIT $limit OFFSET $start";
         $stmt = $this->CONNECTION->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();

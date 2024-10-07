@@ -4,7 +4,7 @@
         <div class="main-popup-content">
             <div class="popup-top">
                 <div class="headline">
-                    <h1>New Equipment</h1>
+                    <h1>New Item</h1>
                 </div>
                 <div class="paragraph">
                     <p>Input Information</p>
@@ -12,30 +12,23 @@
 
                 <div class="floating-button">
                     <div class="close-popup popup-button">
-                        <!--                        --><?php //= UseIcon('close') ?>
+                        <img src="pictures/close.svg"/>
                     </div>
                 </div>
             </div>
             <form class="">
                 <div class="popup-bot">
-                    <div class="form-group">
-                        <label for="existing-equipment">Select Existing Equipment</label>
-                        <select id="existing-equipment">
-                            <option value="">-- Select Equipment --</option>
-                            <!-- Options will be added dynamically here -->
-                        </select>
-                    </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="additional-quantity">Add Quantity</label>
-                        <input type="number" id="additional-quantity" placeholder="Enter quantity to add" />
-                    </div>
+                        <input type="number" id="additional-quantity" name="quantity" placeholder="Enter quantity to add" />
+                    </div> -->
                     <div class="form-group">
                         <label for="location">Location</label>
-                        <input type="text" id="location" placeholder="Enter location" />
+                        <input type="text" id="location" name="location" placeholder="Enter location" />
                     </div>
                     <div class="form-group">
                         <label for="serials">Serial Number</label>
-                        <input type="text" id="serials" placeholder="Enter serial number" />
+                        <input type="text" id="serials" name="serials" placeholder="Enter serial number" />
                     </div>
                 </div>
                 <div class="popup-footer">

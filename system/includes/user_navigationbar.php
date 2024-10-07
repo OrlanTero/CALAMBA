@@ -1,3 +1,17 @@
+
+<?php
+
+if (!isset($CONNECTION)) {
+    $CONNECTION = new Connection();
+}
+
+if (!isset($_SESSION['user_id'])) {
+    session_start();
+}
+
+$user = $CONNECTION->Select("user", ["id" => $_SESSION['user_id']], false);
+?>
+
 <head>
     <!-- Optional: Bootstrap Icons (if you want to use icons) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -48,10 +62,10 @@
         color: white;
     }
 
-    .navbar {
+    /* .navbar {
         position: relative;
         /* Set to relative for dropdown positioning */
-    }
+    } */
 
     .profile-picture {
         width: 40px;
@@ -82,10 +96,12 @@
             class="profile-picture" />
     </button>
     <div class="admin-container">
-        <p id="user-name" class="mr-3"></p>
+        <span>
+            <p id="user-name" class="mr-3"><?= $user['last_name'] . ', '  . $user['first_name']?></p>
+        </span>
         <img
             id="profile-picture"
-            src="logo/logo.jpg"
+            src="./uploads/<?= $user['profile_picture'] ?>"
             alt="Profile Picture"
             class="profile-picture"
             onclick="toggleDropdown()"
@@ -101,6 +117,7 @@
     </div>
 </div>
 <script>
+
     // Toggle Dropdown Menu
     function toggleDropdown() {
         document.getElementById("dropdown-content").classList.toggle("show");
@@ -121,7 +138,34 @@
 
     // Toggle Slide-in Menu
     function toggleMenu() {
-        const menu = document.getElementById("menu");
-        menu.style.left = menu.style.left === "0px" ? "-300px" : "0px";
+        const menu = document.querySelector(".custom-menu");
+
+        if (!menu.classList.contains("hide") && !menu.classList.contains("show")) {
+            menu.classList.add("hide");
+        } else if (menu.classList.contains("hide")) {
+            menu.classList.add("show");
+            menu.classList.remove("hide");
+        } else {
+            menu.classList.add("hide");
+            menu.classList.remove("show");
+        }
     }
+
+    function checkResizeMenu() {
+        const menu = document.querySelector(".custom-menu");
+
+        if (window.innerWidth <= 930) {
+            menu.classList.add("hide");
+            menu.classList.remove("show");
+        }
+    }
+
+    window.onresize = function () {
+        checkResizeMenu();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        checkResizeMenu();
+
+    })
 </script>
