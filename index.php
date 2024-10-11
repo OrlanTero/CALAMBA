@@ -17,20 +17,36 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            background: #ebeeee;
+            /*background: linear-gradient(to right, #74ebd5, #acb6e5);*/
         }
 
         .intro {
             width: 100%;
             max-width: 500px !important;
-            height: 80px;
-            background-color: #143213;
+            height: 100px;
+            background: #fff;
+            /*background-color: #143213;*/
             display: flex;
-            justify-content: center;
+            justify-content: start;
             align-items: center;
-            border-radius: 10px 10px 10px 10px;
-            color: white;
+            border-radius: 4px;
             margin-bottom: 10px;
+            padding: 0 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            color: #050505
+        }
+
+        .intro .text {
+            margin-left: -30px !important;
+        }
+
+        .intro .primary {
+            font-size: 24px;
+        }
+        
+        .intro .secondary {
+            font-size: 14px;
         }
 
         .container {
@@ -120,13 +136,13 @@
 <body>
     <div class="intro d-flex align-items-center">
         <img class="logo me-3" src="./system/pictures/logo(noBG).png" style="max-width: 100px;" /> <!-- Adjust size as needed -->
-        <div>
-            <h4 class="fw-bold mb-0">Calamba Manpower</h4>
-            <h4 class="fw-bold mb-0">Development Center</h4>
+        <div class="text">
+            <div class="primary">Calamba Manpower</div>
+            <div class="secondary">Development Center</div>
         </div>
     </div>
     <div class="container d-flex flex-column align-items-center justify-content-center">
-        <h1 class="mb-4">Login</h1>
+        <h1 class="mb-4">Login your Account</h1>
         <?php
         session_start();
         if (isset($_SESSION['error'])) {

@@ -1,7 +1,7 @@
 <style>
     .custom-menu {
         position: fixed;
-        top: 85px;
+        top: 65px!important;
         left: 0;
         width: 260px;
         height: 100%;
@@ -25,6 +25,8 @@
         list-style-type: none;
         padding: 0;
         margin: 0;
+        overflow-y: auto;
+        height: 85% !important;
     }
     .custom-menu .main-nav .link{
         padding: 10px;
@@ -52,6 +54,25 @@
     .custom-menu .main-nav .link .link-contents a {
         margin-left: 20px;
     }
+
+    .custom-menu .main-nav {
+        scrollbar-width: thin;
+        scrollbar-color: #cfcfcf #ffffff;
+    }
+
+    .custom-menu .main-nav::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .custom-menu .main-nav::-webkit-scrollbar-track {
+        background: #ffffff;
+    }
+
+    .custom-menu .main-nav::-webkit-scrollbar-thumb {
+        background-color: #cfcfcf;
+        border-radius: 100px;
+        border: 1px solid #ffffff;
+    }
 </style>
 
 <div class="custom-menu" >
@@ -75,7 +96,22 @@
             </div>
         </div>
 
-<!--        <li><a href="QR_request.php" id="borrower-admin"><i class="fas fa-paper-plane"></i> Request Borrowers</a></li>-->
-<!--        <li><a href="borrow_history.php" id="borrow-user"><i class="fas fa-history"></i> Borrow History</a></li>-->
+        <div class="link drop">
+            <div class="as-link" id="list-admin" role="button">
+                <i class="fas fa-list"></i><span>Material Manager</span>
+            </div>
+            <div class="link-contents">
+                <div class="link"><a href="material_requests.php" id="borrow-admin"><i class="fas fa-history"></i> Requests</a></div>
+                <div class="link"><a href="history.php" id="borrow-admin"><i class="fas fa-history"></i> History</a></div>
+            </div>
+        </div>
+
+        <div class="link drop">
+            <div class="as-link scan-qr" id="scan-qr" role="button">
+                <i class="fas fa-list"></i><span>Scan QR Code</span>
+            </div>
+        </div>
+
+
     </div>
 </div>

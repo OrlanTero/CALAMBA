@@ -569,6 +569,51 @@ export const ApplySuccess = (input, success) => {
         }
     }
 };
+
+export function GoError(errors, form, remove = false) {
+    const errorContainer = form.querySelectorAll(".error-container");
+
+    if (!errors.length) {
+        return;
+    }
+
+    for (const error of errorContainer) {
+        const input = error.querySelector("input");
+        const errorMessage = error.querySelector(".error-message");
+
+        if (errorMessage) {
+            errorMessage.remove();
+        }
+
+        ToggleComponentClass(error, "input-error", false);
+
+
+        if (typeof errors[0] === "object") {
+            for (const rr of errors) {
+                if (rr.input === input.name) {
+                    ToggleComponentClass(error, "input-error", true);
+
+
+                    if (error.classList.contains('input-error')) {
+
+                        error.appendChild(CreateElement({
+                            el: "SPAN",
+                            className: "error-message",
+                            html: rr.message
+                        }))
+                    }
+                } else {
+                    ToggleComponentClass(error, "input-error", false);
+                }
+            }
+        } else if (input && errors.includes(input.name)) {
+            ToggleComponentClass(error, "input-error", !remove);
+        } else {
+            ToggleComponentClass(error, "input-error", false);
+        }
+
+    }
+}
 export const ApplyError = (inputErr, INPUTS, remove = false) => {
     if (!INPUTS) return;
 
@@ -931,6 +976,17 @@ export function ListenToSelect(element, callback) {
                 }
             });
         }
+    }
+}
+
+export function ListenToOriginalSelect(element, callback) {
+    if (element) {
+        element.addEventListener("change", () => {
+
+            if (callback) {
+                callback(element.value);
+            }
+        });
     }
 }
 
@@ -1486,7 +1542,8 @@ export function ListenToForm(form, callback, excepts = [], options = []) {
     const clearBtn = form.querySelector(".clear-form");
 
     const getAllFields = () => {
-        const input = [...form.querySelectorAll("input")].filter(i => !i.classList.contains("table-checkbox"));
+        const selects = form.querySelectorAll("select");
+        const input = [...form.querySelectorAll("input"), ...selects].filter(i => !i.classList.contains("table-checkbox"));
         const disabledInputWhereCounts = [...form.querySelectorAll("input[stillcount=true]")]
         const textarea = form.querySelectorAll("textarea");
         const combos = form.querySelectorAll(".custom-combo-box");

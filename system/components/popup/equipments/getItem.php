@@ -6,8 +6,11 @@ include_once "./../../../libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
 
 session_start();
 
+use chillerlan\QRCode\Data\QRMatrix;
 use chillerlan\QRCode\Output\QRGdImagePNG;
+use chillerlan\QRCode\Output\QROutputInterface;
 use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 
 $CONNECTION = new Connection();
 
@@ -30,7 +33,7 @@ $isUser = $_SESSION['user_type'] == "student";
         <div class="main-popup-content">
             <div class="popup-top">
                 <div class="headline">
-                    <h1>View Item</h1>
+                    <h1>Get Item</h1>
                 </div>
                 <div class="paragraph">
                     <p>Input Information</p>
@@ -56,32 +59,22 @@ $isUser = $_SESSION['user_type'] == "student";
                     </div>
                     <div class="form-group">
                         <label for="location">Location</label>
-                        <input type="text" id="location" name="location" placeholder="Enter location" value="<?php echo $record['location'] ?>" <?= $isUser ? "readonly" : ""?> />
+                        <input type="text" id="location" placeholder="Enter location" value="<?php echo $record['location'] ?>" <?= $isUser ? "readonly" : ""?> />
                     </div>
                     <div class="form-group">
                         <label for="serials">Serial Number</label>
-                        <input type="text" id="serials" name="serials" placeholder="Enter serial number"  value="<?php echo $record['serials'] ?>"  <?= $isUser ? "readonly" : ""?> />
+                        <input type="text" id="serials"  placeholder="Enter serial number"  value="<?php echo $record['serials'] ?>"  <?= $isUser ? "readonly" : ""?> />
                     </div>
-                    <?php if($equipment['category'] == "material"): ?>
-                        <div class="material-content">
-                            <div class="form-group">
-                                <label for="price">Quantity</label>
-                                <input type="number" id="quantity" placeholder="Enter Quantity"  name="quantity" value="<?= $record['quantity'] ?>" <?= $isUser ? "readonly" : ""?>/>
-                            </div>
+
+                    <div class="material-content">
+                        <div class="form-group">
+                            <label for="price">Quantity</label>
+                            <input type="number" id="quantity" placeholder="Enter Quantity"  name="quantity" value="<?= $record['quantity'] ?>" required/>
                         </div>
-                    <?php endif ?>
+                    </div>
                 </div>
                 <div class="popup-footer">
-                    <?php if ($isUser): ?>
-                    <?php if ($record['borrow_availability'] == 1): ?>
-                        <button type="button" class="borrow-item">Borrow</button>
-                        <?php else: ?>
-                            <button type="button" class="get-item">Get Item</button>
-                    <?php endif ?>
-                    <?php else: ?>
-                        <button type="button" class="download-qr" >Download QR</button>
-                        <button type="submit">Save Item</button>
-                    <?php endif ?>
+                    <button type="submit" class="get-item">Get Item</button>
                 </div>
             </form>
         </div>

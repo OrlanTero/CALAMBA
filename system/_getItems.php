@@ -1,7 +1,15 @@
 <?php
 
 include_once "./includes/Connection.php";
+
 $CONNECTION = new Connection();
+
+
+if (!isset($_SESSION['user_id'])) {
+    session_start();
+}
+
+$isAdmin = $_SESSION['user_type'] == 'admin';
 
 $id = $_POST["id"];
 
@@ -18,10 +26,14 @@ $all = count($allRecords) / $max;
 
 <div class="cards-table-container">
     <div class="cards-header">
+        <?php if($isAdmin): ?>
+
         <div class="buttons">
             <button class="back-btn">Back</button>
             <button class="add-item-btn">Add New Item</button>
         </div>
+        <?php endif ?>
+
     </div>
     <div class="cards-content">
         <?php foreach ($records as $record): ?>
@@ -33,7 +45,11 @@ $all = count($allRecords) / $max;
                 <div class="card-bot">
                     <big>Serial: <?php echo $record['serials'];?></big><br>
                     <big>Location: <?php echo $record['location'];?></big><br>
-                    <small>Availability: <?php echo $record['in_used'] == "yes" ? "Not Available" : "Available";?><br></small>
+                    <?php if ($equipment['category'] == "material"): ?>
+                        <small>Quantity Available: <?php echo $record['quantity'] ?><br></small>
+                    <?php else: ?>
+                        <small>Availability: <?php echo $record['in_used'] == "yes" ? "Not Available" : "Available";?><br></small>
+                    <?php endif ?>
                     <small>Date Received: <?php echo $record['date_rcvd'];?></small>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 
 <?php
 
+include_once "./includes/Functions.php";
+
 if (!isset($CONNECTION)) {
     $CONNECTION = new Connection();
 }
@@ -10,6 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user = $CONNECTION->Select("user", ["id" => $_SESSION['user_id']], false);
+
 ?>
 
 <head>
@@ -101,7 +104,7 @@ $user = $CONNECTION->Select("user", ["id" => $_SESSION['user_id']], false);
         </span>
         <img
             id="profile-picture"
-            src="./uploads/<?= $user['profile_picture'] ?>"
+            src="<?=  !empty($user['profile_picture']) ? './uploads/' . $user['profile_picture'] : GetPhotoURLByName($user['first_name']) ?>"
             alt="Profile Picture"
             class="profile-picture"
             onclick="toggleDropdown()"

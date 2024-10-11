@@ -18,6 +18,8 @@ $conn->close();
 
 // Determine if the user is an admin
 $isAdmin = $userData['user_type'] === 'admin';
+
+$userLabel = ucwords($userData['user_type']);
 ?>
 
 <!DOCTYPE html>
@@ -49,26 +51,26 @@ $isAdmin = $userData['user_type'] === 'admin';
     <form action="update_profile.php" method="post" enctype="multipart/form-data">
         <div class="row mb-3">
             <div class="col-12 col-md-4 text-center">
-                <img src="uploads/<?php echo htmlspecialchars($userData['profile_picture']); ?>" alt="Profile Picture" class="img-fluid preview-image mb-3">
+                <img src="<?=  !empty($userData['profile_picture']) ? './uploads/' . $userData['profile_picture'] : GetPhotoURLByName($userData['first_name']) ?>" alt="Profile Picture" class="img-fluid preview-image mb-3">
                 <input type="file" name="profile_picture" class="form-control">
             </div>
             <div class="col-12 col-md-8">
                 <div class="form-group row mb-3">
-                    <label for="student_id" class="col-12 col-md-4 col-form-label">Student ID:</label>
+                    <label for="student_id" class="col-12 col-md-4 col-form-label"><?= $userLabel ?> ID:</label>
                     <div class="col-12 col-md-8">
                         <input type="text" id="student_id" name="student_id" value="<?php echo htmlspecialchars($userData['student_id']); ?>" class="form-control" readonly>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label for="student_name" class="col-12 col-md-4 col-form-label">Student Full Name:</label>
+                    <label for="student_name" class="col-12 col-md-4 col-form-label"><?= $userLabel ?> Full Name:</label>
                     <div class="col-12 col-md-8">
                         <input type="text" id="student_name" name="student_name" value="<?php echo htmlspecialchars($userData['first_name'] . ' ' . $userData['last_name']); ?>" class="form-control" readonly>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label for="student_phone" class="col-12 col-md-4 col-form-label">Student Phone Number:</label>
+                    <label for="student_phone" class="col-12 col-md-4 col-form-label"><?= $userLabel ?> Phone Number:</label>
                     <div class="col-12 col-md-8">
                         <input type="text" id="student_phone" name="student_phone" value="<?php echo htmlspecialchars($userData['phone']); ?>" class="form-control" readonly>
                     </div>
@@ -77,7 +79,7 @@ $isAdmin = $userData['user_type'] === 'admin';
                 <div class="form-group row mb-3">
                     <label for="user_type" class="col-12 col-md-4 col-form-label">User Type:</label>
                     <div class="col-12 col-md-8">
-                        <input type="text" class="form-control" id="user_type" name="user_type" value="<?php echo htmlspecialchars($userData['user_type']); ?>" class="form-control" readonly>
+                        <input type="text" class="form-control" id="user_type" name="user_type" value="<?= $userLabel ?>" class="form-control" readonly>
                     </div>
                 </div>
 

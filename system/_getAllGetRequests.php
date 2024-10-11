@@ -1,13 +1,20 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./libraries/vendor/autoload.php";
+include_once "./libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
+
+use chillerlan\QRCode\Output\QRGdImagePNG;
+use chillerlan\QRCode\QRCode;
+
+$QR = new QrCode();
 
 if (!isset($_SESSION['user_id'])) {
     session_start();
 }
 
-if (!isset($borrowed_status)) {
-    $borrowed_status = $_POST['status'];
+if (!isset($request_status)) {
+    $request_status = $_POST['status'];
 }
 
 if (!isset($course)) {
@@ -26,7 +33,7 @@ $current = $_POST['start'] ?? 0;
 
 $is_user = $_SESSION['user_type'] == "student";
 
-$filter = $borrowed_status == "all" ? [] : ["borrow_status" => $borrowed_status, "request_status" => "accepted"];
+$filter = $request_status == "all" ? null : [ "status" => "accepted"];
 
 if (isset($request_status)) {
     unset($filter['request_status']);
@@ -34,12 +41,9 @@ if (isset($request_status)) {
 
 if ($is_user) {
     $filter['user_id'] = $_SESSION['user_id'];
-} else {
-    $filter = $borrowed_status == "all" ? ["request_status" => "accepted"] : $filter;
 }
 
 function filterCourse($items, $course)  {
-
     if (empty($course)) {
         return $items;
     }
@@ -53,19 +57,15 @@ function filterCourse($items, $course)  {
     });
 }
 
-if (isset($filter['borrow_status']) && $filter['borrow_status'] == 'false') {
-    unset($filter['borrow_status']);
-}
 
-$allRecords = filterCourse($CONNECTION->Select("borrow_requests", $filter, true), $course);
-$records = filterCourse($CONNECTION->SelectPage("borrow_requests", $filter, true, $current, $max), $course);
-
+$allRecords = filterCourse($CONNECTION->Select("material_get_requests", $filter, true), $course);
+$records = filterCourse($CONNECTION->SelectPage("material_get_requests", $filter, true, $current, $max), $course);
 
 $all = count($allRecords) / $max;
 
 ?>
 
-<div class="cards-table-container table-pagination-container" data-status="<?= $borrowed_status ?>"  data-type="equipment">
+<div class="cards-table-container table-pagination-container" data-status="<?= $request_status ?>"  data-type="material">
     <div class="cards-header flex">
         <div class="buttons">
             <button class="print-btn">Download</button>
@@ -73,7 +73,7 @@ $all = count($allRecords) / $max;
         <div class="parent">
             <div class="search-engine-container" style="padding-bottom: 20px">
 
-                <select id="course" name="course" required >
+                <select id="course" name="course" required>
                     <option value="">-- Select Course --</option>
                     <option value="RAC Servicing (DomRAC)">RAC Servicing (DomRAC)</option>
                     <option value="Basic Shielded Metal Arc Welding">Basic Shielded Metal Arc Welding</option>
@@ -93,41 +93,46 @@ $all = count($allRecords) / $max;
         </div>
     </div>
     <div class="cards-content c-items">
-        <table class="custom-table" id="print-table" data-type="equipment">
+        <table class="custom-table" id="print-table"  data-type="material">
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Equipment</th>
+                <th>Material</th>
                 <th>Serial</th>
                 <th>Location</th>
-                <th>Date Time Borrowed</th>
+                <th>Quantity</th>
+                <th>Date Time Request</th>
                 <?php if (isset($request_status)): ?>
-                <th>Request Status</th>
+                    <th>Request Status</th>
                 <?php endif;?>
+                <th class="td-qr hide-component">QR</th>
             </tr>
             </thead>
             <tbody>
-                <?php foreach ($records as $record): ?>
-                    <?php
-                    $item = $CONNECTION->Select("equipment_details", ["id" => $record['item_id']], false);
-                    $equipment = $CONNECTION->Select("equipment_info", ["id" => $item['equipment_id']], false);
-                    $user = $CONNECTION->Select("user", ["id" => $record['user_id']], false);
-                    ?>
-                    <tr data-qr="<?= $record['qr_key'] ?>">
-                        <td><?php echo $user['first_name'] . " " . $user['middle_name'] . " " . $user['last_name'] ?></td>
-                        <td><?php echo $equipment['name']?></td>
-                        <td><?php echo $item['serials']?></td>
-                        <td><?php echo $item['location']?></td>
-                        <td><?php echo $record['date_created']?></td>
-                        <?php if (isset($request_status)): ?>
-                            <td><?= $record['request_status'] == 'accepted' ? "Accepted" :"Declined" ?></td>
-                        <?php endif;?>
-                    </tr>
-                <?php endforeach;?>
+            <?php foreach ($records as $record): ?>
+                <?php
+                $item = $CONNECTION->Select("equipment_details", ["id" => $record['item_id']], false);
+                $equipment = $CONNECTION->Select("equipment_info", ["id" => $item['equipment_id']], false);
+                $user = $CONNECTION->Select("user", ["id" => $record['user_id']], false);
+                ?>
+                <tr data-qr="<?= $record['qr_key'] ?>">
+                    <td><?php echo $user['first_name'] . " " . $user['middle_name'] . " " . $user['last_name'] ?></td>
+                    <td><?php echo $equipment['name']?></td>
+                    <td><?php echo $item['serials']?></td>
+                    <td><?php echo $item['location']?></td>
+                    <td><?php echo $record['quantity']?></td>
+                    <td><?php echo $record['date_created']?></td>
+                    <?php if (isset($request_status)): ?>
+                        <td><?= ucwords($record['status'])  ?></td>
+                    <?php endif;?>
+                    <td class="td-qr hide-component"><img src="<?= $QR->render($record['qr_key'])?>" style="width: 50px;height: 50px;" alt=""></td>
+                    
+                </tr>
+            <?php endforeach;?>
             </tbody>
         </table>
     </div>
-    <div class="cards-footer pagination-buttons-container"  data-type="equipment">
+    <div class="cards-footer pagination-buttons-container" data-type="material">
         <div class="footer-left">
             <span class="count"><?= count($records) ?> / <?= count($allRecords) ?></span>
         </div>

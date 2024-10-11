@@ -4,8 +4,6 @@ include_once "./includes/Connection.php";
 
 
 $CONNECTION = new Connection();
-
-
 ?>
 
 <!DOCTYPE html>
@@ -63,21 +61,17 @@ $CONNECTION = new Connection();
 <?php include_once "./includes/bigpipes.php"?>
 
 
-<div class="scanner-container">
-    <button class="scan-qr">Scan QR Code</button>
-</div>
-
 </body>
 <script src="./scripts/qrcode.js"></script>
 
 <script type="module">
     import Popup from "./scripts/Popup.js";
-    import {Ajax, ToData, ListenToForm} from "./scripts/Tool.js";
+    import {Ajax, ToData} from "./scripts/Tool.js";
+    import {ShowBorrowQR} from "./scripts/Functions.js";
 
     let scanner;
 
-    const scannerContainer = document.querySelector(".scanner-container");
-    const scannerBtn = scannerContainer.querySelector(".scan-qr");
+    const scannerBtn = document.querySelector(".scan-qr");
 
     function openCameraQR() {
         const popup = new Popup("equipments/openCameraQR.php", null, {
@@ -170,9 +164,9 @@ $CONNECTION = new Connection();
                 res = JSON.parse(res);
 
                 if (res.type == 'E') {
-                    viewItem(res.id);
+                    ViewItem(res.id);
                 } else if (res.type == 'B') {
-                    showBorrowQR(qrcode);
+                    ShowBorrowQR(qrcode);
                 } else {
                     alert("Invalid QR Code");
                 }
@@ -212,134 +206,12 @@ $CONNECTION = new Connection();
         }
     }
 
-    function showBorrowQR(qr_key) {
-        const popup = new Popup("equipments/showBorrowQR.php", {qr_key}, {
-            backgroundDismiss: false,
-        });
 
-        popup.Create().then(() => {
-            popup.Show();
-
-            const form = popup.ELEMENT.querySelector("form.form-control");
-            const downloadQrBtn = popup.ELEMENT.querySelector(".download-qr");
-
-            const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container IMG");
-
-            downloadQrBtn.addEventListener("click", function () {
-                DownloadImage(qrcodeImage.src, `bqr-${(new Date()).getTime()}.png`);
-            })
-
-            ListenToForm(form, function (data) {
-                if (data.request_status) {
-                    Ajax({
-                        url: `_updateBorrowedRequest.php`,
-                        type: "POST",
-                        data: ToData({ qr_key, status: data.request_status }),
-                        success: (p) => {
-                            popup.Remove();
-
-                            getTableContent(0, globalStatus);
-                        },
-                    });
-
-
-                } else if (data.borrow_status) {
-                    Ajax({
-                        url: `_updateBorrowedStatus.php`,
-                        type: "POST",
-                        data: ToData({ qr_key, status: data.borrow_status }),
-                        success: (p) => {
-                            popup.Remove();
-                        },
-                    });
-
-                    getTableContent(0, globalStatus);
-                }
-            })
-        });
-    }
-
-    function DownloadImage(src, filename) {
-        const a = document.createElement('a');
-        a.href = src;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-    function viewItem(id) {
-        const popup = new Popup("equipments/viewItem.php", {id}, {
-            backgroundDismiss: false,
-        });
-
-        popup.Create().then(() => {
-            popup.Show();
-
-            const form = popup.ELEMENT.querySelector("form");
-            const dl = popup.ELEMENT.querySelector(".download-qr");
-            const br = popup.ELEMENT.querySelector(".borrow-item");
-            const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container IMG");
-
-            ListenToForm(form, function (data) {
-                Ajax({
-                    url: `_updateItem.php`,
-                    type: "POST",
-                    data: ToData({id:id, data: JSON.stringify(data)}),
-                    success: (r) => {
-                        popup.Remove();
-
-                        getItemsOf(activeCategoryID);
-                    },
-                });
-            })
-
-            if (dl) {
-                dl.addEventListener("click", function() {
-                    DownloadImage(qrcodeImage.src, `item-${id}-qr-code.png`);
-                });
-            }
-
-            if (br) {
-                br.addEventListener("click", function() {
-                    const pp = new AlertPopup({
-                        primary: "Borrow Item?",
-                        secondary: `Borrowing item`,
-                        message: "Are you sure to borrow this Item?"
-                    }, {
-                        alert_type: AlertTypes.YES_NO,
-                    });
-
-                    pp.AddListeners({
-                        onYes: () => {
-                            Ajax({
-                                url: `_borrowItem.php`,
-                                type: "POST",
-                                data: ToData({id: id}),
-                                success: (qr_key) => {
-                                    pp.Remove();
-                                    popup.Remove();
-
-                                    getItemsOf(activeCategoryID);
-
-                                    showBorrowQR(qr_key);
-                                },
-                            });
-                        }
-                    })
-
-                    pp.Create().then(() => { pp.Show() })
-                });
-            }
-
-        });
-    }
 </script>
 
 <script type="module">
-    import {Ajax, ToData, addHtml, ListenToForm, UploadImageFromFile, MakeID} from "./scripts/Tool.js";
-    import Popup from "./scripts/Popup.js";
-    import AlertPopup, {AlertTypes} from "./scripts/AlertPopup.js";
+    import {Ajax, ToData, addHtml} from "./scripts/Tool.js";
+    import {CreateNewEquipment, CreateNewItem,ViewItem} from "./scripts/Functions.js";
 
     const content = document.querySelector(".main-content");
 
@@ -390,172 +262,6 @@ $CONNECTION = new Connection();
     }
 
 
-    function createNewItem(id) {
-        const popup = new Popup("equipments/addItem.phtml", {id}, {
-            backgroundDismiss: false,
-        });
-
-        popup.Create().then(() => {
-            popup.Show();
-
-            const form = popup.ELEMENT.querySelector("form");
-
-            ListenToForm(form, function (data) {
-                data.equipment_id = activeCategoryID;
-                Ajax({
-                    url: `_insertItem.php`,
-                    type: "POST",
-                    data: ToData({data: JSON.stringify(data)}),
-                    success: (r) => {
-                        popup.Remove();
-
-                        getItemsOf(activeCategoryID);
-                    },
-                });
-            })
-        });
-    }
-
-    function showBorrowQR(qr_key) {
-        const popup = new Popup("equipments/showBorrowQR.php", {qr_key}, {
-            backgroundDismiss: false,
-        });
-
-        popup.Create().then(() => {
-            popup.Show();
-
-            const downloadQrBtn = popup.ELEMENT.querySelector(".download-qr");
-
-            const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container IMG");
-
-            downloadQrBtn.addEventListener("click", function () {
-                DownloadImage(qrcodeImage.src, `bqr-${(new Date()).getTime()}.png`);
-            })
-
-        });
-    }
-
-
-
-
-    function viewItem(id) {
-        const popup = new Popup("equipments/viewItem.php", {id}, {
-            backgroundDismiss: false,
-        });
-
-        popup.Create().then(() => {
-            popup.Show();
-
-            const form = popup.ELEMENT.querySelector("form");
-            const dl = popup.ELEMENT.querySelector(".download-qr");
-            const br = popup.ELEMENT.querySelector(".borrow-item");
-            const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container IMG");
-
-            ListenToForm(form, function (data) {
-                Ajax({
-                    url: `_updateItem.php`,
-                    type: "POST",
-                    data: ToData({id:id, data: JSON.stringify(data)}),
-                    success: (r) => {
-                        popup.Remove();
-
-                        getItemsOf(activeCategoryID);
-                    },
-                });
-            })
-
-            if (dl) {
-                dl.addEventListener("click", function() {
-                    DownloadImage(qrcodeImage.src, `item-${id}-qr-code.png`);
-                });
-            }
-
-            if (br) {
-                br.addEventListener("click", function() {
-                    const pp = new AlertPopup({
-                        primary: "Borrow Item?",
-                        secondary: `Borrowing item`,
-                        message: "Are you sure to borrow this Item?"
-                    }, {
-                        alert_type: AlertTypes.YES_NO,
-                    });
-
-                    pp.AddListeners({
-                        onYes: () => {
-                            Ajax({
-                                url: `_borrowItem.php`,
-                                type: "POST",
-                                data: ToData({id: id}),
-                                success: (qr_key) => {
-                                    pp.Remove();
-                                    popup.Remove();
-
-                                    getItemsOf(activeCategoryID);
-
-                                    showBorrowQR(qr_key);
-                                },
-                            });
-                        }
-                    })
-
-                    pp.Create().then(() => { pp.Show() })
-                });
-            }
-
-        });
-    }
-
-    function DownloadImage(src, filename) {
-        const a = document.createElement('a');
-        a.href = src;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-
-    function createNewEquipment() {
-        const popup = new Popup("equipments/addEquipment.phtml", null, {
-            backgroundDismiss: false,
-        });
-
-        popup.Create().then(() => {
-            popup.Show();
-            
-            const form = popup.ELEMENT.querySelector("form");
-            
-            ListenToForm(form, function (data) {
-                new Promise((resolve) => {
-                    UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
-                        if (res.code == 200){
-                            resolve(res.body.path);
-                        } else {
-                            resolve(false);
-                        }
-                    })
-                }).then((res) => {
-                    if (res) {
-
-                        data.picture = res;
-
-                        Ajax({
-                            url: `_insertEquipment.php`,
-                            type: "POST",
-                            data: ToData({data: JSON.stringify(data)}),
-                            success: (r) => {
-                                console.log(r)
-                                popup.Hide()
-
-                                getAllCats();
-                            },
-                        });
-                    }
-                })
-            })
-        })
-    }
-
     function getItemsOf(id, start = 0) {
         Ajax({
             url: `_getItems.php`,
@@ -605,7 +311,9 @@ $CONNECTION = new Connection();
                 if (type === "category") {
                     getItemsOf(id);
                 } else {
-                    viewItem(id);
+                    ViewItem(id, function () {
+                        getItemsOf(activeCategoryID);
+                    });
                 }
             })
         }
@@ -619,13 +327,15 @@ $CONNECTION = new Connection();
 
         if (addEq) {
             addEq.addEventListener("click", () => {
-                createNewEquipment();
+                CreateNewEquipment();
             })
         }
 
         if (addItem) {
             addItem.addEventListener("click", () => {
-               createNewItem(activeCategoryID);
+               CreateNewItem(activeCategoryID, function () {
+                   getItemsOf(activeCategoryID);
+               });
             })
         }
 

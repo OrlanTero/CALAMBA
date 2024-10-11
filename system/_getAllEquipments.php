@@ -1,37 +1,55 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./includes/Functions.php";
 
 $CONNECTION = new Connection();
+
+if (!isset($_SESSION['user_id'])) {
+    session_start();
+}
+
+$isAdmin = $_SESSION['user_type'] == 'admin';
+
+$user = GetUser($_SESSION['user_id']);
 
 $max = 10;
 
 $current = $_POST['start'] ?? 0;
 
-$filter = isset($_POST['category']) ? $_POST['category'] != 'false' ? ['category' => $_POST['category']] : null : null;
+$defaultFilter = $isAdmin ?  null : ["course" => $user['course']];
+
+$filter = isset($_POST['category']) ? $_POST['category'] != 'false' ? array_merge(['category' => $_POST['category']], $defaultFilter ?? []) : $defaultFilter : $defaultFilter;
 
 if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false') {
+    $hasFilter = isset($_POST['category']) && $_POST['category'] != 'false' && !empty($_POST['category']);
+
+    if (!$hasFilter) {
+        unset($filter['category']);
+    }
+
     $allRecords = $CONNECTION->Search("equipment_info", $_POST['search'], ['name'], $filter);
     $records = $CONNECTION->SearchPage("equipment_info", $_POST['search'],['name'], $filter, $current, $max);
 
 } else {
     $allRecords = $CONNECTION->Select("equipment_info", $filter, true);
     $records = $CONNECTION->SelectPage("equipment_info", $filter, true, $current, $max);
-
-
 }
 
 
 $all = count($allRecords) / $max;
 
+
 ?>
 
 <div class="cards-table-container table-pagination-container">
     <div class="cards-header">
-        <div></div>
-        <div class="buttons">
-            <button class="add-equipment-btn">Add New Equipment</button>
-        </div>
+       <?php if($isAdmin): ?>
+           <div></div>
+           <div class="buttons">
+               <button class="add-equipment-btn">Add New Equipment</button>
+           </div>
+        <?php endif ?>
     </div>
     <div class="cards-content c-items">
         <?php foreach ($records as $record): ?>
