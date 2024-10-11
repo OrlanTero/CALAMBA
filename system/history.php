@@ -43,6 +43,8 @@ $CONNECTION = new Connection();
 <div class="main-content-container">
     <h1>Material Request History</h1>
 
+    <?php include_once "./includes/category_filter.php" ?>
+
     <!-- Borrowed items table -->
     <div class="main-content">
         <?php

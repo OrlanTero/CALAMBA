@@ -866,7 +866,33 @@ table.custom-table tr:hover {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #050505;
 }
+
+.dashboard-content .dashboard-square::hover {
+    transition: all 0.2s ease;
+}
+
+.dashboard-content .dashboard-square:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-content .dashboard-square:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 15px;
+    pointer-events: none;
+}
+
+
 
 .dashboard-content .dashboard-square p {
     font-size: 14px;

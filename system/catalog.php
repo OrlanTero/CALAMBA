@@ -1,9 +1,15 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./includes/Functions.php";
 
+if (!isset($_SESSION['user_id'])) {
+    session_start();
+}
 
 $CONNECTION = new Connection();
+
+$isAdmin = $_SESSION['user_type'] == 'admin';
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +57,24 @@ $CONNECTION = new Connection();
                 <option value="tools">Tools</option>
                 <option value="material">Material</option>
             </select>
+            <?php if ($isAdmin) : ?>
+                <select class="select-course" required style="margin-left: 50px">
+                <option value="">-- Select Course --</option>
+                <option value="RAC Servicing (DomRAC)">RAC Servicing (DomRAC)</option>
+                <option value="Basic Shielded Metal Arc Welding">Basic Shielded Metal Arc Welding</option>
+                <option value="Advanced Shielded Metal Arc Welding">Advanced Shielded Metal Arc Welding</option>
+                <option value="Pc operation">Pc operation</option>
+                <option value="Bread and pastry production NC II">Bread and pastry production NC II</option>
+                <option value="Computer aid design (CAD)">Computer aid design (CAD)</option>
+                <option value="Culinary arts">Culinary arts</option>
+                <option value="Dressmaking NC II">Dressmaking NC II</option>
+                <option value="Food and beverage service NC II">Food and beverage service NC II</option>
+                <option value="Hair care">Hair care</option>
+                <option value="Junior beautician">Junior beautician</option>
+                <option value="Gas metal Arc Welding -- GMAW NC I">Gas metal Arc Welding -- GMAW NC I</option>
+                <option value="Gas metal Arc Welding -- GMAW NC II">Gas metal Arc Welding -- GMAW NC II</option>
+            </select>
+            <?php endif; ?>
         </div>
         <div class="main-content">
             <?php include_once "./_getAllEquipments.php" ?>
@@ -67,7 +91,7 @@ $CONNECTION = new Connection();
 <script type="module">
     import Popup from "./scripts/Popup.js";
     import {Ajax, ToData} from "./scripts/Tool.js";
-    import {ShowBorrowQR} from "./scripts/Functions.js";
+    import {ShowBorrowQR, ViewItem} from "./scripts/Functions.js";
 
     let scanner;
 
@@ -82,9 +106,9 @@ $CONNECTION = new Connection();
             popup.Show();
 
             startScanner(function (qr) {
-                handleQRCode(qr);
-
                 popup.Remove();
+
+                handleQRCode(qr);
 
                 stopScanner();
             });
@@ -129,6 +153,7 @@ $CONNECTION = new Connection();
             }
 
             function dropHandler(ev) {
+                
 
                 ev.preventDefault();
 
@@ -151,6 +176,8 @@ $CONNECTION = new Connection();
                         handleQR(file);
                     }
                 }
+
+
             }
         });
     })
@@ -211,7 +238,7 @@ $CONNECTION = new Connection();
 
 <script type="module">
     import {Ajax, ToData, addHtml} from "./scripts/Tool.js";
-    import {CreateNewEquipment, CreateNewItem,ViewItem} from "./scripts/Functions.js";
+    import {CreateNewEquipment, CreateNewItem, ViewItem} from "./scripts/Functions.js";
 
     const content = document.querySelector(".main-content");
 
@@ -225,6 +252,7 @@ $CONNECTION = new Connection();
 
     const searchEngine = document.querySelector(".search-engine input");
     const selectCategory = document.querySelector(".select-category");
+    const selectCourse = document.querySelector(".select-course");
 
     if (searchEngine) {
         searchEngine.addEventListener("input", function () {
@@ -235,6 +263,12 @@ $CONNECTION = new Connection();
     if (selectCategory) {
         selectCategory.addEventListener("change", function () {
             getAllCats(0, searchEngine.value, selectCategory.value)
+        })
+    }
+
+    if (selectCourse) {
+        selectCourse.addEventListener("change", function () {
+            getAllCats(0, searchEngine.value, selectCategory.value, selectCourse.value)
         })
     }
 
@@ -280,11 +314,11 @@ $CONNECTION = new Connection();
         });
     }
     
-    function getAllCats(start = 0, search = false, category = false) {
+    function getAllCats(start = 0, search = false, category = false, course = false) {
         Ajax({
             url: `_getAllEquipments.php`,
             type: "POST",
-            data: ToData({ start: start, search, category }),
+            data: ToData({ start: start, search, category, course}),
             success: (popup) => {
 
                 view = 100;

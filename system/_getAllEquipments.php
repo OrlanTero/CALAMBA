@@ -21,13 +21,23 @@ $defaultFilter = $isAdmin ?  null : ["course" => $user['course']];
 
 $filter = isset($_POST['category']) ? $_POST['category'] != 'false' ? array_merge(['category' => $_POST['category']], $defaultFilter ?? []) : $defaultFilter : $defaultFilter;
 
+if (isset($_POST['category']) && ($_POST['category'] == 'false' || $_POST['category'] == '')) {
+    unset($filter['category']);
+}
+
+if (isset($_POST['course']) && ($_POST['course'] == 'false' || $_POST['course'] == '')) {
+    unset($filter['course']);
+}
+
+if (isset($_POST['course'])  &&  $_POST['course'] && $_POST['course'] != 'false') {
+    $filter['course'] = $_POST['course'];
+}
+
+if (empty($filter)) {
+    $filter = null;
+}
+
 if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false') {
-    $hasFilter = isset($_POST['category']) && $_POST['category'] != 'false' && !empty($_POST['category']);
-
-    if (!$hasFilter) {
-        unset($filter['category']);
-    }
-
     $allRecords = $CONNECTION->Search("equipment_info", $_POST['search'], ['name'], $filter);
     $records = $CONNECTION->SearchPage("equipment_info", $_POST['search'],['name'], $filter, $current, $max);
 
@@ -37,9 +47,29 @@ if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false'
 }
 
 
+$records = array_map(function ($record) use ($CONNECTION) {
+    $equipments = $CONNECTION->Select("equipment_details", ["equipment_id" => $record["id"], "in_used" => "no"], true);
+
+    $record['available'] = count($equipments);
+
+    return $record;
+}, $records);
+
+$availability = $_GET['availability'] ?? null;
+
+if ($availability) {
+    $records = array_filter($records, function ($record) use ($availability) {
+        if ($availability == "available") {
+            return $record['available'] > 0;
+        } elseif ($availability == "alert") {
+            return $record['available'] <= $record['alert_level'];
+        } else {
+            return $record['available'] == 0;
+        }
+    });
+}
+
 $all = count($allRecords) / $max;
-
-
 ?>
 
 <div class="cards-table-container table-pagination-container">
@@ -54,13 +84,12 @@ $all = count($allRecords) / $max;
     <div class="cards-content c-items">
         <?php foreach ($records as $record): ?>
             <?php
-                $equipments = $CONNECTION->Select("equipment_details", ["equipment_id" => $record["id"], "in_used" => "no"], true);
             ?>
-            <div class="card c-item <?= count($equipments)  <= $record['alert_level'] ? 'red' : '' ?>  " data-id="<?= $record['id'] ?>" data-type="category">
+            <div class="card c-item <?= $record['available'] <= $record['alert_level'] ? 'red' : '' ?>  " data-id="<?= $record['id'] ?>" data-type="category">
                 <div class="card-top" style="background-image: url('uploads/<?php echo $record['picture'];?>')"></div>
                 <div class="card-bot">
                     <big><?php echo $record['name'];?></big><br>
-                    <small><b><?= count($equipments) ?> Available</b> </br/></small>
+                    <small><b><?= $record['available'] ?> Available</b> </br/></small>
                     <small><?php echo $record['description'];?></small>
                 </div>
             </div>

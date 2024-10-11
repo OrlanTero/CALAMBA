@@ -6,8 +6,6 @@ session_start();
 
 $CONNECTION = new Connection();
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +43,13 @@ $CONNECTION = new Connection();
 <div class="main-content-container">
     <h1>Borrowed Equipment History</h1>
 
+    <?php include_once "./includes/category_filter.php" ?>
+
     <!-- Borrowed items table -->
     <div class="main-content">
         <?php
         $borrowed_status = "all";
-        $request_status = "all";
+        $request_status =  $_GET["status"] ?? "all";
         include_once "_getAllBorrowed.php" ?>
     </div>
 </div>

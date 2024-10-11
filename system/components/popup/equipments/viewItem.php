@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include_once "./../../../libraries/vendor/autoload.php";
 include_once "./../../../includes/Connection.php";
@@ -20,7 +20,7 @@ $equipment = $CONNECTION->Select("equipment_info", ["id" => $record['equipment_i
 
 $QR = new QrCode();
 
-$isUser = $_SESSION['user_type'] == "student";
+$isAdmin = $_SESSION['user_type'] == "admin";
 
 ?>
 
@@ -56,28 +56,29 @@ $isUser = $_SESSION['user_type'] == "student";
                     </div>
                     <div class="form-group">
                         <label for="location">Location</label>
-                        <input type="text" id="location" name="location" placeholder="Enter location" value="<?php echo $record['location'] ?>" <?= $isUser ? "readonly" : ""?> />
+                        <input type="text" id="location" name="location" placeholder="Enter location" value="<?php echo $record['location'] ?>" <?= !$isAdmin ? "readonly" : ""?> />
                     </div>
                     <div class="form-group">
                         <label for="serials">Serial Number</label>
-                        <input type="text" id="serials" name="serials" placeholder="Enter serial number"  value="<?php echo $record['serials'] ?>"  <?= $isUser ? "readonly" : ""?> />
+                        <input type="text" id="serials" name="serials" placeholder="Enter serial number"  value="<?php echo $record['serials'] ?>"  <?= !$isAdmin ? "readonly" : ""?> />
                     </div>
                     <?php if($equipment['category'] == "material"): ?>
                         <div class="material-content">
                             <div class="form-group">
                                 <label for="price">Quantity</label>
-                                <input type="number" id="quantity" placeholder="Enter Quantity"  name="quantity" value="<?= $record['quantity'] ?>" <?= $isUser ? "readonly" : ""?>/>
+                                <input type="number" id="quantity" placeholder="Enter Quantity"  name="quantity" value="<?= $record['quantity'] ?>" <?= !$isAdmin ? "readonly" : ""?>/>
                             </div>
                         </div>
                     <?php endif ?>
                 </div>
                 <div class="popup-footer">
-                    <?php if ($isUser): ?>
-                    <?php if ($record['borrow_availability'] == 1): ?>
-                        <button type="button" class="borrow-item">Borrow</button>
+                    <?php if (!$isAdmin): ?>
+                    <?=$record['borrow_availability'] ?>
+                        <?php if ($record['borrow_availability'] == 1): ?>
+                            <button type="button" class="borrow-item">Borrow</button>
                         <?php else: ?>
                             <button type="button" class="get-item">Get Item</button>
-                    <?php endif ?>
+                        <?php endif ?>
                     <?php else: ?>
                         <button type="button" class="download-qr" >Download QR</button>
                         <button type="submit">Save Item</button>

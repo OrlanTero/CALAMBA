@@ -41,7 +41,9 @@ $CONNECTION = new Connection();
 
 <!-- Main Content -->
 <div class="main-content-container">
-    <h1>Not Returned Equipment History</h1>
+    <h1>Damaged Equipment History</h1>
+
+    <?php include_once "./includes/category_filter.php" ?>
 
     <!-- Borrowed items table -->
     <div class="main-content">

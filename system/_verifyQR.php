@@ -12,6 +12,7 @@ $key = $_POST['key'];
 
 $equipments = $CONNECTION->Select("equipment_details", ["qr_key" => $key], false);
 $borrowed = $CONNECTION->Select("borrow_requests", ["qr_key" => $key], false);
+$getRequests = $CONNECTION->Select("material_get_requests", ["qr_key" => $key], false);
 
 if ($equipments) {
     $record['type'] = 'E';
@@ -30,6 +31,17 @@ if ($equipments) {
     $data = [
         "type" => 'B',
         "id" => $borrowed['request_id']
+    ];
+
+    echo json_encode($data);
+} else if ($getRequests) {
+
+    // find in get requests
+    $getRequests['type'] = 'G';
+
+    $data = [
+        "type" => 'G',
+        "id" => $getRequests['request_id']
     ];
 
     echo json_encode($data);

@@ -1,11 +1,14 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./libraries/vendor/autoload.php";
+include_once "./libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
 
 session_start();
 
 $CONNECTION = new Connection();
 
+$is_admin = $_SESSION['user_type'] == 'admin';
 ?>
 
 <!DOCTYPE html>
@@ -17,12 +20,6 @@ $CONNECTION = new Connection();
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Material Requests</title>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script> -->
     <link
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
@@ -43,10 +40,13 @@ $CONNECTION = new Connection();
 <div class="main-content-container">
     <h1>Material Requests</h1>
 
+    <?php include_once "./includes/category_filter.php" ?>
+
     <!-- Borrowed items table -->
     <div class="main-content">
         <?php
-        $request_status = "all";
+        $request_status =  $_GET["status"] ?? "all";
+
         include_once "_getAllGetRequests.php" ?>
     </div>
 </div>

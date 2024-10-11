@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2024 at 01:03 PM
+-- Generation Time: Oct 11, 2024 at 07:50 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -117,6 +117,8 @@ CREATE TABLE `equipment_details` (
   `serials` varchar(255) NOT NULL,
   `location` varchar(255) DEFAULT NULL,
   `qr_key` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `borrow_availability` int(11) NOT NULL,
   `date_rcvd` date DEFAULT NULL,
   `in_used` enum('yes','no') NOT NULL DEFAULT 'no'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -125,19 +127,21 @@ CREATE TABLE `equipment_details` (
 -- Dumping data for table `equipment_details`
 --
 
-INSERT INTO `equipment_details` (`id`, `equipment_id`, `serials`, `location`, `qr_key`, `date_rcvd`, `in_used`) VALUES
-(5, 2, '15213521', 'room 4A', 'acd', '2024-09-10', 'no'),
-(6, 1, '35123', 'room 4A', 'efg', '2024-09-10', 'no'),
-(7, 3, '213515', 'room 4A', 'hh', '2024-09-10', 'no'),
-(8, 3, '352234', 'room 4A', 'iii', '2024-09-10', 'yes'),
-(9, 3, '35r2552', 'room 4B', 'hhh', '2024-09-10', 'yes'),
-(10, 4, '97542', 'Rizal Building 203', 'awdw', '2024-09-11', 'yes'),
-(11, 4, '51123', 'Room 511', '2321aa', '2024-09-11', 'no'),
-(12, 5, '109745', 'room 4A', 'bba', '2024-09-21', 'no'),
-(13, 3, '405216', 'room 375', 'cddw', '2024-09-21', 'no'),
-(15, 3, '123456', 'Room A2', '11232', NULL, 'yes'),
-(16, 3, 'b', 'A', 'awdawas21', NULL, 'yes'),
-(17, 4, '1234', 'SAA', 'sRMh7ix0Aa', NULL, 'yes');
+INSERT INTO `equipment_details` (`id`, `equipment_id`, `serials`, `location`, `qr_key`, `quantity`, `borrow_availability`, `date_rcvd`, `in_used`) VALUES
+(5, 2, '15213521', 'room 4A', 'acd', 0, 0, '2024-09-10', 'no'),
+(6, 1, '35123', 'room 4A', 'efg', 0, 0, '2024-09-10', 'no'),
+(7, 3, '213515', 'room 4A', 'hh', 0, 0, '2024-09-10', 'no'),
+(8, 3, '352234', 'room 4A', 'iii', 0, 0, '2024-09-10', 'yes'),
+(9, 3, '35r2552', 'room 4B', 'hhh', 0, 0, '2024-09-10', 'yes'),
+(10, 4, '97542', 'Rizal Building 203', 'awdw', 0, 0, '2024-09-11', 'yes'),
+(11, 4, '51123', 'Room 511', '2321aa', 0, 0, '2024-09-11', 'no'),
+(12, 5, '109745', 'room 4A', 'bba', 0, 0, '2024-09-21', 'no'),
+(13, 3, '405216', 'room 375', 'cddw', 0, 0, '2024-09-21', 'no'),
+(15, 3, '123456', 'Room A2', '11232', 0, 0, NULL, 'yes'),
+(16, 3, 'b', 'A', 'awdawas21', 0, 0, NULL, 'yes'),
+(17, 4, '1234', 'SAA', 'sRMh7ix0Aa', 0, 0, NULL, 'yes'),
+(21, 7, '12232', 'ABCD', 'Nyw6cQCY9q', 50, 0, NULL, 'no'),
+(22, 7, 'AA', 'A4', 'u41nRtsMzB', 5, 1, NULL, 'no');
 
 -- --------------------------------------------------------
 
@@ -169,7 +173,33 @@ INSERT INTO `equipment_info` (`id`, `name`, `total_quantity`, `alert_level`, `de
 (3, 'Drill', 4, 5, 'Used for Drilling', 4, 'drill.jpg', 0, '799.00', 'RAC Servicing (DomRAC)', 'tools'),
 (4, 'Hair Dryer', 2, 3, 'Used for Drying Hair', 2, 'e5d6ddad84cf4c77943e7a55247a777c.png', 0, '699.00', 'Hair care', 'equipment'),
 (5, 'Grinder', 1, 3, 'This is used for Grinding', 1, 'ed0fdfcd4bde6d3b93a9837c16daa32b.jpg', 0, '699.00', 'RAC Servicing (DomRAC)', 'equipment'),
-(6, 'EEE', 0, 5, '1awdwa', 0, 'mxzo5wBXtd.png', 0, '3.00', 'Food and beverage service NC II', 'equipment');
+(6, 'EEE', 0, 5, '1awdwa', 0, 'mxzo5wBXtd.png', 0, '3.00', 'Food and beverage service NC II', 'equipment'),
+(7, 'Bond Paper ', 0, 10, 'EEE', 0, 'o7TfZhEBiy.jpg', 0, '100.00', 'Advanced Shielded Metal Arc Welding', 'material'),
+(8, 'aa', 0, 2, 'aa', 0, 'OAqor4gGuY.jpg', 0, '22.00', 'Junior beautician', 'material');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `material_get_requests`
+--
+
+CREATE TABLE `material_get_requests` (
+  `request_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `qr_key` varchar(255) NOT NULL,
+  `status` enum('pending','accepted','not_accepted','') NOT NULL DEFAULT 'pending',
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `material_get_requests`
+--
+
+INSERT INTO `material_get_requests` (`request_id`, `item_id`, `quantity`, `user_id`, `qr_key`, `status`, `date_created`) VALUES
+(1, 21, 10, 23, 'AbJEh8RFOx', 'accepted', '2024-10-11 03:44:45'),
+(3, 21, 20, 23, '9EZSLRBnz8', 'accepted', '2024-10-11 05:03:49');
 
 -- --------------------------------------------------------
 
@@ -200,7 +230,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `student_id`, `pword`, `user_type`, `profile_picture`, `phone`, `course`, `attempts`, `lockout_time`) VALUES
 (10, 'Jeff', 'Rodolfo', 'Dulay', 'N/A', '2021-01255', '$2y$10$w1biDl7HSs1agWMoCppB3eLVoWJtzr3ZhLbupdbQmNaHF6HTb5IKy', 'student', '1by1.png', '09814800058', 'RAC Servicing (DomRAC)', 0, NULL),
 (12, 'Rosalie', 'Diocales', 'Dulay', 'N/A', '2023-51123', '$2y$10$/rVqNyw3XIwi.ngP05LYSO3YFcObSpHNyAoAmbtek2urcfni43dDe', 'admin', '2.PNG', '09814800058', 'RAC Servicing (DomRAC)', 0, NULL),
-(17, 'Ror', 'Pot', 'Rar', 'Jr.', '2023-51124', '$2y$10$D8KqiqxLigUhvK3vLpeIy.zeFRLiNf67UDRecp5surMvITEiJvCsq', 'instuctor', '', '0971452', '', 0, NULL);
+(17, 'Ror', 'Pot', 'Rar', 'Jr.', '2023-51124', '$2y$10$D8KqiqxLigUhvK3vLpeIy.zeFRLiNf67UDRecp5surMvITEiJvCsq', 'instuctor', '', '0971452', '', 0, NULL),
+(18, 'a', 'a', 'a', 'a', 'a', '$2y$10$wjra3oIAIQ3XDOC7bVn6D.07zsE29VsS.1xzSLj4ln0f.HgN65oHO', 'student', '', 'a', 'Basic Shielded Metal Arc Welding', 0, NULL),
+(19, 'a', 'awd', 'awd', 'awdaw', 'awdaw', '$2y$10$EP0bhpkGFAxW19M6CRJW4u6JUCYkn7gFRchZhJk/cWCCoNPsaGfL2', 'student', '', 'awdaw', 'Basic Shielded Metal Arc Welding', 0, NULL),
+(23, 'Jhon Orlan', 'Gene', 'Tero', 'N/a', '123456', '$2y$10$3jJfHi2rZJ0ljxX2hQWVV.HCsoQGZGEHCy0WIlzLsbReQ98u50YGK', 'student', '', '09751570684', 'Advanced Shielded Metal Arc Welding', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -239,6 +272,12 @@ ALTER TABLE `equipment_info`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `material_get_requests`
+--
+ALTER TABLE `material_get_requests`
+  ADD PRIMARY KEY (`request_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -270,19 +309,25 @@ ALTER TABLE `borrow_requests`
 -- AUTO_INCREMENT for table `equipment_details`
 --
 ALTER TABLE `equipment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `equipment_info`
 --
 ALTER TABLE `equipment_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `material_get_requests`
+--
+ALTER TABLE `material_get_requests`
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables

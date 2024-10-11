@@ -1,6 +1,6 @@
 <?php
 
-include_once "./includes/Connection.php";
+include_once "./../../../includes/Connection.php";
 
 $CONNECTION = new Connection();
 
@@ -57,7 +57,6 @@ $equipment = $CONNECTION->Select("equipment_info", ["id" => $data['id']], false)
                                     <option value="0">Not Borrowable</option>
                                 </select>
                             </div>
-
                         </div>
                     <?php endif ?>
 

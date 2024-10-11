@@ -1,8 +1,6 @@
 <?php
 
 include_once "./includes/Connection.php";
-include_once "./libraries/vendor/autoload.php";
-include_once "./libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
 
 use chillerlan\QRCode\Output\QRGdImagePNG;
 use chillerlan\QRCode\QRCode;
@@ -31,15 +29,15 @@ $max = 10;
 
 $current = $_POST['start'] ?? 0;
 
-$is_user = $_SESSION['user_type'] == "student";
+$is_admin = $_SESSION['user_type'] == "admin";
 
-$filter = $request_status == "all" ? null : [ "status" => "accepted"];
+$filter = $request_status == "all" ? null : [ "status" => $request_status];
 
-if (isset($request_status)) {
+if (!isset($request_status)) {
     unset($filter['request_status']);
 }
 
-if ($is_user) {
+if (!$is_admin) {
     $filter['user_id'] = $_SESSION['user_id'];
 }
 
@@ -71,25 +69,7 @@ $all = count($allRecords) / $max;
             <button class="print-btn">Download</button>
         </div>
         <div class="parent">
-            <div class="search-engine-container" style="padding-bottom: 20px">
-
-                <select id="course" name="course" required>
-                    <option value="">-- Select Course --</option>
-                    <option value="RAC Servicing (DomRAC)">RAC Servicing (DomRAC)</option>
-                    <option value="Basic Shielded Metal Arc Welding">Basic Shielded Metal Arc Welding</option>
-                    <option value="Advanced Shielded Metal Arc Welding">Advanced Shielded Metal Arc Welding</option>
-                    <option value="Pc operation">Pc operation</option>
-                    <option value="Bread and pastry production NC II">Bread and pastry production NC II</option>
-                    <option value="Computer aid design (CAD)">Computer aid design (CAD)</option>
-                    <option value="Culinary arts">Culinary arts</option>
-                    <option value="Dressmaking NC II">Dressmaking NC II</option>
-                    <option value="Food and beverage service NC II">Food and beverage service NC II</option>
-                    <option value="Hair care">Hair care</option>
-                    <option value="Junior beautician">Junior beautician</option>
-                    <option value="Gas metal Arc Welding -- GMAW NC I">Gas metal Arc Welding -- GMAW NC I</option>
-                    <option value="Gas metal Arc Welding -- GMAW NC II">Gas metal Arc Welding -- GMAW NC II</option>
-                </select>
-            </div>
+            
         </div>
     </div>
     <div class="cards-content c-items">
