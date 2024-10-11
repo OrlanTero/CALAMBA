@@ -187,7 +187,9 @@
                     viewItem(res.id);
                 } else if (res.type == 'B') {
                     showBorrowQR(qrcode);
-                } else {
+                } else if (res.type == 'G') {
+                    ShowGettingQR(qrcode);
+                }  else {
                     alert("Invalid QR Code");
                 }
             },

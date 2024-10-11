@@ -91,7 +91,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 <script type="module">
     import Popup from "./scripts/Popup.js";
     import {Ajax, ToData} from "./scripts/Tool.js";
-    import {ShowBorrowQR, ViewItem} from "./scripts/Functions.js";
+    import {ShowBorrowQR, ViewItem, ShowGettingQR} from "./scripts/Functions.js";
 
     let scanner;
 
@@ -194,6 +194,8 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
                     ViewItem(res.id);
                 } else if (res.type == 'B') {
                     ShowBorrowQR(qrcode);
+                }else if (res.type == 'G') {
+                    ShowGettingQR(qrcode);
                 } else {
                     alert("Invalid QR Code");
                 }
