@@ -33,9 +33,14 @@ if (isset($_POST['course'])  &&  $_POST['course'] && $_POST['course'] != 'false'
     $filter['course'] = $_POST['course'];
 }
 
+// always show non deleted equipments
+$filter['deleted'] = '0';
+
 if (empty($filter)) {
     $filter = null;
 }
+
+
 
 if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false') {
     $allRecords = $CONNECTION->Search("equipment_info", $_POST['search'], ['name'], $filter);
@@ -47,8 +52,9 @@ if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false'
 }
 
 
+
 $records = array_map(function ($record) use ($CONNECTION) {
-    $equipments = $CONNECTION->Select("equipment_details", ["equipment_id" => $record["id"], "in_used" => "no"], true);
+    $equipments = $CONNECTION->Select("equipment_details", ["equipment_id" => $record["id"], "in_used" => "no", "deleted" => '0'], true);
 
     $record['available'] = count($equipments);
 
@@ -104,7 +110,7 @@ $all = count($allRecords) / $max;
                 <div class="pagination-buttons">
                     <div class="page-buttons">
                         <?php for($i = 0; $i < $all; $i++): ?>
-                            <div class="button page-button <?php echo $current == $i ? 'active' : '' ?>">
+                            <div class="button page-button <?php echo ($current == $i * 10) ? 'active' : '' ?>">
                                 <span><?= $i + 1 ?></span>
                             </div>
                         <?php endfor?>

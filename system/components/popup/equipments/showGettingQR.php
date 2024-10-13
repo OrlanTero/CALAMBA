@@ -16,7 +16,7 @@ $qr_key = $data['qr_key'];
 
 $QR = new QrCode();
 
-$isUser = $_SESSION['user_type'] == "student";
+$isUser = $_SESSION['user_type'] == "student" || $_SESSION['user_type'] == "instructor";
 
 $record = $CONNECTION->Select("material_get_requests", ["qr_key" => $qr_key], false);
 

@@ -1,6 +1,8 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./libraries/vendor/autoload.php";
+include_once "./libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
 
 use chillerlan\QRCode\Output\QRGdImagePNG;
 use chillerlan\QRCode\QRCode;
@@ -31,15 +33,28 @@ $current = $_POST['start'] ?? 0;
 
 $is_admin = $_SESSION['user_type'] == "admin";
 
-$filter = $request_status == "all" ? null : [ "status" => $request_status];
+$filter = [];
 
-if (!isset($request_status)) {
-    unset($filter['request_status']);
+if (isset($request_status)) {
+    $filter['status'] = $request_status;
+}
+
+if (isset($_POST['request_status'])) {
+    $filter['status'] = $_POST['request_status'];
+
+    if ($filter['status'] == 'all') {
+        unset($filter['status']);
+    }
 }
 
 if (!$is_admin) {
     $filter['user_id'] = $_SESSION['user_id'];
 }
+
+if (!count($filter)) {
+    $filter = null;
+}
+
 
 function filterCourse($items, $course)  {
     if (empty($course)) {
@@ -55,7 +70,6 @@ function filterCourse($items, $course)  {
     });
 }
 
-
 $allRecords = filterCourse($CONNECTION->Select("material_get_requests", $filter, true), $course);
 $records = filterCourse($CONNECTION->SelectPage("material_get_requests", $filter, true, $current, $max), $course);
 
@@ -63,7 +77,7 @@ $all = count($allRecords) / $max;
 
 ?>
 
-<div class="cards-table-container table-pagination-container" data-status="<?= $request_status ?>"  data-type="material">
+<div class="cards-table-container table-pagination-container" data-status="<?= $request_status ?>"  data-type="material" >
     <div class="cards-header flex">
         <div class="buttons">
             <button class="print-btn">Download</button>
@@ -73,7 +87,7 @@ $all = count($allRecords) / $max;
         </div>
     </div>
     <div class="cards-content c-items">
-        <table class="custom-table" id="print-table"  data-type="material">
+        <table class="custom-table" id="print-table"  data-type="material" data-request-status="<?= $request_status ?? $_POST['request_status'] ?>">
             <thead>
             <tr>
                 <th>Name</th>
@@ -121,7 +135,7 @@ $all = count($allRecords) / $max;
                 <?php if (!empty($all)): ?>
                     <div class="page-buttons">
                         <?php for($i = 0; $i < $all; $i++): ?>
-                            <div class="button page-button <?php echo $current == $i ? 'active' : '' ?>">
+                            <div class="button page-button <?php echo ($current == $i * 10) ? 'active' : '' ?>">
                                 <span><?= $i + 1 ?></span>
                             </div>
                         <?php endfor?>

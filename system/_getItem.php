@@ -16,6 +16,16 @@ $quantity = $_POST['quantity'];
 $id = $_POST['id'];
 $key = generateRandomString();
 
+
+$item = $CONNECTION->Select("equipment_details", ["id" => $id], false);
+
+
+if ($quantity > $item['quantity']) {
+    echo json_encode(new Response(400, "Quantity is not available"));
+    exit;
+}
+
+
 $data = [
     "item_id" => $id,
     "quantity" => $quantity,
@@ -26,5 +36,7 @@ $data = [
 $insert = json_encode($CONNECTION->Insert("material_get_requests", $data, true));
 
 if ($insert) {
-    echo $key;
+    echo json_encode(new Response(200, "Item requested successfully", ["qr_key" => $key]));
+} else {
+    echo json_encode(new Response(400, "Failed to request item"));
 }

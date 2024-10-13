@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     session_start();
 }
 
-$isUser = $_SESSION['user_type'] == 'student';
+$isUser = $_SESSION['user_type'] == 'student' || $_SESSION['user_type'] == 'instructor';
 
 $CONNECTION = new Connection();
 
@@ -15,6 +15,7 @@ $admins = $CONNECTION->Select("user", ["user_type" => "admin"], true);
 $equipments = $CONNECTION->Select("equipment_details", null, true);
 $categories = $CONNECTION->Select("equipment_info", null, true);
 $borrows = $CONNECTION->Select("borrow_requests",  $isUser ? ["user_id" => $_SESSION['user_id']] : null, true);
+$materialRequests = $CONNECTION->Select("material_get_requests",  $isUser ? ["user_id" => $_SESSION['user_id']] : null, true);
 $alertEquipments = array_filter($categories, function ($category) use ($CONNECTION) {
     $count = $CONNECTION->CountRow("equipment_details", ["equipment_id" => $category['id']]);
     return $count <= $category['alert_level'];
@@ -54,17 +55,10 @@ $alertEquipments = array_filter($categories, function ($category) use ($CONNECTI
         <div class="dashboard-content">
             <!-- Dashboard content -->
             <?php if (!$isUser): ?>
-                <div class="dashboard-square">
-                    <p>All Users</p>
-                    <h2><?= count($users) ?></h2>
-                </div>
-                <div class="dashboard-square">
-                    <p>All Admin</p>
-                    <h2><?= count($admins) ?></h2>
-                </div>
-                <a href="catalog.php?availability=alert" class="dashboard-square">
-                    <p>Equipments Alert Level</p>
-                    <h2><?= count($alertEquipments) ?></h2>
+           
+            <a href="catalog.php?availability=alert" class="dashboard-square">
+                <p>Equipments Alert Level</p>
+                <h2><?= count($alertEquipments) ?></h2>
             </a>
             <?php endif; ?>
             <a href="catalog.php" class="dashboard-square">
@@ -133,22 +127,48 @@ $alertEquipments = array_filter($categories, function ($category) use ($CONNECTI
 
         <div class="dashboard-content">
             <!-- Dashboard content -->
-            <a href="material_requests.php?status=pending" class="dashboard-square">
+            <a href="requests.php?status=pending" class="dashboard-square">
                 <p>Pending</p>
                 <h2><?= count(array_filter($borrows, function ($record) {
                         return $record["request_status"] === "pending";
                     })) ?></h2>
             </a>
-            <a href="material_requests.php?status=accepted" class="dashboard-square">
+            <a href="requests.php?status=accepted" class="dashboard-square">
                 <p>Accepted </p>
                 <h2><?= count(array_filter($borrows, function ($record) {
                         return $record["request_status"] === "accepted";
                     })) ?></h2>
             </a>
-            <a href="material_requests.php?status=declined" class="dashboard-square">
+            <a href="requests.php?status=declined" class="dashboard-square">
                 <p>Declined </p>
                 <h2><?= count(array_filter($borrows, function ($record) {
                         return $record["request_status"] === "declined";
+                    })) ?></h2>
+            </a>
+        </div>
+
+        <div class="title">
+            <p>Material Requests</p>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Dashboard content -->
+            <a href="material_requests.php?status=pending" class="dashboard-square">
+                <p>Pending</p>
+                <h2><?= count(array_filter($materialRequests, function ($record) {
+                        return $record["status"] === "pending";
+                    })) ?></h2>
+            </a>
+            <a href="material_requests.php?status=accepted" class="dashboard-square">
+                <p>Accepted </p>
+                    <h2><?= count(array_filter($materialRequests, function ($record) {
+                            return $record["status"] === "accepted";
+                    })) ?></h2>
+            </a>
+            <a href="material_requests.php?status=declined" class="dashboard-square">
+                <p>Declined </p>
+                <h2><?= count(array_filter($materialRequests, function ($record) {
+                        return $record["status"] === "declined";
                     })) ?></h2>
             </a>
         </div>

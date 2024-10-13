@@ -1,6 +1,12 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./libraries/vendor/autoload.php";
+include_once "./libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
+
+use chillerlan\QRCode\QRCode;
+
+$QR = new QRCode();
 
 if (!isset($_SESSION['user_id'])) {
     session_start();
@@ -18,6 +24,8 @@ if (!isset($course)) {
     }
 }
 
+
+
 $CONNECTION = new Connection();
 
 $max = 10;
@@ -26,20 +34,43 @@ $current = $_POST['start'] ?? 0;
 
 $is_admin = $_SESSION['user_type'] == "admin";
 
-$filter = $borrowed_status == "all" ? [] : ["borrow_status" => $borrowed_status, "request_status" => "accepted"];
+$is_all = false;
 
+
+$filter = [];
+
+
+
+if (isset($_POST['borrow_status']) || isset($borrowed_status)) {
+    $filter['borrow_status'] = $_POST['borrow_status'] ?? $borrowed_status;
+
+    if ($filter['borrow_status'] == 'false' || $filter['borrow_status'] == 'all') {
+        unset($filter['borrow_status']);
+    }
+}
+
+if (isset($_POST['request_status'])) {
+    $filter['request_status'] = $_POST['request_status'];
+
+    if ($filter['request_status'] == 'all') {
+        unset($filter['request_status']);
+        $is_all = true;
+    }
+}
+ 
 if (isset($request_status)) {
-    unset($filter['request_status']);
+    $filter['request_status'] = $request_status;
+
+    if ($filter['request_status'] == 'all') {
+        unset($filter['request_status']);
+        $is_all = true;
+    }
+} else {
+    $filter['request_status'] = "accepted";
 }
 
-if (!$is_admin) {
-    $filter['user_id'] = $_SESSION['user_id'];
-} else {
-    $filter = $borrowed_status == "all" ? ["request_status" => "accepted"] : $filter;
-}
 
 function filterCourse($items, $course)  {
-
     if (empty($course)) {
         return $items;
     }
@@ -53,13 +84,14 @@ function filterCourse($items, $course)  {
     });
 }
 
-if (isset($filter['borrow_status']) && $filter['borrow_status'] == 'false') {
-    unset($filter['borrow_status']);
+
+if (!count($filter)) {
+    $filter = null;
 }
+
 
 $allRecords = filterCourse($CONNECTION->Select("borrow_requests", $filter, true), $course);
 $records = filterCourse($CONNECTION->SelectPage("borrow_requests", $filter, true, $current, $max), $course);
-
 
 $all = count($allRecords) / $max;
 
@@ -75,7 +107,7 @@ $all = count($allRecords) / $max;
         </div>
     </div>
     <div class="cards-content c-items">
-        <table class="custom-table" id="print-table" data-type="equipment">
+        <table class="custom-table" id="print-table" data-type="equipment" data-request-status="<?= $request_status ?? $_POST['request_status'] ?>">
             <thead>
             <tr>
                 <th>Name</th>
@@ -83,9 +115,11 @@ $all = count($allRecords) / $max;
                 <th>Serial</th>
                 <th>Location</th>
                 <th>Date Time Borrowed</th>
-                <?php if (isset($request_status)): ?>
+                <?php if ($is_all): ?>
                 <th>Request Status</th>
                 <?php endif;?>
+                <th class="td-qr hide-component">QR</th>
+
             </tr>
             </thead>
             <tbody>
@@ -101,9 +135,11 @@ $all = count($allRecords) / $max;
                         <td><?php echo $item['serials']?></td>
                         <td><?php echo $item['location']?></td>
                         <td><?php echo $record['date_created']?></td>
-                        <?php if (isset($request_status)): ?>
-                            <td><?= $record['request_status'] == 'accepted' ? "Accepted" :"Declined" ?></td>
+                        <?php if ($is_all): ?>
+                            <td><?= ucwords($record['request_status'])?></td>
                         <?php endif;?>
+                    <td class="td-qr hide-component"><img src="<?= $QR->render($record['qr_key'])?>" style="width: 50px;height: 50px;" alt=""></td>
+
                     </tr>
                 <?php endforeach;?>
             </tbody>
@@ -118,7 +154,7 @@ $all = count($allRecords) / $max;
                 <?php if (!empty($all)): ?>
                     <div class="page-buttons">
                         <?php for($i = 0; $i < $all; $i++): ?>
-                            <div class="button page-button <?php echo $current == $i ? 'active' : '' ?>">
+                            <div class="button page-button <?php echo ($current == $i * 10) ? 'active' : '' ?>">
                                 <span><?= $i + 1 ?></span>
                             </div>
                         <?php endfor?>

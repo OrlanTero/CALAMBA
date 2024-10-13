@@ -73,7 +73,6 @@ $isAdmin = $_SESSION['user_type'] == "admin";
                 </div>
                 <div class="popup-footer">
                     <?php if (!$isAdmin): ?>
-                    <?=$record['borrow_availability'] ?>
                         <?php if ($record['borrow_availability'] == 1): ?>
                             <button type="button" class="borrow-item">Borrow</button>
                         <?php else: ?>
@@ -81,7 +80,9 @@ $isAdmin = $_SESSION['user_type'] == "admin";
                         <?php endif ?>
                     <?php else: ?>
                         <button type="button" class="download-qr" >Download QR</button>
+                        <button type="button" class="remove-item">Remove</button>
                         <button type="submit">Save Item</button>
+
                     <?php endif ?>
                 </div>
             </form>

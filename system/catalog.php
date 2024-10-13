@@ -240,7 +240,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 
 <script type="module">
     import {Ajax, ToData, addHtml} from "./scripts/Tool.js";
-    import {CreateNewEquipment, CreateNewItem, ViewItem} from "./scripts/Functions.js";
+    import {CreateNewEquipment, CreateNewItem, ViewItem, RemoveEquipment} from "./scripts/Functions.js";
 
     const content = document.querySelector(".main-content");
 
@@ -285,6 +285,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 
         for (const button of buttons) {
             let oo = off;
+            
             button.addEventListener("click", function() {
                 if (view == 100) {
                     getAllCats(oo);
@@ -293,7 +294,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
                 }
             })
 
-            off++;
+            off += 10;
         }
     }
 
@@ -338,6 +339,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
         const back = document.querySelector(".back-btn");
         const addEq = document.querySelector(".add-equipment-btn");
         const addItem = document.querySelector(".add-item-btn");
+        const removeItem = document.querySelector(".remove-item-btn");
 
         for (const card of cards) {
             const id = card.getAttribute("data-id");
@@ -363,7 +365,9 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 
         if (addEq) {
             addEq.addEventListener("click", () => {
-                CreateNewEquipment();
+                CreateNewEquipment(function () {
+                    getAllCats();
+                });
             })
         }
 
@@ -372,6 +376,14 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
                CreateNewItem(activeCategoryID, function () {
                    getItemsOf(activeCategoryID);
                });
+            })
+        }
+
+        if (removeItem) {
+            removeItem.addEventListener("click", () => {
+                RemoveEquipment(activeCategoryID, function () {
+                    getItemsOf(activeCategoryID);
+                });
             })
         }
 

@@ -1,6 +1,13 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./libraries/vendor/autoload.php";
+include_once "./libraries/vendor/chillerlan/php-qrcode/src/QrCode.php";
+
+use chillerlan\QRCode\Output\QRGdImagePNG;
+use chillerlan\QRCode\QRCode;
+
+$QR = new QrCode();
 
 session_start();
 

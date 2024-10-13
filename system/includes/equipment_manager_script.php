@@ -11,7 +11,7 @@
 
 <script type="module">
     import Popup from "./scripts/Popup.js";
-    import {Ajax, ToData, addHtml, ListenToForm,HideShowComponent,ListenToOriginalSelect} from "./scripts/Tool.js";
+    import {Ajax, ToData, addHtml, ListenToForm,HideShowComponent,ListenToOriginalSelect, RemoveAllListenerOf} from "./scripts/Tool.js";
     import AlertPopup from "./scripts/AlertPopup.js";
     import {ShowGettingQR} from "./scripts/Functions.js";
 
@@ -228,11 +228,12 @@
         }
     }
 
-    function getTableContent(start, status, course, type) {
+    function getTableContent(start, status, course, type, requestStatus = "") {
+        console.log(requestStatus);
         Ajax({
             url: type !== "material" ? `_getAllBorrowed.php` : "_getAllGetRequests.php",
             type: "POST",
-            data: ToData({ start: start, status: status, course }),
+            data: ToData({ start: start, status: status, course, ...(requestStatus ? { request_status: requestStatus } : {}) }),
             success: (popup) => {
                 addHtml(content, popup);
 
@@ -270,23 +271,29 @@
                 getTableContent(oo,status, "", type);
             })
 
-            off++;
+            off += 10;
         }
     }
 
+    const table = document.querySelector(".custom-table");
+    const type = table.dataset.type;
+    const course = document.querySelector("select[name=course]");
+    const requestStatus = table.dataset.requestStatus;
+
+
+    ListenToOriginalSelect(course, function (value) {
+        getTableContent(0, false, value, type, requestStatus);
+    })
+
+
     function tableManager() {
-        const table = document.querySelector(".custom-table");
         const items = table.querySelectorAll("tbody tr");
         const printBtn = document.querySelector(".print-btn");
         const title = document.querySelector(".main-content-container h1").innerText;
-        const type = table.dataset.type;
 
-        const course = document.querySelector("select[name=course]");
+        // RemoveAllListenerOf(course);
 
-        ListenToOriginalSelect(course, function (value) {
-            getTableContent(0, false, value)
-        })
-
+     
         for (const td of items) {
             td.addEventListener("click", function () {
                 if (type == "material") {

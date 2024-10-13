@@ -10,6 +10,25 @@ export function DownloadImage(src, filename) {
     a.click();
     document.body.removeChild(a);
 }
+
+export function BorrowItem(id, callback) {
+    Ajax({
+        url: `_borrowItem.php`,
+        type: "POST",
+        data: ToData({id: id}),
+        success: (res) => {
+             res = JSON.parse(res);
+
+            if (res.code == 200) {  
+                ShowBorrowQR(res.body.qr_key);
+
+                callback && callback();
+            } else {
+                alert(res.message);
+            }
+        },
+    });
+}
 export function ViewItem(id, callback) {
     const popup = new Popup("equipments/viewItem.php", {id}, {
         backgroundDismiss: false,
@@ -23,6 +42,7 @@ export function ViewItem(id, callback) {
         const br = popup.ELEMENT.querySelector(".borrow-item");
         const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container IMG");
         const getItem = popup.ELEMENT.querySelector(".get-item");
+        const rm = popup.ELEMENT.querySelector(".remove-item");
 
         ListenToForm(form, function (data) {
             Ajax({
@@ -31,8 +51,6 @@ export function ViewItem(id, callback) {
                 data: ToData({id:id, data: JSON.stringify(data)}),
                 success: (r) => {
                     popup.Remove();
-
-                    // getItemsOf(activeCategoryID);
                 },
             });
         })
@@ -49,6 +67,14 @@ export function ViewItem(id, callback) {
             });
         }
 
+        if (rm) {
+            rm.addEventListener("click", function () {
+                RemoveItem(id);
+
+                popup.Remove();
+            })
+        }
+
         if (br) {
             br.addEventListener("click", function() {
                 const pp = new AlertPopup({
@@ -61,18 +87,11 @@ export function ViewItem(id, callback) {
 
                 pp.AddListeners({
                     onYes: () => {
-                        Ajax({
-                            url: `_borrowItem.php`,
-                            type: "POST",
-                            data: ToData({id: id}),
-                            success: (qr_key) => {
-                                pp.Remove();
-                                popup.Remove();
+                        BorrowItem(id, function() {
+                            pp.Remove();
+                            popup.Remove();
 
-                                callback(activeCategoryID)
-
-                                ShowBorrowQR(qr_key);
-                            },
+                            callback && callback();
                         });
                     }
                 })
@@ -128,7 +147,7 @@ export function ShowBorrowQR(qr_key) {
     });
 }
 
-export function CreateNewEquipment() {
+export function CreateNewEquipment(callback) {
     const popup = new Popup("equipments/addEquipment.phtml", null, {
         backgroundDismiss: false,
     });
@@ -157,10 +176,13 @@ export function CreateNewEquipment() {
                         type: "POST",
                         data: ToData({data: JSON.stringify(data)}),
                         success: (r) => {
-                            console.log(r)
-                            popup.Hide()
+                            popup.Hide();
+                            
+                            alert("Equipment Added Successfully");
 
-                            getAllCats();
+                            callback &&callback();
+
+                            // getAllCats();
                         },
                     });
                 }
@@ -169,6 +191,32 @@ export function CreateNewEquipment() {
     })
 }
 
+export function RemoveEquipment(id, callback) {
+    Ajax({
+        url: `_removeEquipment.php`,
+        type: "POST",
+        data: ToData({id}),
+        success: (r) => {
+            alert("Equipment Removed Successfully");
+
+            callback && callback();
+
+        },
+    });
+}
+
+export function RemoveItem(id, callback) {
+    Ajax({
+        url: `_removeItem.php`,
+        type: "POST",
+        data: ToData({id}),
+        success: (r) => {
+            callback && callback();     
+
+            alert("Item Removed Successfully");
+        },
+    });
+}
 
 export function ShowGettingQR(qr_key) {
     const popup = new Popup("equipments/showGettingQR.php", {qr_key}, {
@@ -219,10 +267,16 @@ export  function GetMyItem(id) {
                 url: `_getItem.php`,
                 type: "POST",
                 data: ToData({id: id, quantity: data.quantity}),
-                success: (qr_key) => {
+                success: (res) => {
+                    res = JSON.parse(res);
+
                     popup.Remove();
 
-                    ShowGettingQR(qr_key);
+                    if (res.code == 200) {
+                        ShowGettingQR(res.body.qr_key);
+                    } else {
+                        alert(res.message);
+                    }
                 },
             });
         })

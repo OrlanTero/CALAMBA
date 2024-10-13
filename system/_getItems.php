@@ -17,8 +17,8 @@ $max = 10;
 
 $current = $_POST['start'] ?? 0;
 
-$allRecords = $CONNECTION->Select("equipment_details", ["equipment_id" => $id], true);
-$records = $CONNECTION->SelectPage("equipment_details", ["equipment_id" => $id], true, $current, $max);
+$allRecords = $CONNECTION->Select("equipment_details", ["equipment_id" => $id, "deleted" => '0'], true);
+$records = $CONNECTION->SelectPage("equipment_details", ["equipment_id" => $id, "deleted" => '0'], true, $current, $max);
 
 $all = count($allRecords) / $max;
 
@@ -30,8 +30,13 @@ $all = count($allRecords) / $max;
 
         <div class="buttons">
             <button class="back-btn">Back</button>
+            <button class="remove-item-btn">Remove this Equipment</button>
             <button class="add-item-btn">Add New Item</button>
         </div>
+        <?php else: ?>
+            <div class="buttons">
+                <button class="back-btn">Back</button>
+            </div>
         <?php endif ?>
 
     </div>

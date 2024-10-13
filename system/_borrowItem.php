@@ -1,6 +1,7 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./includes/Response.php";
 
 session_start();
 function generateRandomString($length = 10) {
@@ -15,8 +16,14 @@ $data = [
     "qr_key" => generateRandomString()
 ];
 
-$CONNECTION->Update("equipment_details", ["in_used" => "yes"], ["id" => $_POST['id']]);
 
-$CONNECTION->Insert("borrow_requests", $data, true);
+$item = $CONNECTION->Select("equipment_details", ["id" => $_POST['id']], false);
 
-echo $data['qr_key'];
+if ($item['in_used'] == "yes") {
+    echo json_encode(new Response(400, "Item is not available"));
+    exit;
+}
+
+$CONNECTION->Insert("borrow_requests", $data);
+
+echo json_encode(new Response(200, "Item borrowed successfully", ["qr_key" => $data['qr_key']]));

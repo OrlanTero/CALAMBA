@@ -50,11 +50,11 @@ $equipment = $CONNECTION->Select("equipment_info", ["id" => $data['id']], false)
                                 <input type="number" id="quantity" placeholder="Enter Quantity"  name="quantity" value="0" required/>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="category">Is Borrowable?</label>
+                                <label for="category">Borrowable/Disposable</label>
                                 <select name="borrow_availability" class="form-control" required>
-                                    <option value="">-- Select Borrowable --</option>
+                                    <option value="">-- Select Borrowable/Disposable --</option>
                                     <option value="1">Borrowable</option>
-                                    <option value="0">Not Borrowable</option>
+                                    <option value="0">Disposable</option>
                                 </select>
                             </div>
                         </div>
