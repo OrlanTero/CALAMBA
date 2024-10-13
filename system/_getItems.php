@@ -55,7 +55,7 @@ $all = count($allRecords) / $max;
                     <?php else: ?>
                         <small>Availability: <?php echo $record['in_used'] == "yes" ? "Not Available" : "Available";?><br></small>
                     <?php endif ?>
-                    <small>Date Received: <?php echo $record['date_rcvd'];?></small>
+                    <small><?php echo date('F j, Y g:i A', strtotime($record['date_rcvd'])); ?></small>
                 </div>
             </div>
         <?php endforeach; ?>

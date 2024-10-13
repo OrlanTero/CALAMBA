@@ -68,11 +68,13 @@ $alertEquipments = array_filter($categories, function ($category) use ($CONNECTI
                 <p>Equipments Alert Level</p>
                 <h2><?= count($alertEquipments) ?></h2>
             </a>
-            <?php endif; ?>
+
             <a href="catalog.php" class="dashboard-square">
                 <p>All Equipments</p>
                 <h2><?= count($equipments) ?></h2>
             </a>
+            <?php endif; ?>
+           
         </div>
 
         <?php if (!$isUser): ?>

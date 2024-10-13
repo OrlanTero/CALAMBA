@@ -129,7 +129,7 @@ $all = count($allRecords) / $max;
                         <td><?php echo $equipment['name']?></td>
                         <td><?php echo $item['serials']?></td>
                         <td><?php echo $item['location']?></td>
-                        <td><?php echo $record['date_created']?></td>
+                        <td><?php echo date('F j, Y g:i A', strtotime($record['date_created']))?></td>
                         <?php if (isset($is_all)): ?>
                             <td><?= ucwords($record['request_status'])?></td>
                         <?php endif;?>
