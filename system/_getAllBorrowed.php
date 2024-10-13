@@ -63,7 +63,7 @@ if (isset($request_status)) {
 }
 
 function filterCourse($items, $course)  {
-    if (empty($course) || $course == "") {
+    if (empty($course) || $course == "" || $course == null || $course == false || $course == "false") {
         return $items;
     }
 
@@ -83,6 +83,7 @@ if (!$is_admin) {
 if (!count($filter)) {
     $filter = null;
 }
+
 
 $allRecords = filterCourse($CONNECTION->Select("borrow_requests", $filter, true), $course);
 $records = filterCourse($CONNECTION->SelectPage("borrow_requests", $filter, true, $current, $max), $course);

@@ -75,24 +75,26 @@ $alertEquipments = array_filter($categories, function ($category) use ($CONNECTI
             </a>
         </div>
 
-        <div class="title">
-            <p>Item Availability</p>
-        </div>
-        <div class="dashboard-content">
-            <!-- Dashboard content -->
-            <a href="catalog.php?availability=available" class="dashboard-square">
-                <p>Available</p>
-                <h2><?= count(array_filter($equipments, function ($record) {
-                        return $record["in_used"] === "no";
-                    })) ?></h2>
-            </a>
-            <a href="catalog.php?availability=not_available" class="dashboard-square">
-                <p>Not Available </p>
-                <h2><?= count(array_filter($equipments, function ($record) {
-                        return $record["in_used"] === "yes";
-                    })) ?></h2>
-            </a>
-        </div>
+        <?php if (!$isUser): ?>
+            <div class="title">
+                <p>Item Availability</p>
+            </div>
+            <div class="dashboard-content">
+                <!-- Dashboard content -->
+                <a href="catalog.php?availability=available" class="dashboard-square">
+                    <p>Available</p>
+                    <h2><?= count(array_filter($equipments, function ($record) {
+                            return $record["in_used"] === "no";
+                        })) ?></h2>
+                </a>
+                <a href="catalog.php?availability=not_available" class="dashboard-square">
+                    <p>Not Available </p>
+                    <h2><?= count(array_filter($equipments, function ($record) {
+                            return $record["in_used"] === "yes";
+                        })) ?></h2>
+                </a>
+            </div>
+        <?php endif; ?>
 
         <div class="title">
             <p>Equipment Manager</p>

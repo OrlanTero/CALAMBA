@@ -287,7 +287,7 @@
     })
 
     ListenToOriginalSelect(status, function (value) {
-        getTableContent(0, value, course.value, type, status.value, borrowedStatus, is_all);
+        getTableContent(0, value, course ? course.value : false, type, value, borrowedStatus, is_all);
     })
 
     function tableManager() {
