@@ -36,11 +36,14 @@ if (isset($_POST['course'])  &&  $_POST['course'] && $_POST['course'] != 'false'
 // always show non deleted equipments
 $filter['deleted'] = '0';
 
+
+if (!$isAdmin) {
+    $filter['course'] = $user['course'];
+}
+
 if (empty($filter)) {
     $filter = null;
 }
-
-
 
 if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false') {
     $allRecords = $CONNECTION->Search("equipment_info", $_POST['search'], ['name'], $filter);
@@ -50,8 +53,6 @@ if (isset($_POST['search'])  &&  $_POST['search'] && $_POST['search'] != 'false'
     $allRecords = $CONNECTION->Select("equipment_info", $filter, true);
     $records = $CONNECTION->SelectPage("equipment_info", $filter, true, $current, $max);
 }
-
-
 
 $records = array_map(function ($record) use ($CONNECTION) {
     $equipments = $CONNECTION->Select("equipment_details", ["equipment_id" => $record["id"], "in_used" => "no", "deleted" => '0'], true);
@@ -90,11 +91,24 @@ $all = count($allRecords) / $max;
     <div class="cards-content c-items">
         <?php foreach ($records as $record): ?>
             <?php
+
+                $items = $CONNECTION->Select("equipment_details", ["equipment_id" => $record['id'], "deleted" => '0'], true);
+                $isOnAlert = false;
+
+                if ($record['category'] == 'material') {
+                    $filter = array_filter($items, function ($item) {
+                        return $item['quantity'] > 0;
+                    });
+
+                    $isOnAlert = count($filter) <= $record['alert_level'];  
+                } else {
+                    $isOnAlert = count($items) <= $record['alert_level'];
+                }   
             ?>
-            <div class="card c-item <?= $record['available'] <= $record['alert_level'] ? 'red' : '' ?>  " data-id="<?= $record['id'] ?>" data-type="category">
+            <div class="card c-item <?= $isOnAlert ? 'red' : '' ?>  " data-id="<?= $record['id'] ?>" data-type="category">
                 <div class="card-top" style="background-image: url('uploads/<?php echo $record['picture'];?>')"></div>
                 <div class="card-bot">
-                    <big><?php echo $record['name'];?></big><br>
+                    <big><?php echo $record['name'];?> ( <?= count($items) ?> )</big><br>
                     <small><b><?= $record['available'] ?> Available</b> </br/></small>
                     <small><?php echo $record['description'];?></small>
                 </div>

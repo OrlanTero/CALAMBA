@@ -30,10 +30,6 @@ $equipment = $CONNECTION->Select("equipment_info", ["id" => $data['id']], false)
             </div>
             <form class="">
                 <div class="popup-bot">
-                    <!-- <div class="form-group">
-                        <label for="additional-quantity">Add Quantity</label>
-                        <input type="number" id="additional-quantity" name="quantity" placeholder="Enter quantity to add" />
-                    </div> -->
                     <div class="form-group">
                         <label for="location">Location</label>
                         <input type="text" id="location" name="location" placeholder="Enter location" />
@@ -44,6 +40,7 @@ $equipment = $CONNECTION->Select("equipment_info", ["id" => $data['id']], false)
                     </div>
 
                     <?php if($equipment['category'] == "material"): ?>
+                        
                         <div class="material-content">
                             <div class="form-group">
                                 <label for="price">Quantity</label>

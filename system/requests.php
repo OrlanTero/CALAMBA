@@ -16,7 +16,7 @@ $CONNECTION = new Connection();
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Borrowed Equipment History</title>
+    <title>Borrowed Equipment Requests </title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
@@ -41,7 +41,7 @@ $CONNECTION = new Connection();
 
 <!-- Main Content -->
 <div class="main-content-container">
-    <h1>Borrowed Equipment History</h1>
+    <h1>Borrowed Equipment Requests</h1>
 
     <?php include_once "./includes/category_filter.php" ?>
 
@@ -50,6 +50,7 @@ $CONNECTION = new Connection();
         <?php
         $borrowed_status = "all";
         $request_status =  $_GET["status"] ?? "all";
+        $is_all = true;
         include_once "_getAllBorrowed.php" ?>
     </div>
 </div>

@@ -50,6 +50,7 @@ export function ViewItem(id, callback) {
                 type: "POST",
                 data: ToData({id:id, data: JSON.stringify(data)}),
                 success: (r) => {
+                    console.log(r)
                     popup.Remove();
                 },
             });
@@ -104,7 +105,7 @@ export function ViewItem(id, callback) {
 }
 
 export function CreateNewItem(id, callback) {
-    const popup = new Popup("equipments/addItem.phtml", {id}, {
+    const popup = new Popup("equipments/addItem.php", {id}, {
         backgroundDismiss: false,
     });
 
@@ -246,6 +247,16 @@ export function ShowGettingQR(qr_key) {
 
                     },
                 });
+            } else if (data.borrow_status) {
+                Ajax({
+                    url: `_updateGetBorrowStatus.php`,
+                    type: "POST",
+                    data: ToData({ qr_key, status: data.borrow_status }),   
+                    success: (p) => {
+                        console.log(p);
+                        popup.Remove();
+                    },
+                })
             }
         })
 
@@ -263,22 +274,38 @@ export  function GetMyItem(id) {
         const form = popup.ELEMENT.querySelector("form");
 
         ListenToForm(form, function (data) {
-            Ajax({
-                url: `_getItem.php`,
-                type: "POST",
-                data: ToData({id: id, quantity: data.quantity}),
-                success: (res) => {
-                    res = JSON.parse(res);
+            const pp = new AlertPopup({
+                primary: "Get Item?",
+                secondary: "Getting Item",
+                message: "Are you sure to get this item?"
+            }, {
+                alert_type: AlertTypes.YES_NO,
+            })
 
-                    popup.Remove();
+            pp.AddListeners({
+                onYes: () => {
+                    Ajax({
+                        url: `_getItem.php`,
+                        type: "POST",
+                        data: ToData({id: id, quantity: data.quantity}),
+                        success: (res) => {
+                            res = JSON.parse(res);
+        
+                            popup.Remove();
+        
+                            if (res.code == 200) {
+                                ShowGettingQR(res.body.qr_key);
+                            } else {
+                                alert(res.message);
+                            }
+                        },
+                    });
+                }
+            })  
 
-                    if (res.code == 200) {
-                        ShowGettingQR(res.body.qr_key);
-                    } else {
-                        alert(res.message);
-                    }
-                },
-            });
+            pp.Create().then(() => {
+                pp.Show()
+            })
         })
 
     })

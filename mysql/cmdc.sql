@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2024 at 04:15 AM
+-- Generation Time: Oct 13, 2024 at 03:00 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -107,7 +107,13 @@ INSERT INTO `borrow_requests` (`request_id`, `user_id`, `item_id`, `qr_key`, `re
 (5, 10, 9, 'MSeTACFJaX', '', '0000-00-00', 'not_returned', 'pending', '2024-10-12 18:19:27'),
 (6, 10, 7, 'wrpHcEL2BT', '', '0000-00-00', 'not_returned', 'pending', '2024-10-12 18:19:59'),
 (7, 10, 12, 'M5WGftdXzc', '', '0000-00-00', 'not_returned', 'pending', '2024-10-12 18:23:35'),
-(8, 10, 16, 'Jr8lT273Uc', '', '0000-00-00', 'not_returned', 'pending', '2024-10-13 01:30:42');
+(8, 10, 16, 'Jr8lT273Uc', '', '0000-00-00', 'not_returned', 'pending', '2024-10-13 01:30:42'),
+(9, 10, 13, 'RPdouKwVqD', '', '0000-00-00', 'not_returned', 'accepted', '2024-10-13 10:44:34'),
+(10, 10, 13, 'xAK24CvV38', '', '0000-00-00', 'not_returned', 'accepted', '2024-10-13 10:56:51'),
+(11, 10, 13, 'roI4Xx6ECy', '', '0000-00-00', 'not_returned', 'accepted', '2024-10-13 10:58:23'),
+(12, 10, 13, 'Y2HIwBtEJ1', '', '0000-00-00', 'not_returned', 'accepted', '2024-10-13 11:01:41'),
+(13, 10, 13, 'KrUVmcFjiR', '', '0000-00-00', 'not_returned', 'pending', '2024-10-13 11:04:58'),
+(14, 10, 13, 'uvAetQTn1f', '', '0000-00-00', 'returned', 'accepted', '2024-10-13 11:07:53');
 
 -- --------------------------------------------------------
 
@@ -146,7 +152,9 @@ INSERT INTO `equipment_details` (`id`, `equipment_id`, `serials`, `location`, `q
 (16, 3, 'b', 'A', 'awdawas21', 0, 1, 0, NULL, 'yes'),
 (17, 4, '1234', 'SAA', 'sRMh7ix0Aa', 0, 0, 0, NULL, 'yes'),
 (21, 7, '12232', 'ABCD', 'Nyw6cQCY9q', 50, 0, 0, NULL, 'no'),
-(22, 7, 'AA', 'A4', 'u41nRtsMzB', 5, 1, 0, NULL, 'no');
+(22, 7, 'AA', 'A4', 'u41nRtsMzB', 5, 1, 0, NULL, 'no'),
+(25, 12, '100200', 'Disposable Material', 'IGr6MDklQm', 30, 0, 0, NULL, 'no'),
+(26, 12, '123444', 'Borrowable Material', 'yel3sBIfJ4', 30, 1, 0, NULL, 'no');
 
 -- --------------------------------------------------------
 
@@ -175,7 +183,7 @@ CREATE TABLE `equipment_info` (
 
 INSERT INTO `equipment_info` (`id`, `name`, `total_quantity`, `alert_level`, `description`, `available`, `picture`, `borrowed`, `price`, `course`, `category`, `deleted`) VALUES
 (1, 'Grinder', 1, 3, 'This is used for grinding', 1, 'grinder.png', 0, '299.00', 'Basic Shielded Metal Arc Welding', 'equipment', 0),
-(2, 'Stove', 1, 5, 'Used for cooking', 1, 'stove.jpg', 0, '511.00', 'Culinary arts', 'equipment', 0),
+(2, 'Stove', 1, 5, 'Used for cooking', 1, 'stove.jpg', 0, '511.00', 'Culinary arts', 'equipment', 1),
 (3, 'Drill', 4, 5, 'Used for Drilling', 4, 'drill.jpg', 0, '799.00', 'RAC Servicing (DomRAC)', 'tools', 0),
 (4, 'Hair Dryer', 2, 3, 'Used for Drying Hair', 2, 'e5d6ddad84cf4c77943e7a55247a777c.png', 0, '699.00', 'Hair care', 'equipment', 0),
 (5, 'Grinder', 1, 3, 'This is used for Grinding', 1, 'ed0fdfcd4bde6d3b93a9837c16daa32b.jpg', 0, '699.00', 'RAC Servicing (DomRAC)', 'equipment', 0),
@@ -185,7 +193,8 @@ INSERT INTO `equipment_info` (`id`, `name`, `total_quantity`, `alert_level`, `de
 (9, 'Hatdog', 0, 5, '...', 0, 'NwnjjWlWSI.png', 0, '111.00', 'Junior beautician', 'equipment', 0),
 (10, 'Orlan', 0, 2, 'aa', 0, 'Exfg8d2TqD.png', 0, '100.00', 'Gas metal Arc Welding -- GMAW NC I', 'equipment', 1),
 (11, 'acd', 0, 5, 'a', 0, 'gF3NIGZHJ7.png', 0, '12.00', 'Gas metal Arc Welding -- GMAW NC I', 'equipment', 0),
-(12, 'mat', 0, 12, '...', 0, 'fhQeojPIsV.png', 0, '100.00', 'RAC Servicing (DomRAC)', 'material', 0);
+(12, 'mat', 0, 1, '...', 0, 'fhQeojPIsV.png', 0, '100.00', 'RAC Servicing (DomRAC)', 'material', 0),
+(13, 'yes', 0, 2, '..', 0, 'K2B0ff5Jxt.png', 0, '111.00', 'Food and beverage service NC II', 'equipment', 0);
 
 -- --------------------------------------------------------
 
@@ -200,6 +209,7 @@ CREATE TABLE `material_get_requests` (
   `user_id` int(11) NOT NULL,
   `qr_key` varchar(255) NOT NULL,
   `status` enum('pending','accepted','not_accepted','') NOT NULL DEFAULT 'pending',
+  `borrow_status` enum('not_returned','returned','lost','returned_damaged','not_return_damaged') DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -207,9 +217,10 @@ CREATE TABLE `material_get_requests` (
 -- Dumping data for table `material_get_requests`
 --
 
-INSERT INTO `material_get_requests` (`request_id`, `item_id`, `quantity`, `user_id`, `qr_key`, `status`, `date_created`) VALUES
-(1, 21, 10, 23, 'AbJEh8RFOx', 'accepted', '2024-10-11 03:44:45'),
-(3, 21, 20, 23, '9EZSLRBnz8', 'accepted', '2024-10-11 05:03:49');
+INSERT INTO `material_get_requests` (`request_id`, `item_id`, `quantity`, `user_id`, `qr_key`, `status`, `borrow_status`, `date_created`) VALUES
+(1, 21, 10, 23, 'AbJEh8RFOx', 'accepted', NULL, '2024-10-11 03:44:45'),
+(3, 21, 20, 23, '9EZSLRBnz8', 'accepted', NULL, '2024-10-11 05:03:49'),
+(4, 25, 10, 10, 'RJevaLfzCc', 'accepted', 'returned', '2024-10-13 11:45:05');
 
 -- --------------------------------------------------------
 
@@ -313,25 +324,25 @@ ALTER TABLE `borrow_history`
 -- AUTO_INCREMENT for table `borrow_requests`
 --
 ALTER TABLE `borrow_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `equipment_details`
 --
 ALTER TABLE `equipment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `equipment_info`
 --
 ALTER TABLE `equipment_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `material_get_requests`
 --
 ALTER TABLE `material_get_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`

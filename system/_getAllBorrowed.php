@@ -16,6 +16,10 @@ if (!isset($borrowed_status)) {
     $borrowed_status = $_POST['status'];
 }
 
+if (isset($_POST['is_all'])) {
+    $is_all = filter_var($_POST['is_all'], FILTER_VALIDATE_BOOLEAN);
+}
+
 if (!isset($course)) {
     if (isset($_POST['course'])) {
         $course = $_POST['course'];
@@ -23,8 +27,6 @@ if (!isset($course)) {
         $course = "";
     }
 }
-
-
 
 $CONNECTION = new Connection();
 
@@ -34,12 +36,7 @@ $current = $_POST['start'] ?? 0;
 
 $is_admin = $_SESSION['user_type'] == "admin";
 
-$is_all = false;
-
-
 $filter = [];
-
-
 
 if (isset($_POST['borrow_status']) || isset($borrowed_status)) {
     $filter['borrow_status'] = $_POST['borrow_status'] ?? $borrowed_status;
@@ -54,7 +51,6 @@ if (isset($_POST['request_status'])) {
 
     if ($filter['request_status'] == 'all') {
         unset($filter['request_status']);
-        $is_all = true;
     }
 }
  
@@ -63,15 +59,11 @@ if (isset($request_status)) {
 
     if ($filter['request_status'] == 'all') {
         unset($filter['request_status']);
-        $is_all = true;
     }
-} else {
-    $filter['request_status'] = "accepted";
 }
 
-
 function filterCourse($items, $course)  {
-    if (empty($course)) {
+    if (empty($course) || $course == "") {
         return $items;
     }
 
@@ -84,11 +76,13 @@ function filterCourse($items, $course)  {
     });
 }
 
+if (!$is_admin) {
+    $filter['user_id'] = $_SESSION['user_id'];
+}
 
 if (!count($filter)) {
     $filter = null;
 }
-
 
 $allRecords = filterCourse($CONNECTION->Select("borrow_requests", $filter, true), $course);
 $records = filterCourse($CONNECTION->SelectPage("borrow_requests", $filter, true, $current, $max), $course);
@@ -107,7 +101,7 @@ $all = count($allRecords) / $max;
         </div>
     </div>
     <div class="cards-content c-items">
-        <table class="custom-table" id="print-table" data-type="equipment" data-request-status="<?= $request_status ?? $_POST['request_status'] ?>">
+        <table class="custom-table" id="print-table" data-type="equipment" data-request-status="<?= isset($request_status) ? $request_status ?? $_POST['request_status'] : "all" ?>" data-borrow-status="<?= $borrowed_status ?>" data-is-all="<?= isset($is_all) ? $is_all : false ?>">
             <thead>
             <tr>
                 <th>Name</th>
@@ -115,7 +109,7 @@ $all = count($allRecords) / $max;
                 <th>Serial</th>
                 <th>Location</th>
                 <th>Date Time Borrowed</th>
-                <?php if ($is_all): ?>
+                <?php if (isset($is_all)): ?>
                 <th>Request Status</th>
                 <?php endif;?>
                 <th class="td-qr hide-component">QR</th>
@@ -135,7 +129,7 @@ $all = count($allRecords) / $max;
                         <td><?php echo $item['serials']?></td>
                         <td><?php echo $item['location']?></td>
                         <td><?php echo $record['date_created']?></td>
-                        <?php if ($is_all): ?>
+                        <?php if (isset($is_all)): ?>
                             <td><?= ucwords($record['request_status'])?></td>
                         <?php endif;?>
                     <td class="td-qr hide-component"><img src="<?= $QR->render($record['qr_key'])?>" style="width: 50px;height: 50px;" alt=""></td>

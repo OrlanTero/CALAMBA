@@ -228,12 +228,11 @@
         }
     }
 
-    function getTableContent(start, status, course, type, requestStatus = "") {
-        console.log(requestStatus);
+    function getTableContent(start, status, course, type, requestStatus = "", borrowedStatus = "", is_all = false) {
         Ajax({
             url: type !== "material" ? `_getAllBorrowed.php` : "_getAllGetRequests.php",
             type: "POST",
-            data: ToData({ start: start, status: status, course, ...(requestStatus ? { request_status: requestStatus } : {}) }),
+            data: ToData({ start: start, status: status, course, ...(is_all ? { is_all: true } : {}), ...(requestStatus ? { request_status: requestStatus } : {}), ...(borrowedStatus ? { borrow_status: borrowedStatus } : {})}),
             success: (popup) => {
                 addHtml(content, popup);
 
@@ -268,29 +267,34 @@
             let oo = off;
 
             button.addEventListener("click", function() {
-                getTableContent(oo,status, "", type);
+                getTableContent(oo, status, "", type, requestStatus, borrowedStatus, is_all);
             })
 
             off += 10;
         }
     }
 
-    const table = document.querySelector(".custom-table");
+    let table = document.querySelector(".custom-table");
     const type = table.dataset.type;
     const course = document.querySelector("select[name=course]");
+    const status = document.querySelector("select[name=request_status]");
     const requestStatus = table.dataset.requestStatus;
-
+    const borrowedStatus = table.dataset.borrowStatus;
+    const is_all = table.dataset.isAll;
 
     ListenToOriginalSelect(course, function (value) {
-        getTableContent(0, false, value, type, requestStatus);
+        getTableContent(0, false, value, type, status.value, borrowedStatus, is_all);
     })
 
+    ListenToOriginalSelect(status, function (value) {
+        getTableContent(0, value, course.value, type, status.value, borrowedStatus, is_all);
+    })
 
     function tableManager() {
+        table = document.querySelector(".custom-table");
         const items = table.querySelectorAll("tbody tr");
         const printBtn = document.querySelector(".print-btn");
         const title = document.querySelector(".main-content-container h1").innerText;
-
         // RemoveAllListenerOf(course);
 
      
@@ -372,7 +376,8 @@
                         success: (p) => {
                             popup.Remove();
 
-                            getTableContent(0, globalStatus);
+                            window.location.reload();
+                            // getTableContent(0, globalStatus);
                         },
                     });
 
@@ -384,10 +389,12 @@
                         data: ToData({ qr_key, status: data.borrow_status }),
                         success: (p) => {
                             popup.Remove();
+
+                            window.location.reload();
                         },
                     });
 
-                    getTableContent(0, globalStatus);
+                    // getTableContent(0, globalStatus);
                 }
             })
         });

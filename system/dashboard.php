@@ -12,12 +12,20 @@ $CONNECTION = new Connection();
 
 $users = $CONNECTION->Select("user", ["user_type" => "student"], true);
 $admins = $CONNECTION->Select("user", ["user_type" => "admin"], true);
-$equipments = $CONNECTION->Select("equipment_details", null, true);
-$categories = $CONNECTION->Select("equipment_info", null, true);
+$equipments = $CONNECTION->Select("equipment_details", ['deleted' => '0'], true);
+$categories = $CONNECTION->Select("equipment_info", ['deleted' => '0'], true);
 $borrows = $CONNECTION->Select("borrow_requests",  $isUser ? ["user_id" => $_SESSION['user_id']] : null, true);
 $materialRequests = $CONNECTION->Select("material_get_requests",  $isUser ? ["user_id" => $_SESSION['user_id']] : null, true);
-$alertEquipments = array_filter($categories, function ($category) use ($CONNECTION) {
-    $count = $CONNECTION->CountRow("equipment_details", ["equipment_id" => $category['id']]);
+
+$alertEquipments = array_filter($categories, function ($category) use ($CONNECTION, $equipments) {
+    $count = $CONNECTION->CountRow("equipment_details", ["equipment_id" => $category['id'], "deleted" => '0']);
+
+    if ($category['category'] == 'material') {
+        $count = count(array_filter($equipments, function ($equipment) use ($category) {
+            return $equipment['equipment_id'] == $category['id'] && $equipment['quantity'] > 0;
+        }));
+    }
+
     return $count <= $category['alert_level'];
 });
 ?>

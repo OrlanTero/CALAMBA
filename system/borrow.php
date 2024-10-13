@@ -50,7 +50,8 @@ $CONNECTION = new Connection();
       <!-- Borrowed items table -->
       <div class="main-content">
           <?php
-          $borrowed_status = "all";
+          $borrowed_status = "not_returned";
+          $request_status = "accepted";
           include_once "_getAllBorrowed.php" ?>
       </div>
     </div>

@@ -83,12 +83,14 @@ $userLabel = ucwords($userData['user_type']);
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
-                    <label for="course" class="col-12 col-md-4 col-form-label">Course:</label>
-                    <div class="col-12 col-md-8">
-                        <input type="text" id="course" name="course" value="<?php echo htmlspecialchars($userData['course']); ?>" class="form-control" readonly>
+                <?php if (!$isAdmin): ?>
+                    <div class="form-group row mb-3">
+                        <label for="course" class="col-12 col-md-4 col-form-label">Course:</label>
+                        <div class="col-12 col-md-8">
+                            <input type="text" id="course" name="course" value="<?php echo htmlspecialchars($userData['course']); ?>" class="form-control" readonly>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
 
                 <div class="form-group row mb-3">
                     <div class="col-12 col-md-8 offset-md-4">

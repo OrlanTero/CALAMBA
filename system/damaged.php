@@ -49,7 +49,7 @@ $CONNECTION = new Connection();
     <div class="main-content">
         <?php
         $borrowed_status = "damaged";
-
+        $request_status = "accepted";
         include_once "_getAllBorrowed.php" ?>
     </div>
 </div>

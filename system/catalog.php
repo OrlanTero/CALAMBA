@@ -241,7 +241,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 <script type="module">
     import {Ajax, ToData, addHtml} from "./scripts/Tool.js";
     import {CreateNewEquipment, CreateNewItem, ViewItem, RemoveEquipment} from "./scripts/Functions.js";
-
+    import AlertPopup, {AlertTypes} from "./scripts/AlertPopup.js";
     const content = document.querySelector(".main-content");
 
     let activeCategoryID = null;
@@ -364,10 +364,17 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
         }
 
         if (addEq) {
+            let isCreatingEquipment = false;
             addEq.addEventListener("click", () => {
-                CreateNewEquipment(function () {
-                    getAllCats();
-                });
+                if (!isCreatingEquipment) {
+                    isCreatingEquipment = true;
+                    addEq.disabled = true;
+                    CreateNewEquipment(function () {
+                        getAllCats();
+                        isCreatingEquipment = false;
+                        addEq.disabled = false;
+                    });
+                }
             })
         }
 
@@ -381,9 +388,24 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 
         if (removeItem) {
             removeItem.addEventListener("click", () => {
-                RemoveEquipment(activeCategoryID, function () {
+                const pp = new AlertPopup({
+                    primary: "Remove this Equipment?",
+                    secondary: `Removing Equipment`,
+                    message: "Are you sure to remove this Equipment?"
+                }, {
+                    alert_type: AlertTypes.YES_NO,
+                });
+
+                pp.AddListeners({
+                    onYes: () => {
+                        RemoveEquipment(activeCategoryID, function () {
                     getItemsOf(activeCategoryID);
                 });
+                    }
+                })
+
+                pp.Create().then(() => { pp.Show() })
+              
             })
         }
 

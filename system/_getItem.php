@@ -1,6 +1,8 @@
 <?php
 
 include_once "./includes/Connection.php";
+include_once "./includes/Response.php";
+
 
 if(!isset($_SESSION['user_id'])) {
     session_start();
@@ -19,12 +21,10 @@ $key = generateRandomString();
 
 $item = $CONNECTION->Select("equipment_details", ["id" => $id], false);
 
-
 if ($quantity > $item['quantity']) {
     echo json_encode(new Response(400, "Quantity is not available"));
     exit;
 }
-
 
 $data = [
     "item_id" => $id,

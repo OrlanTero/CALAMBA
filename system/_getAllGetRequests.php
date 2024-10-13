@@ -25,6 +25,10 @@ if (!isset($course)) {
     }
 }
 
+if (isset($_POST['is_all'])) {
+    $is_all = filter_var($_POST['is_all'], FILTER_VALIDATE_BOOLEAN);
+}
+
 $CONNECTION = new Connection();
 
 $max = 10;
@@ -39,8 +43,8 @@ if (isset($request_status)) {
     $filter['status'] = $request_status;
 }
 
-if (isset($_POST['request_status'])) {
-    $filter['status'] = $_POST['request_status'];
+if (isset($_POST['request_status']) || isset($request_status)) {
+    $filter['status'] = $_POST['request_status'] ?? $request_status;
 
     if ($filter['status'] == 'all') {
         unset($filter['status']);
@@ -70,6 +74,8 @@ function filterCourse($items, $course)  {
     });
 }
 
+
+
 $allRecords = filterCourse($CONNECTION->Select("material_get_requests", $filter, true), $course);
 $records = filterCourse($CONNECTION->SelectPage("material_get_requests", $filter, true, $current, $max), $course);
 
@@ -87,7 +93,7 @@ $all = count($allRecords) / $max;
         </div>
     </div>
     <div class="cards-content c-items">
-        <table class="custom-table" id="print-table"  data-type="material" data-request-status="<?= $request_status ?? $_POST['request_status'] ?>">
+        <table class="custom-table" id="print-table"  data-type="material" data-request-status="<?= $request_status ?? $_POST['request_status'] ?>" data-is-all="<?= isset($is_all) ? $is_all : false ?>">
             <thead>
             <tr>
                 <th>Name</th>
@@ -96,9 +102,10 @@ $all = count($allRecords) / $max;
                 <th>Location</th>
                 <th>Quantity</th>
                 <th>Date Time Request</th>
-                <?php if (isset($request_status)): ?>
+                <?php if (isset($is_all)): ?>
                     <th>Request Status</th>
                 <?php endif;?>
+                <th>Borrow Status</th>
                 <th class="td-qr hide-component">QR</th>
             </tr>
             </thead>
@@ -116,9 +123,10 @@ $all = count($allRecords) / $max;
                     <td><?php echo $item['location']?></td>
                     <td><?php echo $record['quantity']?></td>
                     <td><?php echo $record['date_created']?></td>
-                    <?php if (isset($request_status)): ?>
+                    <?php if (isset($is_all)): ?>
                         <td><?= ucwords($record['status'])  ?></td>
                     <?php endif;?>
+                    <td><?=  is_null($record['borrow_status']) ? "Disposed" : ucwords($record['borrow_status'])  ?></td>
                     <td class="td-qr hide-component"><img src="<?= $QR->render($record['qr_key'])?>" style="width: 50px;height: 50px;" alt=""></td>
                     
                 </tr>

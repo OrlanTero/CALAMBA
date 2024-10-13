@@ -63,34 +63,33 @@ $equipment = $CONNECTION->Select("equipment_info", ['id' => $item['equipment_id'
                         <label for="serials">Serial Number</label>
                         <input type="text" id="serials" name="serials" placeholder="Enter serial number"  value="<?php echo $item['serials'] ?>"  readonly />
                     </div>
-                    <?php if ($record['request_status'] != 'accepted'): ?>
 
                         <?php if(!$isUser): ?>
-                            <div class="form-group-container flex">
-                                <center>
+                            <div class="form-group mb-3">
                                     <?php if ($record['request_status'] != 'accepted'): ?>
                                         <label for="serials">Request Status: </label>
 
-                                        <select id="status" required name="request_status">
+                                        <select id="status" required class="form-control" name="request_status">
                                             <option value="" <?= $record['request_status'] == "" ? "selected" : "" ?>>-- Select Status --</option>
                                             <option value="accepted" <?= $record['request_status'] == "accepted" ? "selected" : "" ?>>Accepted</option>
                                             <option value="declined" <?= $record['request_status'] == "not_returned" ? "selected" : "" ?>>Declined</option>
                                         </select>
                                     <?php else: ?>
-                                        <label for="serials">Borrow Status: </label>
 
-                                        <select id="status" required name="borrow_status">
-                                            <option value="" <?= $record['borrow_status'] == "" ? "selected" : "" ?>>-- Select Status --</option>
-                                            <option value="returned" <?= $record['borrow_status'] == "returned" ? "selected" : "" ?>>Returned</option>
-                                            <option value="not_returned" <?= $record['borrow_status'] == "not_returned" ? "selected" : "" ?>>Not Returned</option>
-                                            <option value="lost" <?= $record['borrow_status'] == "lost" ? "selected" : "" ?>>Lost</option>
-                                            <option value="damaged" <?= $record['borrow_status'] == "damaged" ? "selected" : "" ?>>Damaged</option>
+                                        <?php if ($record['borrow_status'] != "returned"): ?>
+                                            <label for="serials">Borrow Status: </label>
+
+                                            <select id="status" required class="form-control" name="borrow_status">
+                                                <option value="" <?= $record['borrow_status'] == "" ? "selected" : "" ?>>-- Select Status --</option>
+                                                <option value="returned" <?= $record['borrow_status'] == "returned" ? "selected" : "" ?>>Returned</option>
+                                                <option value="not_returned" <?= $record['borrow_status'] == "not_returned" ? "selected" : "" ?>>Not Returned</option>
+                                                <option value="lost" <?= $record['borrow_status'] == "lost" ? "selected" : "" ?>>Lost</option>
+                                                <option value="damaged" <?= $record['borrow_status'] == "damaged" ? "selected" : "" ?>>Damaged</option>
                                             </select>
+                                        <?php endif ?>
                                     <?php endif ?>
-                                </center>
                             </div>
                         <?php endif ?>
-                    <?php endif ?>
 
                 </div>
                 <div class="popup-footer">

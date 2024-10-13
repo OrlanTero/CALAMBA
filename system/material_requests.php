@@ -46,7 +46,7 @@ $is_admin = $_SESSION['user_type'] == 'admin';
     <div class="main-content">
         <?php
         $request_status =  $_GET["status"] ?? "all";
-
+        $is_all = true;
         include_once "_getAllGetRequests.php" ?>
     </div>
 </div>

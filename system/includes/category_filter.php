@@ -26,4 +26,11 @@ $is_admin = $_SESSION['user_type'] == 'admin';
         <option value="Gas metal Arc Welding -- GMAW NC II">Gas metal Arc Welding -- GMAW NC II</option>
     </select>
     <?php endif; ?>
+
+    <select id="status" name="request_status" style="margin-left: 10px;">
+        <option value="">-- Select Status --</option>
+        <option value="pending">Pending</option>
+        <option value="accepted">Accepted</option>
+        <option value="declined">Declined</option>
+    </select>
 </div>

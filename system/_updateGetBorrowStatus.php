@@ -10,15 +10,14 @@ $status = $_POST['status'];
 $record = $CONNECTION->Select("material_get_requests", ["qr_key" => $qr_key], false);
 $item = $CONNECTION->Select("equipment_details", ["id" => $record['item_id']], false);
 
-
-if ($status === 'accepted') {
+if ($status === 'returned') {
     $quantity = $item['quantity'];
-    $newQuantity = $quantity - $record['quantity'];
+    $newQuantity = $quantity + $record['quantity'];
     $CONNECTION->Update("equipment_details", ["quantity" => $newQuantity], ['id' => $record['item_id']]);
-} 
+}  
 
 echo json_encode($CONNECTION->Update("material_get_requests", [
-    "status" => $status,
+    "borrow_status" => $status,
 ], [
     "qr_key" => $qr_key
 ]));
