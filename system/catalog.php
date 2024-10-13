@@ -193,9 +193,13 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
                 if (res.type == 'E') {
                     ViewItem(res.id);
                 } else if (res.type == 'B') {
-                    ShowBorrowQR(qrcode);
+                    ShowBorrowQR(qrcode, function() {
+                        window.location.reload();
+                    });
                 }else if (res.type == 'G') {
-                    ShowGettingQR(qrcode);
+                    ShowGettingQR(qrcode, function() {
+                        window.location.reload();
+                    });
                 } else {
                     alert("Invalid QR Code");
                 }
@@ -234,8 +238,6 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
             console.warn("Scanner was never started or has already been stopped.");
         }
     }
-
-
 </script>
 
 <script type="module">
@@ -399,8 +401,8 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
                 pp.AddListeners({
                     onYes: () => {
                         RemoveEquipment(activeCategoryID, function () {
-                    getItemsOf(activeCategoryID);
-                });
+                            getItemsOf(activeCategoryID);
+                        });
                     }
                 })
 

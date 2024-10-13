@@ -219,7 +219,7 @@ export function RemoveItem(id, callback) {
     });
 }
 
-export function ShowGettingQR(qr_key) {
+export function ShowGettingQR(qr_key, callback) {
     const popup = new Popup("equipments/showGettingQR.php", {qr_key}, {
         backgroundDismiss: false,
     });
@@ -245,6 +245,7 @@ export function ShowGettingQR(qr_key) {
                     success: (p) => {
                         popup.Remove();
 
+                        callback && callback();
                     },
                 });
             } else if (data.borrow_status) {
@@ -255,6 +256,8 @@ export function ShowGettingQR(qr_key) {
                     success: (p) => {
                         console.log(p);
                         popup.Remove();
+
+                        callback && callback();
                     },
                 })
             }
