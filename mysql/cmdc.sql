@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2024 at 07:50 AM
+-- Generation Time: Oct 13, 2024 at 04:15 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -103,7 +103,11 @@ CREATE TABLE `borrow_requests` (
 
 INSERT INTO `borrow_requests` (`request_id`, `user_id`, `item_id`, `qr_key`, `reason`, `borrowed_date`, `borrow_status`, `request_status`, `date_created`) VALUES
 (3, 10, 9, 'i1gJVTSOPC', '', '0000-00-00', 'returned', 'accepted', '2024-10-06 01:02:31'),
-(4, 10, 8, 'FpIP1ygSoO', '', '0000-00-00', 'not_returned', 'accepted', '2024-10-06 01:10:07');
+(4, 10, 8, 'FpIP1ygSoO', '', '0000-00-00', 'not_returned', 'accepted', '2024-10-06 01:10:07'),
+(5, 10, 9, 'MSeTACFJaX', '', '0000-00-00', 'not_returned', 'pending', '2024-10-12 18:19:27'),
+(6, 10, 7, 'wrpHcEL2BT', '', '0000-00-00', 'not_returned', 'pending', '2024-10-12 18:19:59'),
+(7, 10, 12, 'M5WGftdXzc', '', '0000-00-00', 'not_returned', 'pending', '2024-10-12 18:23:35'),
+(8, 10, 16, 'Jr8lT273Uc', '', '0000-00-00', 'not_returned', 'pending', '2024-10-13 01:30:42');
 
 -- --------------------------------------------------------
 
@@ -119,6 +123,7 @@ CREATE TABLE `equipment_details` (
   `qr_key` varchar(255) NOT NULL,
   `quantity` int(11) NOT NULL,
   `borrow_availability` int(11) NOT NULL,
+  `deleted` int(11) NOT NULL,
   `date_rcvd` date DEFAULT NULL,
   `in_used` enum('yes','no') NOT NULL DEFAULT 'no'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -127,21 +132,21 @@ CREATE TABLE `equipment_details` (
 -- Dumping data for table `equipment_details`
 --
 
-INSERT INTO `equipment_details` (`id`, `equipment_id`, `serials`, `location`, `qr_key`, `quantity`, `borrow_availability`, `date_rcvd`, `in_used`) VALUES
-(5, 2, '15213521', 'room 4A', 'acd', 0, 0, '2024-09-10', 'no'),
-(6, 1, '35123', 'room 4A', 'efg', 0, 0, '2024-09-10', 'no'),
-(7, 3, '213515', 'room 4A', 'hh', 0, 0, '2024-09-10', 'no'),
-(8, 3, '352234', 'room 4A', 'iii', 0, 0, '2024-09-10', 'yes'),
-(9, 3, '35r2552', 'room 4B', 'hhh', 0, 0, '2024-09-10', 'yes'),
-(10, 4, '97542', 'Rizal Building 203', 'awdw', 0, 0, '2024-09-11', 'yes'),
-(11, 4, '51123', 'Room 511', '2321aa', 0, 0, '2024-09-11', 'no'),
-(12, 5, '109745', 'room 4A', 'bba', 0, 0, '2024-09-21', 'no'),
-(13, 3, '405216', 'room 375', 'cddw', 0, 0, '2024-09-21', 'no'),
-(15, 3, '123456', 'Room A2', '11232', 0, 0, NULL, 'yes'),
-(16, 3, 'b', 'A', 'awdawas21', 0, 0, NULL, 'yes'),
-(17, 4, '1234', 'SAA', 'sRMh7ix0Aa', 0, 0, NULL, 'yes'),
-(21, 7, '12232', 'ABCD', 'Nyw6cQCY9q', 50, 0, NULL, 'no'),
-(22, 7, 'AA', 'A4', 'u41nRtsMzB', 5, 1, NULL, 'no');
+INSERT INTO `equipment_details` (`id`, `equipment_id`, `serials`, `location`, `qr_key`, `quantity`, `borrow_availability`, `deleted`, `date_rcvd`, `in_used`) VALUES
+(5, 2, '15213521', 'room 4A', 'acd', 0, 1, 0, '2024-09-10', 'no'),
+(6, 1, '35123', 'room 4A', 'efg', 0, 1, 0, '2024-09-10', 'no'),
+(7, 3, '213515', 'room 4A', 'hh', 0, 1, 0, '2024-09-10', 'yes'),
+(8, 3, '352234', 'room 4A', 'iii', 0, 1, 0, '2024-09-10', 'yes'),
+(9, 3, '35r2552', 'room 4B', 'hhh', 0, 1, 0, '2024-09-10', 'yes'),
+(10, 4, '97542', 'Rizal Building 203', 'awdw', 0, 1, 0, '2024-09-11', 'yes'),
+(11, 4, '51123', 'Room 511', '2321aa', 0, 1, 0, '2024-09-11', 'no'),
+(12, 5, '109745', 'room 4A', 'bba', 0, 1, 1, '2024-09-21', 'no'),
+(13, 3, '405216', 'room 375', 'cddw', 0, 1, 0, '2024-09-21', 'no'),
+(15, 3, '123456', 'Room A2', '11232', 0, 1, 0, NULL, 'yes'),
+(16, 3, 'b', 'A', 'awdawas21', 0, 1, 0, NULL, 'yes'),
+(17, 4, '1234', 'SAA', 'sRMh7ix0Aa', 0, 0, 0, NULL, 'yes'),
+(21, 7, '12232', 'ABCD', 'Nyw6cQCY9q', 50, 0, 0, NULL, 'no'),
+(22, 7, 'AA', 'A4', 'u41nRtsMzB', 5, 1, 0, NULL, 'no');
 
 -- --------------------------------------------------------
 
@@ -160,22 +165,27 @@ CREATE TABLE `equipment_info` (
   `borrowed` int(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `course` enum('RAC Servicing (DomRAC)','Basic Shielded Metal Arc Welding','Advanced Shielded Metal Arc Welding','Pc operation','Bread and pastry production NC II','Computer aid design (CAD)','Culinary arts','Dressmaking NC II','Food and beverage service NC II','Hair care','Junior beautician','Gas metal Arc Welding -- GMAW NC I','Gas metal Arc Welding -- GMAW NC II') NOT NULL,
-  `category` enum('equipment','tools','material') NOT NULL
+  `category` enum('equipment','tools','material') NOT NULL,
+  `deleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `equipment_info`
 --
 
-INSERT INTO `equipment_info` (`id`, `name`, `total_quantity`, `alert_level`, `description`, `available`, `picture`, `borrowed`, `price`, `course`, `category`) VALUES
-(1, 'Grinder', 1, 3, 'This is used for grinding', 1, 'grinder.png', 0, '299.00', 'Basic Shielded Metal Arc Welding', 'equipment'),
-(2, 'Stove', 1, 5, 'Used for cooking', 1, 'stove.jpg', 0, '511.00', 'Culinary arts', 'equipment'),
-(3, 'Drill', 4, 5, 'Used for Drilling', 4, 'drill.jpg', 0, '799.00', 'RAC Servicing (DomRAC)', 'tools'),
-(4, 'Hair Dryer', 2, 3, 'Used for Drying Hair', 2, 'e5d6ddad84cf4c77943e7a55247a777c.png', 0, '699.00', 'Hair care', 'equipment'),
-(5, 'Grinder', 1, 3, 'This is used for Grinding', 1, 'ed0fdfcd4bde6d3b93a9837c16daa32b.jpg', 0, '699.00', 'RAC Servicing (DomRAC)', 'equipment'),
-(6, 'EEE', 0, 5, '1awdwa', 0, 'mxzo5wBXtd.png', 0, '3.00', 'Food and beverage service NC II', 'equipment'),
-(7, 'Bond Paper ', 0, 10, 'EEE', 0, 'o7TfZhEBiy.jpg', 0, '100.00', 'Advanced Shielded Metal Arc Welding', 'material'),
-(8, 'aa', 0, 2, 'aa', 0, 'OAqor4gGuY.jpg', 0, '22.00', 'Junior beautician', 'material');
+INSERT INTO `equipment_info` (`id`, `name`, `total_quantity`, `alert_level`, `description`, `available`, `picture`, `borrowed`, `price`, `course`, `category`, `deleted`) VALUES
+(1, 'Grinder', 1, 3, 'This is used for grinding', 1, 'grinder.png', 0, '299.00', 'Basic Shielded Metal Arc Welding', 'equipment', 0),
+(2, 'Stove', 1, 5, 'Used for cooking', 1, 'stove.jpg', 0, '511.00', 'Culinary arts', 'equipment', 0),
+(3, 'Drill', 4, 5, 'Used for Drilling', 4, 'drill.jpg', 0, '799.00', 'RAC Servicing (DomRAC)', 'tools', 0),
+(4, 'Hair Dryer', 2, 3, 'Used for Drying Hair', 2, 'e5d6ddad84cf4c77943e7a55247a777c.png', 0, '699.00', 'Hair care', 'equipment', 0),
+(5, 'Grinder', 1, 3, 'This is used for Grinding', 1, 'ed0fdfcd4bde6d3b93a9837c16daa32b.jpg', 0, '699.00', 'RAC Servicing (DomRAC)', 'equipment', 0),
+(6, 'EEE', 0, 5, '1awdwa', 0, 'mxzo5wBXtd.png', 0, '3.00', 'Food and beverage service NC II', 'equipment', 0),
+(7, 'Bond Paper ', 0, 10, 'EEE', 0, 'o7TfZhEBiy.jpg', 0, '100.00', 'Advanced Shielded Metal Arc Welding', 'material', 0),
+(8, 'aa', 0, 2, 'aa', 0, 'OAqor4gGuY.jpg', 0, '22.00', 'Junior beautician', 'material', 0),
+(9, 'Hatdog', 0, 5, '...', 0, 'NwnjjWlWSI.png', 0, '111.00', 'Junior beautician', 'equipment', 0),
+(10, 'Orlan', 0, 2, 'aa', 0, 'Exfg8d2TqD.png', 0, '100.00', 'Gas metal Arc Welding -- GMAW NC I', 'equipment', 1),
+(11, 'acd', 0, 5, 'a', 0, 'gF3NIGZHJ7.png', 0, '12.00', 'Gas metal Arc Welding -- GMAW NC I', 'equipment', 0),
+(12, 'mat', 0, 12, '...', 0, 'fhQeojPIsV.png', 0, '100.00', 'RAC Servicing (DomRAC)', 'material', 0);
 
 -- --------------------------------------------------------
 
@@ -303,19 +313,19 @@ ALTER TABLE `borrow_history`
 -- AUTO_INCREMENT for table `borrow_requests`
 --
 ALTER TABLE `borrow_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `equipment_details`
 --
 ALTER TABLE `equipment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `equipment_info`
 --
 ALTER TABLE `equipment_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `material_get_requests`
