@@ -1573,7 +1573,7 @@ export function ListenToForm(form, callback, excepts = [], options = []) {
         const formdata = new FormData(form);
         const data = Object.fromEntries(formdata);
         const verify = VerifyFormData(formdata, excepts, options);
-        const button = form.querySelector("input[type=submit]");
+        const button = form.querySelector("input[type=submit]") || form.querySelector("button[type=submit]");
 
         if (button) {
             disableButton(button, true);

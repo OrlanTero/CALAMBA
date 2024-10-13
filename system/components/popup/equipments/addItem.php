@@ -60,7 +60,7 @@ $equipment = $CONNECTION->Select("equipment_info", ["id" => $data['id']], false)
 
                 </div>
                 <div class="popup-footer">
-                    <button>Save Item</button>
+                    <button type="submit">Save Item</button>
                 </div>
             </form>
         </div>

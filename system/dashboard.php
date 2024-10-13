@@ -76,7 +76,7 @@ $alertEquipments = array_filter($categories, function ($category) use ($CONNECTI
         </div>
 
         <div class="title">
-            <p>Equipment Availability</p>
+            <p>Item Availability</p>
         </div>
         <div class="dashboard-content">
             <!-- Dashboard content -->
