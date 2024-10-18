@@ -1,0 +1,1252 @@
+[30-Sep-2024 10:46:23 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[30-Sep-2024 10:51:28 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[30-Sep-2024 11:02:32 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'cmdc'@'localhost' to database 'equipment' in /home/mh1317st24o8/public_html/system/borrow_equipment.php:47
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrow_equipment.php(47): mysqli->select_db()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 47
+[30-Sep-2024 11:09:18 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'cmdc'@'localhost' to database 'equipment' in /home/mh1317st24o8/public_html/system/borrow_equipment.php:47
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrow_equipment.php(47): mysqli->select_db()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 47
+[30-Sep-2024 14:45:51 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[30-Sep-2024 14:57:12 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[30-Sep-2024 15:10:08 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 15:10:08 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+)
+
+[30-Sep-2024 15:10:08 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+    [borrow_datetime] => 2024-09-30 15:10:08
+    [status] => pending
+)
+
+[30-Sep-2024 15:33:52 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 15:33:52 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+)
+
+[30-Sep-2024 15:33:52 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+    [borrow_datetime] => 2024-09-30 15:33:52
+    [status] => pending
+)
+
+[30-Sep-2024 15:35:54 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 15:35:54 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+)
+
+[30-Sep-2024 15:35:54 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+    [borrow_datetime] => 2024-09-30 15:35:54
+    [status] => pending
+)
+
+[30-Sep-2024 15:41:20 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 15:41:20 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+)
+
+[30-Sep-2024 15:41:20 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+    [borrow_datetime] => 2024-09-30 15:41:20
+    [status] => pending
+)
+
+[30-Sep-2024 15:45:00 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 15:45:00 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+)
+
+[30-Sep-2024 15:45:00 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Stove
+    [serial_number] => 15213521
+    [location] => room 4A
+    [date_received] => 2024-09-10
+    [borrow_datetime] => 2024-09-30 15:45:00
+    [status] => pending
+)
+
+[30-Sep-2024 17:18:42 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 17:18:42 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 17:18:42 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 17:18:42
+    [status] => pending
+)
+
+[30-Sep-2024 17:19:04 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 17:19:04 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 17:19:04 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 17:19:04
+    [status] => pending
+)
+
+[30-Sep-2024 17:19:57 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 17:19:57 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 17:19:57 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 17:19:57
+    [status] => pending
+)
+
+[30-Sep-2024 17:20:01 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 17:20:01 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 17:20:01 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 17:20:01
+    [status] => pending
+)
+
+[30-Sep-2024 17:20:05 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 17:20:05 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 17:20:05 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 17:20:05
+    [status] => pending
+)
+
+[30-Sep-2024 17:28:19 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 17:28:19 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 17:28:19 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 17:28:19
+    [status] => pending
+)
+
+[30-Sep-2024 17:57:34 UTC] PHP Warning:  Undefined variable $updateStmt in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 76
+[30-Sep-2024 17:57:34 UTC] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/mh1317st24o8/public_html/system/borrow_equipment.php:76
+Stack trace:
+#0 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 76
+[30-Sep-2024 17:58:15 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'serial' in 'where clause' in /home/mh1317st24o8/public_html/system/borrow_equipment.php:76
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrow_equipment.php(76): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 76
+[30-Sep-2024 18:10:58 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:10:58 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+)
+
+[30-Sep-2024 18:10:58 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+    [borrow_datetime] => 2024-09-30 18:10:58
+    [status] => pending
+)
+
+[30-Sep-2024 18:11:34 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:11:34 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Drill
+    [serial_number] => 213515
+    [location] => room 4A
+    [date_received] => 2024-09-10
+)
+
+[30-Sep-2024 18:11:34 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Drill
+    [serial_number] => 213515
+    [location] => room 4A
+    [date_received] => 2024-09-10
+    [borrow_datetime] => 2024-09-30 18:11:34
+    [status] => pending
+)
+
+[30-Sep-2024 18:11:42 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:11:42 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Drill
+    [serial_number] => 405216
+    [location] => room 375
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 18:11:42 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Drill
+    [serial_number] => 405216
+    [location] => room 375
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 18:11:42
+    [status] => pending
+)
+
+[30-Sep-2024 18:13:23 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[30-Sep-2024 18:15:21 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:15:21 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:17:15 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:17:15 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:20:31 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:20:31 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:20:34 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:20:34 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:20:36 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:20:36 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:20:37 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:20:37 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:22:28 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:22:28 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 18:22:28 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [borrow_datetime] => 2024-09-30 18:22:28
+    [status] => pending
+)
+
+[30-Sep-2024 18:23:08 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:23:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'qr_code_image' in 'field list' in /home/mh1317st24o8/public_html/system/borrower_data.php:33
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/borrower_data.php(33): mysqli->prepare()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrower_data.php on line 33
+[30-Sep-2024 18:27:29 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:27:29 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+)
+
+[30-Sep-2024 18:29:29 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:29:29 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+)
+
+[30-Sep-2024 18:30:10 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:30:10 UTC] Input Payload: 
+[30-Sep-2024 18:32:03 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:32:03 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+)
+
+[30-Sep-2024 18:35:52 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:35:52 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Rosalie%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22admin%22%2C%22student_id%22%3A%222023-51123%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%22109745%22%2C%22location%22%3A%22room%204A%22%2C%22date_rcvd%22%3A%222024-09-21%22%7D%7D
+)
+
+[30-Sep-2024 18:35:52 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Rosalie%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22admin%22%2C%22student_id%22%3A%222023-51123%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%22109745%22%2C%22location%22%3A%22room%204A%22%2C%22date_rcvd%22%3A%222024-09-21%22%7D%7D
+    [borrow_datetime] => 2024-09-30 18:35:52
+    [status] => pending
+)
+
+[30-Sep-2024 18:38:27 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:41:18 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:42:33 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:44:45 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 18:49:13 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:36:04 UTC] Session Data: Array
+(
+)
+
+[30-Sep-2024 19:36:04 UTC] User not logged in
+[30-Sep-2024 19:36:30 UTC] Session Data: Array
+(
+)
+
+[30-Sep-2024 19:36:30 UTC] User not logged in
+[30-Sep-2024 19:36:56 UTC] Session Data: Array
+(
+)
+
+[30-Sep-2024 19:36:56 UTC] User not logged in
+[30-Sep-2024 19:36:57 UTC] Session Data: Array
+(
+)
+
+[30-Sep-2024 19:36:57 UTC] User not logged in
+[30-Sep-2024 19:37:20 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:37:54 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:42:50 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:43:05 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:46:16 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:52:57 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:52:57 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Rosalie%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22admin%22%2C%22student_id%22%3A%222023-51123%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%2254125%22%2C%22location%22%3A%22Room%20652%22%2C%22date_rcvd%22%3A%222024-09-30%22%7D%7D
+)
+
+[30-Sep-2024 19:52:57 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Rosalie%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22admin%22%2C%22student_id%22%3A%222023-51123%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%2254125%22%2C%22location%22%3A%22Room%20652%22%2C%22date_rcvd%22%3A%222024-09-30%22%7D%7D
+    [borrow_datetime] => 2024-09-30 19:52:57
+    [status] => pending
+)
+
+[30-Sep-2024 19:58:00 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:58:00 UTC] Input Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Rosalie%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22admin%22%2C%22student_id%22%3A%222023-51123%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%22109745%22%2C%22location%22%3A%22room%204A%22%2C%22date_rcvd%22%3A%222024-09-21%22%7D%7D
+)
+
+[30-Sep-2024 19:58:00 UTC] History Payload: Array
+(
+    [user_name] => Rosalie Dulay
+    [user_phone] => 09814800058
+    [user_type] => admin
+    [student_id] => 2023-51123
+    [equipment_name] => Grinder
+    [serial_number] => 109745
+    [location] => room 4A
+    [date_received] => 2024-09-21
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Rosalie%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22admin%22%2C%22student_id%22%3A%222023-51123%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%22109745%22%2C%22location%22%3A%22room%204A%22%2C%22date_rcvd%22%3A%222024-09-21%22%7D%7D
+    [borrow_datetime] => 2024-09-30 19:58:00
+    [status] => pending
+)
+
+[30-Sep-2024 19:58:10 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 19:59:53 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 20:00:38 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 20:01:09 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 20:02:47 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 20:03:18 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[30-Sep-2024 20:42:35 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[30-Sep-2024 21:03:02 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[01-Oct-2024 08:34:58 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[01-Oct-2024 08:45:12 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[01-Oct-2024 09:02:12 UTC] Session Data: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[01-Oct-2024 14:32:31 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[01-Oct-2024 14:35:19 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:35:44 UTC] Session: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:35:44 UTC] Input Payload: Array
+(
+    [user_name] => Jeff Dulay
+    [user_phone] => 09814800058
+    [user_type] => student
+    [student_id] => 2021-01255
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Jeff%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22student%22%2C%22student_id%22%3A%222021-01255%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%2254125%22%2C%22location%22%3A%22Room%20652%22%2C%22date_rcvd%22%3A%222024-09-30%22%7D%7D
+)
+
+[01-Oct-2024 14:35:44 UTC] History Payload: Array
+(
+    [user_name] => Jeff Dulay
+    [user_phone] => 09814800058
+    [user_type] => student
+    [student_id] => 2021-01255
+    [equipment_name] => Grinder
+    [serial_number] => 54125
+    [location] => Room 652
+    [date_received] => 2024-09-30
+    [qr_code_image] => https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=%7B%22name%22%3A%7B%22name%22%3A%22Jeff%20Dulay%22%2C%22phone%22%3A%2209814800058%22%2C%22user_type%22%3A%22student%22%2C%22student_id%22%3A%222021-01255%22%7D%2C%22item%22%3A%7B%22name%22%3A%22Grinder%22%2C%22serials%22%3A%2254125%22%2C%22location%22%3A%22Room%20652%22%2C%22date_rcvd%22%3A%222024-09-30%22%7D%7D
+    [borrow_datetime] => 2024-10-01 14:35:44
+    [status] => pending
+)
+
+[01-Oct-2024 14:36:50 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:48:00 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:48:02 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:48:03 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:48:05 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[01-Oct-2024 14:48:06 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 07:40:55 UTC] PHP Warning:  Undefined variable $updateStmt in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 75
+[02-Oct-2024 07:40:55 UTC] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home/mh1317st24o8/public_html/system/borrow_equipment.php:75
+Stack trace:
+#0 {main}
+  thrown in /home/mh1317st24o8/public_html/system/borrow_equipment.php on line 75
+[02-Oct-2024 08:42:05 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[02-Oct-2024 08:42:05 UTC] Input Payload: Array
+(
+)
+
+[02-Oct-2024 12:44:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 12:46:31 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 12:51:22 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 13:09:44 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 13:24:40 UTC] Session: Array
+(
+    [user_id] => 12
+    [user_type] => admin
+    [student_id] => 2023-51123
+)
+
+[02-Oct-2024 13:24:40 UTC] Input Payload: Array
+(
+)
+
+[02-Oct-2024 13:42:31 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 14:12:20 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 14:16:06 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 14:16:10 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 14:16:16 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 14:16:23 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 14:17:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 14:19:24 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 14:59:17 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:00:49 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:01:10 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:01:33 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:25:26 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:25:36 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:37:18 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 15:38:58 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 15:39:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 15:39:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 15:39:05 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 16:16:14 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 16:29:40 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 16:29:52 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+
+[02-Oct-2024 17:03:10 UTC] Session Data: Array
+(
+)
+
+[02-Oct-2024 17:03:10 UTC] User not logged in
+[02-Oct-2024 17:09:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'cmdc.qr_code_approvals' doesn't exist in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php:12
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php(12): mysqli->query()
+#1 {main}
+  thrown in /home/mh1317st24o8/public_html/system/fetch_qr_code_data.php on line 12
+[02-Oct-2024 18:08:48 UTC] Session Data: Array
+(
+    [user_id] => 10
+    [user_type] => student
+    [student_id] => 2021-01255
+)
+

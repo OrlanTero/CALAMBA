@@ -1,0 +1,6 @@
+[30-Sep-2024 10:42:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/mh1317st24o8/public_html/system/includes/db_connection.php:7
+Stack trace:
+#0 /home/mh1317st24o8/public_html/system/includes/db_connection.php(7): mysqli->__construct()
+#1 /home/mh1317st24o8/public_html/login.php(4): include('/home/mh1317st2...')
+#2 {main}
+  thrown in /home/mh1317st24o8/public_html/system/includes/db_connection.php on line 7
