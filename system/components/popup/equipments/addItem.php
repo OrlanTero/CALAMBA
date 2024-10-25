@@ -42,6 +42,15 @@ $serial = GenerateSerialNumber($equipment['id']);
                         <input type="text" id="serials" name="serials" placeholder="Enter serial number" readonly value="<?= $serial ?>"/>
                     </div>
 
+                    <div class="form-group">
+                        <label for="picture">Picture</label>
+                        <input type="file" id="picture" name="picture" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" step="0.01" name="price" placeholder="Enter Price" required/>
+                    </div>
+
                     <?php if($equipment['category'] == "material"): ?>
                         <div class="material-content">
                             <div class="form-group">

@@ -92,7 +92,7 @@ $all = count($allRecords) / $max;
                 
             ?>
             <div class="card <?php echo $isOnAlert ? 'red' : '' ?>" data-id="<?= $record['id'] ?>" data-type="item">
-                <div class="card-top" style="background-image: url('uploads/<?php echo $equipment['picture'];?>')"></div>
+                <div class="card-top" style="background-image: url('uploads/<?php echo empty($record['picture']) ? $equipment['picture'] : $record['picture'];?>')"></div>
                 <div class="card-bot">
                     <big>Serial: <?php echo $record['serials'];?></big>
                     <big style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;"><?php echo $equipment['name'];?></big>

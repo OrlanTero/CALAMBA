@@ -45,10 +45,10 @@ $isAdmin = $_SESSION['user_type'] == "admin";
             <form class="">
                 <div class="popup-bot">
                     <div class="qr-code-container">
-                        <?php
-                        $out = $QR->render($record['qr_key']);
-                        echo '<img src="'. $out .'" alt="QR Code" />';
-                        ?>
+                        <div class="two-image">
+                            <img src="uploads/<?php echo empty($record['picture']) ? $equipment['picture'] : $record['picture'];?>" class="image-one" alt="QR Code" />
+                            <img src="<?= $QR->render($record['qr_key']) ?>" class="image-two" alt="QR Code" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="location">Equipment Name</label>
@@ -61,6 +61,14 @@ $isAdmin = $_SESSION['user_type'] == "admin";
                     <div class="form-group">
                         <label for="serials">Serial Number</label>
                         <input type="text" id="serials" name="serials" placeholder="Enter serial number"  value="<?php echo $record['serials'] ?>"  <?= !$isAdmin ? "readonly" : ""?> />
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Picture</label>
+                        <input type="file" id="picture" name="picture" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" step="0.01" name="price" placeholder="Enter Price" value="<?php echo $record['price'] ?>" required/>
                     </div>
                     <?php if($equipment['category'] == "material"): ?>
                         <div class="material-content">

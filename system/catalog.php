@@ -90,7 +90,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
 
 <script type="module">
     import {Ajax, ToData, addHtml} from "./scripts/Tool.js";
-    import {CreateNewEquipment, CreateNewItem, ViewItem,ViewEquipment, RemoveEquipment, GetItemsOf, GetAllEquipments} from "./scripts/Functions.js";
+    import {CreateNewEquipment, CreateNewItem, ViewItem,ViewEquipment, RemoveEquipment, RemoveEquipmentItem, GetItemsOf, GetAllEquipments} from "./scripts/Functions.js";
     import AlertPopup, {AlertTypes} from "./scripts/AlertPopup.js";
     import QRScanner from "./scripts/QRScanner.js";
 
@@ -219,7 +219,7 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
         if (removeItem) {
             removeItem.addEventListener("click", () => {
                 RemoveEquipmentItem(activeCategoryID).then(() => {
-                    getItemsOf(activeCategoryID);
+                    getAllCats(0);
                 });
             })
         }

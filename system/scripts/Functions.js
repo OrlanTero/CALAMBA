@@ -1,5 +1,5 @@
 import Popup from "./Popup.js";
-import {Ajax, ListenToForm, MakeID, ToData, UploadImageFromFile} from "./Tool.js";
+import {Ajax, ListenToForm, MakeID, ToData, UploadImageFromFile, ListenToOriginalSelect} from "./Tool.js";
 import AlertPopup, {AlertTypes} from "./AlertPopup.js";
 
 export function DownloadImage(src, filename) {
@@ -84,22 +84,42 @@ export function ViewItem(id, callback) {
         const form = popup.ELEMENT.querySelector("form");
         const dl = popup.ELEMENT.querySelector(".download-qr");
         const br = popup.ELEMENT.querySelector(".borrow-item");
-        const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container IMG");
+        const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container .image-two");
         const getItem = popup.ELEMENT.querySelector(".get-item");
         const rm = popup.ELEMENT.querySelector(".remove-item");
 
         ListenToForm(form, function (data) {
-            Ajax({
-                url: `_updateItem.php`,
-                type: "POST",
-                data: ToData({id:id, data: JSON.stringify(data)}),
-                success: (r) => {
-                    popup.Remove();
+            new Promise((resolve) => {
+                if (data.picture.name == "") {
+                    resolve(false);
+                } else {
+                    UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
+                        if (res.code == 200){
+                            resolve(res.body.path);
+                        } else {
+                            resolve(false);
+                        }
+                    })
+                }
+            }).then((res) => {
+                if (res) {
+                    data.picture = res;
+                } else {
+                    delete data.picture;
+                }
 
-                    callback && callback();
-                },
-            });
-        })
+                Ajax({
+                    url: `_updateItem.php`,
+                    type: "POST",
+                    data: ToData({id:id, data: JSON.stringify(data)}),
+                    success: (r) => {
+                        popup.Remove();
+    
+                        callback && callback();
+                    },
+                });
+            })
+        }, ['picture'])
 
         if(getItem) {
             getItem.addEventListener("click", function () {
@@ -161,17 +181,38 @@ export function CreateNewItem(id, callback) {
 
         ListenToForm(form, function (data) {
             data.equipment_id = id;
-            Ajax({
-                url: `_insertItem.php`,
-                type: "POST",
-                data: ToData({data: JSON.stringify(data)}),
-                success: (r) => {
-                    popup.Remove();
+            
+            new Promise((resolve) => {
+                if (data.picture.name == "") {
+                    resolve(false);
+                } else {
+                    UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
+                        if (res.code == 200){
+                            resolve(res.body.path);
+                        } else {
+                            resolve(false);
+                        }
+                    })
+                }
+            }).then((res) => {
+                if (res) {
+                    data.picture = res;
+                } else {
+                    delete data.picture;
+                }
 
-                    callback()
-                },
-            });
-        })
+                Ajax({
+                    url: `_insertItem.php`,
+                    type: "POST",
+                    data: ToData({data: JSON.stringify(data)}),
+                    success: (r) => {
+                        popup.Remove();
+    
+                        callback()
+                    },
+                });
+            })
+        }, ['picture'])
     });
 }
 
@@ -183,13 +224,47 @@ export function ShowBorrowQR(qr_key) {
     popup.Create().then(() => {
         popup.Show();
 
+        const form = popup.ELEMENT.querySelector("form.form-control");
         const downloadQrBtn = popup.ELEMENT.querySelector(".download-qr");
-
         const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container .image-two");
+        const status = popup.ELEMENT.querySelector("select[name=borrow_status]");
+        const condition = popup.ELEMENT.querySelector("select[name=item_condition]");
+        const conditionContainer = popup.ELEMENT.querySelector(".condition-container");
 
-        downloadQrBtn.addEventListener("click", function () {
+        downloadQrBtn.addEventListener("click", () => {
             DownloadImage(qrcodeImage.src, `bqr-${(new Date()).getTime()}.png`);
-        })
+        });
+
+        ListenToOriginalSelect(status, value => {
+            conditionContainer.classList.toggle("hide-component", value !== "returned");
+        });
+
+        ListenToForm(form, function (data) {
+            if (data.borrow_status === 'returned' && !data.item_condition) {
+                alert("Please select the item condition");
+                return;
+            }
+
+            const url = data.request_status ? "_updateBorrowedRequest.php" : "_updateBorrowedStatus.php";
+            const statusKey = data.request_status ? "request_status" : "borrow_status";
+            const statusValue = data[statusKey];
+
+            Ajax({
+                url,
+                type: "POST",
+                data: ToData({ 
+                    qr_key, 
+                    status: statusValue, 
+                    ...(data.item_condition && { item_condition: data.item_condition }) 
+                }),
+                success: () => {
+                    popup.Remove();
+                    window.location.reload();
+                },
+            });
+        }, ['item_condition']);
+
+
     });
 }
 
@@ -214,7 +289,6 @@ export function CreateNewEquipment(category, callback) {
                 })
             }).then((res) => {
                 if (res) {
-
                     data.picture = res;
 
                     Ajax({
@@ -246,7 +320,6 @@ export function RemoveEquipment(id, callback) {
             alert("Equipment Removed Successfully");
 
             callback && callback();
-
         },
     });
 }

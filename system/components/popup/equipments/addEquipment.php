@@ -31,10 +31,6 @@
                             <label for="picture">Picture</label>
                             <input type="file" id="picture" name="picture" required/>
                         </div>
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" id="price" step="0.01" name="price" required/>
-                        </div>
                         <div class="form-group mb-3">
                             <label for="category">Category:</label>
                             <select id="category" name="category" class="form-control" required>
@@ -44,7 +40,6 @@
                                 <option value="material">Items</option>
                             </select>
                         </div>
-
                         <div class="form-group mb-3">
                             <label for="course">Course:</label>
                             <select id="course" name="course" class="form-control" required>

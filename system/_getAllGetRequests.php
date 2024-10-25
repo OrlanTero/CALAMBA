@@ -122,7 +122,7 @@ $all = count($allRecords) / $max;
                     <th>Request Status</th>
                 <?php endif;?>
                 <th>Status</th>
-                <th class="td-qr hide-component">QR</th>
+                <th class="td-qr">QR</th>
             </tr>
             </thead>
             <tbody>
@@ -143,7 +143,7 @@ $all = count($allRecords) / $max;
                         <td><?= ucwords($record['status'])  ?></td>
                     <?php endif;?>
                     <td><?=  $record['status'] == 'accepted' ? "Disposed" : "--"  ?></td>
-                    <td class="td-qr hide-component"><img src="<?= $QR->render($record['qr_key'])?>" style="width: 50px;height: 50px;" alt=""></td>
+                    <td class="td-qr"><img src="<?= $QR->render($record['qr_key'])?>" style="width: 50px;height: 50px;" alt=""></td>
                     
                 </tr>
             <?php endforeach;?>

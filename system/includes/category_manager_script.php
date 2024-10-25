@@ -177,10 +177,12 @@
                         const td = data.cell.raw;
                         const img = td.querySelector("img");
 
-                        if (img) {
-                            const dim = data.cell.height - data.cell.padding('vertical');
-                            doc.addImage(img.src, data.cell.x, data.cell.y, dim, dim);
-                        }
+                        console.log(img)
+
+                        // if (img) {
+                        //     const dim = data.cell.height - data.cell.padding('vertical');
+                        //     doc.addImage(img.src, data.cell.x, data.cell.y, dim, dim);
+                        // }
                     }
                 },
                 margin: { top: 40 }

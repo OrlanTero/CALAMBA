@@ -45,6 +45,7 @@ $serial = GenerateSerialNumber($equipment['id']);
                         <label for="serials">Serial Number</label>
                         <input type="text" id="serials" name="serials" placeholder="Enter serial number" readonly value="<?= $serial ?>"/>
                     </div>
+                   
                     <?php if($equipment['category'] == "material"): ?>
                         <div class="material-content">
                             <div class="form-group">
