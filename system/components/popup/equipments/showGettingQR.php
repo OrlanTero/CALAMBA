@@ -99,6 +99,19 @@ $equipment = $CONNECTION->Select("equipment_info", ['id' => $item['equipment_id'
                                     <?php endif ?>
                             <?php endif ?>
                         </div>
+
+                        <div class="form-group mb-3 condition-container hide-component">
+                                <label for="serials">Item Condition: </label>
+
+                                <select id="item_condition" class="form-control" name="item_condition">
+                                    <option value="" <?= $record['item_condition'] == "" ? "selected" : "" ?>>-- Select Status --</option>
+                                    <option value="good_condition" <?= $record['item_condition'] == "good_condition" ? "selected" : "" ?>>Good Condition</option>
+                                    <option value="bad_condition" <?= $record['item_condition'] == "bad_condition" ? "selected" : "" ?>>Bad Condition</option>
+                                    <option value="obsolete" <?= $record['item_condition'] == "obsolete" ? "selected" : "" ?>>Obsolete</option>
+                                    <option value="damaged" <?= $record['item_condition'] == "damaged" ? "selected" : "" ?>>Damaged</option>
+                                    <option value="lost" <?= $record['item_condition'] == "lost" ? "selected" : "" ?>>Lost</option>
+                            </select>
+                        </div>
                     <?php endif ?>
                 </div>
                 <div class="popup-footer">

@@ -8,15 +8,22 @@ include_once "./includes/Connection.php";
 use chillerlan\QRCode\Output\QRGdImagePNG;
 use chillerlan\QRCode\QRCode;
 
+if (!isset($_SESSION['user_id'])) {
+    session_start();
+}
+$CONNECTION = new Connection();
+
+$user_id = $_SESSION['user_id'];
+$user = $CONNECTION->Select("user", ["id" => $user_id], false);
+
+$user_type = $user['user_type']; // student, instructor, admin
+$course = $user['course'];
 
 $QR = new QrCode();
 
-
-$CONNECTION = new Connection();
-
 $search = $_POST['search'];
 
-$query = "SELECT ed.*, ec.category, ec.name, ec.picture
+$query = "SELECT ed.*, ec.category, ec.name, ec.picture, ec.course
           FROM equipment_details ed
           LEFT JOIN equipment_info ec ON ed.equipment_id = ec.id
           WHERE (ec.name LIKE :search 
@@ -25,8 +32,18 @@ $query = "SELECT ed.*, ec.category, ec.name, ec.picture
              OR ed.location LIKE :search)
           AND ed.deleted = '0'";
 
+// Add course restriction for students and instructors
+if ($user_type == 'student' || $user_type == 'instructor') {
+    $query .= " AND ec.course = :course";
+}
+
 $stmt = $CONNECTION->CONNECTION->prepare($query);
 $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+
+if ($user_type == 'student' || $user_type == 'instructor') {
+    $stmt->bindValue(':course', $course, PDO::PARAM_STR);
+}
+
 $stmt->execute();
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -85,18 +85,25 @@
     }
 
 
-    function getTable(start, options = {}) {
+    function getTable(start, options = {}, isPrint = false) {
         const obj = { start, category: category, ...options };
 
-        Ajax({  
-            url: "_getAllEquipmensTable.php",
-            type: "POST",
-            data: ToData(obj),
-            success: popup => {
-                addHtml(content, popup);
-                tableManager();
-            },
-        });
+        return new Promise((resolve) => {
+            Ajax({  
+                url: "_getAllEquipmensTable.php",
+                type: "POST",
+                data: ToData(obj),
+                success: popup => {
+                    if (isPrint) {
+                        resolve(popup);
+                    } else {
+                        addHtml(content, popup);
+                        tableManager();
+                        resolve(true);
+                    }
+                },
+            });
+        })
     }
 
     function ManageAllTablePagination() {
@@ -138,6 +145,37 @@
     }
 
 
+    
+    function getTableToBePrinted() {
+        return new Promise((resolve) => {
+            const table = document.querySelector(".custom-table").cloneNode(true);
+            const buttons = document.querySelectorAll(".page-buttons .page-button");
+            const options = { course: course ? course.value : "", item_condition: item_condition ? item_condition.value : false, used: used ? used.value : false };
+
+            table.querySelector("tbody").innerHTML = "";
+
+            Promise.all([...buttons].map((_, index) => {
+                return getTable(index * 10, options, true).then(popup => {
+
+                    const parser = new DOMParser();
+                    const dd = parser.parseFromString(popup, 'text/html');
+
+                    if (dd) {
+                        const t = dd.querySelector("table");
+                        
+                        if (t) {
+                            const items = t.querySelectorAll("tbody tr");
+
+                            items.forEach(item => {
+                                table.querySelector("tbody").appendChild(item);
+                            })  
+                        }
+                    }
+                })
+            })).then(() => resolve(table));
+        })
+    }
+
     function tableManager() {
         table = document.querySelector(".custom-table");
         const items = table.querySelectorAll("tbody tr");
@@ -150,8 +188,8 @@
             });
         });
 
-        printBtn.addEventListener("click", () => {
-            const cloneT = table.cloneNode(true);
+        printBtn.addEventListener("click", async () => {
+            const cloneT = await getTableToBePrinted();
             const tdQR = cloneT.querySelectorAll(".td-qr");
 
             tdQR.forEach(td => td.classList.remove("hide-component"));
@@ -177,12 +215,10 @@
                         const td = data.cell.raw;
                         const img = td.querySelector("img");
 
-                        console.log(img)
-
-                        // if (img) {
-                        //     const dim = data.cell.height - data.cell.padding('vertical');
-                        //     doc.addImage(img.src, data.cell.x, data.cell.y, dim, dim);
-                        // }
+                        if (img) {
+                            const dim = data.cell.height - data.cell.padding('vertical');
+                            doc.addImage(img.src, data.cell.x, data.cell.y, dim, dim);
+                        }
                     }
                 },
                 margin: { top: 40 }

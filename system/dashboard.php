@@ -76,16 +76,16 @@ $availableCards = [
         "title" => "In-Use Equipment",
         "count" => count(array_filter($equipments, function ($record) use ($CONNECTION) {
             $equipment = $CONNECTION->Select("equipment_info", ["id" => $record["equipment_id"]], false);
-            return $equipment["category"] === "equipment" && $record["in_used"] === "yes";
+            return $equipment["category"] === "equipment" && $record["in_used"] === "yes" && $record["item_condition"] === "good_condition";
         })),
-        "icon" => "fas fa-cogs mr-2",
+        "icon" => "fas fa-cogs mr-2", 
         "link" => "catalog.php?availability=available"
     ],
     [
         "title" => "In-Use Tools",
         "count" => count(array_filter($equipments, function ($record) use ($CONNECTION) {
             $equipment = $CONNECTION->Select("equipment_info", ["id" => $record["equipment_id"]], false);
-            return $equipment["category"] === "tools" && $record["in_used"] === "yes";
+            return $equipment["category"] === "tools" && $record["in_used"] === "yes" && $record["item_condition"] === "good_condition";
         })),
         "icon" => "fas fa-tools mr-2",
         "link" => "catalog.php?availability=available"
@@ -98,16 +98,16 @@ $equipmentAvailabilityCards = [
         "title" => "Available Equipment",
         "count" => count(array_filter($equipments, function ($record) use ($CONNECTION) {
             $equipment = $CONNECTION->Select("equipment_info", ["id" => $record["equipment_id"]], false);
-            return $equipment["category"] === "equipment" && $record["in_used"] === "no";
+            return $equipment["category"] === "equipment" && $record["in_used"] === "no" && $record["item_condition"] === "good_condition";
         })),
         "icon" => "fas fa-check-circle mr-2",
         "link" => "catalog.php?availability=available&category=equipment"
     ],
     [
-        "title" => "Not Available Equipment",
+        "title" => "Not Available Equipment", 
         "count" => count(array_filter($equipments, function ($record) use ($CONNECTION) {
             $equipment = $CONNECTION->Select("equipment_info", ["id" => $record["equipment_id"]], false);
-            return $equipment["category"] === "equipment" && $record["in_used"] === "yes";
+            return $equipment["category"] === "equipment" && $record["in_used"] === "yes" && $record["item_condition"] === "good_condition";
         })),
         "icon" => "fas fa-times-circle mr-2",
         "link" => "catalog.php?availability=not_available&category=equipment"
@@ -119,7 +119,7 @@ $toolsAvailabilityCards = [
         "title" => "Available Tools",
         "count" => count(array_filter($equipments, function ($record) use ($CONNECTION) {
             $equipment = $CONNECTION->Select("equipment_info", ["id" => $record["equipment_id"]], false);
-            return $equipment["category"] === "tools" && $record["in_used"] === "no";
+            return $equipment["category"] === "tools" && $record["in_used"] === "no" && $record["item_condition"] === "good_condition";
         })),
         "icon" => "fas fa-check-circle mr-2",
         "link" => "catalog.php?availability=available&category=tools"
@@ -128,7 +128,7 @@ $toolsAvailabilityCards = [
         "title" => "Not Available Tools",
         "count" => count(array_filter($equipments, function ($record) use ($CONNECTION) {
             $equipment = $CONNECTION->Select("equipment_info", ["id" => $record["equipment_id"]], false);
-            return $equipment["category"] === "tools" && $record["in_used"] === "yes";
+            return $equipment["category"] === "tools" && $record["in_used"] === "yes" && $record["item_condition"] === "good_condition";
         })),
         "icon" => "fas fa-times-circle mr-2",
         "link" => "catalog.php?availability=not_available&category=tools"

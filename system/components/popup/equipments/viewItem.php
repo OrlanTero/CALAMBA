@@ -41,7 +41,7 @@ $isAdmin = $_SESSION['user_type'] == "admin";
                         <img src="pictures/close.svg"/>
                     </div>
                 </div>
-            </div>
+            </div>`
             <form class="">
                 <div class="popup-bot">
                     <div class="qr-code-container">

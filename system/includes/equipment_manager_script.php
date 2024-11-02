@@ -141,6 +141,7 @@
         return from_date.value && to_date.value ? { from_date: from_date.value, to_date: to_date.value } : null;
     }
 
+
     ListenToOriginalSelect(course, value => {
         getTableContent(0, false, value, type, status ? status.value : false, borrowedStatus, is_all, filterDate(), { item_condition: item_condition ? item_condition.value : false, in_used: in_used ? in_used.value : false });
     });
@@ -186,6 +187,7 @@
         });
 
         printBtn.addEventListener("click", () => {
+
             const cloneT = table.cloneNode(true);
             const tdQR = cloneT.querySelectorAll(".td-qr");
 

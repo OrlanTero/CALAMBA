@@ -21,21 +21,28 @@
 
     window.jsPDF = window.jspdf.jsPDF;
 
-    function getTableContent(start, user_type, course, status,  is_all = false) {
-        Ajax({
-            url: `_getAllUsers.php`,
-            type: "POST",
-            data: ToData({ 
-                start, 
-                user_type, 
-                course,
-                status,
-                is_all
-            }),
-            success: (popup) => {
-                addHtml(content, popup);
-                tableManager();
-            },
+    function getTableContent(start, user_type, course, status,  is_all = false, isPrint = false) {
+        return new Promise((resolve) => {
+            Ajax({
+                url: `_getAllUsers.php`,
+                type: "POST",
+                data: ToData({ 
+                    start, 
+                    user_type, 
+                    course,
+                    status,
+                    is_all
+                }),
+                success: (popup) => {
+                    if (isPrint) {
+                        resolve(popup);
+                    } else {
+                        addHtml(content, popup);
+                        tableManager();
+                        resolve(true);
+                    }
+                }
+            })
         });
     }
 
@@ -67,6 +74,35 @@
         getTableContent(0, user_type.value, course.value, value, is_all);
     });
 
+    function getTableToBePrinted() {
+        return new Promise((resolve) => {
+            const table = document.querySelector(".custom-table").cloneNode(true);
+            const buttons = document.querySelectorAll(".page-buttons .page-button");
+            const options = [user_type.value, course.value, status.value, is_all];
+
+            table.querySelector("tbody").innerHTML = "";
+
+            Promise.all([...buttons].map((_, index) => {
+                return getTableContent(index * 10, ...options, true).then(popup => {
+                    const parser = new DOMParser();
+                    const dd = parser.parseFromString(popup, 'text/html');
+
+                    if (dd) {
+                        const t = dd.querySelector("table");
+                        
+                        if (t) {
+                            const items = t.querySelectorAll("tbody tr");
+
+                            items.forEach(item => {
+                                table.querySelector("tbody").appendChild(item);
+                            })  
+                        }
+                    }
+                })
+            })).then(() => resolve(table));
+        })
+    }
+
     function tableManager() {
         table = document.querySelector(".custom-table");
         const items = table.querySelectorAll("tbody tr");
@@ -81,8 +117,8 @@
             });
         });
 
-        printBtn.addEventListener("click", () => {
-            const cloneT = table.cloneNode(true);
+        printBtn.addEventListener("click", async () => {
+            const cloneT = await getTableToBePrinted();
             const tdQR = cloneT.querySelectorAll(".td-qr");
 
             tdQR.forEach((td) => td.classList.remove("hide-component"));

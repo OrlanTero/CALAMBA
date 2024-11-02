@@ -38,11 +38,24 @@ $filter['deleted'] = '0';
 
 if (!$isAdmin) {
     $filter['course'] = $user['course'];
+
 }
 
 $filter = !empty($filter) ? $filter : null;
 
 $search = $_POST['search'] ?? false;
+
+
+$equipments = $CONNECTION->Select("equipment_info", ['deleted' => '0'], true);
+
+foreach ($equipments as $equipment) {
+    if ($equipment['serials'] == '' || $equipment['serials'] == null) {
+        $CONNECTION->Update("equipment_info", [
+            "serials" => GenerateSerialNumber($equipment['id'])
+        ], ["id" => $equipment['id']]);
+    }
+}
+
 
 if ($search && $search !== 'false') {
     $allRecords = $CONNECTION->Search("equipment_info", $search, ['name'], $filter);
@@ -101,6 +114,8 @@ if (!is_null($condition) && $condition !== 'false' && $condition !== '') {
         return count($items) > 0;
     });
 }
+
+
 
 
 $total_records = count($allRecords);

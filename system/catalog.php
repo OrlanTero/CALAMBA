@@ -192,8 +192,6 @@ $isAdmin = $_SESSION['user_type'] == 'admin';
             });
         }
 
-
-
         if (back) {
             back.addEventListener("click", () => {
                 getAllCats(0, searchEngine.value ? searchEngine.value : false, selectCategory ? selectCategory.value : false, selectCourse.value ? selectCourse.value : false);

@@ -77,9 +77,9 @@ $courses = [
                     <option value="">-- Select Status --</option>
                     <option value="good_condition">Good Condition</option>
                     <option value="bad_condition">Bad Condition</option>
-                    <option value="obsolete">Obsolete</option>
+                    <!-- <option value="obsolete">Obsolete</option>
                     <option value="damaged">Damaged</option>
-                    <option value="lost">Lost</option>
+                    <option value="lost">Lost</option> -->
                 </select>
         </div>
         <div class="main-content">

@@ -123,7 +123,7 @@ export function ViewItem(id, callback) {
 
         if(getItem) {
             getItem.addEventListener("click", function () {
-                GetMyItem(id);
+                GetMyItem(id, callback);
             })
         }
 
@@ -135,9 +135,23 @@ export function ViewItem(id, callback) {
 
         if (rm) {
             rm.addEventListener("click", function () {
-                RemoveItem(id);
+                const pp = new AlertPopup({
+                    primary: "Remove Item?",
+                    secondary: `Removing item`,
+                    message: "Are you sure to remove this Item?"
+                }, {
+                    alert_type: AlertTypes.YES_NO,
+                });
 
-                popup.Remove();
+                pp.AddListeners({
+                    onYes: () => {
+                        RemoveItem(id, callback);
+
+                        popup.Remove();
+                    }
+                })
+
+                pp.Create().then(() => { pp.Show() })
             })
         }
 
@@ -345,16 +359,26 @@ export function ShowGettingQR(qr_key, callback) {
     popup.Create().then(() => {
         popup.Show();
         const form = popup.ELEMENT.querySelector("form");
-
         const downloadQrBtn = popup.ELEMENT.querySelector(".download-qr");
-
         const qrcodeImage = popup.ELEMENT.querySelector(".qr-code-container .image-two");
+        const status = popup.ELEMENT.querySelector("select[name=borrow_status]");
+        const condition = popup.ELEMENT.querySelector("select[name=item_condition]");
+        const conditionContainer = popup.ELEMENT.querySelector(".condition-container");
 
         downloadQrBtn.addEventListener("click", function () {
             DownloadImage(qrcodeImage.src, `gqr-${(new Date()).getTime()}.png`);
-        })
+        });
+
+        ListenToOriginalSelect(status, value => {
+            conditionContainer.classList.toggle("hide-component", value !== "returned");
+        });
 
         ListenToForm(form, function (data) {
+            if (data.borrow_status === 'returned' && !data.item_condition) {
+                alert("Please select the item condition");
+                return;
+            }
+            console.log(data);
             if (data.status) {
                 Ajax({
                     url: `_updateGetStatus.php`,
@@ -370,21 +394,20 @@ export function ShowGettingQR(qr_key, callback) {
                 Ajax({
                     url: `_updateGetBorrowStatus.php`,
                     type: "POST",
-                    data: ToData({ qr_key, status: data.borrow_status }),   
+                    data: ToData({ qr_key, status: data.borrow_status,  condition: data.item_condition }),   
                     success: (p) => {
-                        console.log(p);
                         popup.Remove();
 
                         callback && callback();
                     },
                 })
             }
-        })
+        }, ['item_condition']);
 
     });
 }
 
-export  function GetMyItem(id) {
+export  function GetMyItem(id, callback) {
     const popup = new Popup("equipments/getItem.php", {id}, {
         backgroundDismiss: false,
     });
@@ -415,7 +438,7 @@ export  function GetMyItem(id) {
                             popup.Remove();
         
                             if (res.code == 200) {
-                                ShowGettingQR(res.body.qr_key);
+                                ShowGettingQR(res.body.qr_key, callback);
                             } else {
                                 alert(res.message);
                             }
