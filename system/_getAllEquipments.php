@@ -34,6 +34,10 @@ if (isset($category)) {
     $filter['category'] = $category;
 }
 
+if (isset($must_condition)) {
+    $condition = $must_condition;
+}
+
 $filter['deleted'] = '0';
 
 if (!$isAdmin) {
@@ -114,8 +118,6 @@ if (!is_null($condition) && $condition !== 'false' && $condition !== '') {
         return count($items) > 0;
     });
 }
-
-
 
 
 $total_records = count($allRecords);

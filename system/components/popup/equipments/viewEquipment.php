@@ -48,10 +48,7 @@ $equipment = GetEquipment($id);
                             <label for="picture">Picture</label>
                             <input type="file" id="picture" name="picture"/>
                         </div>
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" id="price" step="0.01" name="price" value="<?= $equipment["price"] ?>" required/>
-                        </div>
+                       
                         <div class="form-group mb-3">
                             <label for="category">Category:</label>
                             <select id="category" name="category" class="form-control" required>

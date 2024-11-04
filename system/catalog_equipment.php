@@ -66,25 +66,25 @@ $courses = [
                         <option value="<?= $course ?>"><?= $course ?></option>
                     <?php endforeach; ?>
                 </select>
-            <?php endif; ?>
-
-            <select class="select-used" id="usedSelect" required style="margin-left: 50px">
+                <select class="select-used" id="usedSelect" required style="margin-left: 50px">
                     <option value="">-- Select Used --</option>
                     <option value="yes">Using</option>
                     <option value="no">Not Using</option>
                 </select>
                 <select id="item_condition" name="item_condition" style="margin-left: 20px">
-                    <option value="">-- Select Status --</option>
+                <option value="">-- Select Status --</option>
                     <option value="good_condition">Good Condition</option>
                     <option value="bad_condition">Bad Condition</option>
-                    <!-- <option value="obsolete">Obsolete</option>
+                    <option value="obsolete">Obsolete</option>
                     <option value="damaged">Damaged</option>
-                    <option value="lost">Lost</option> -->
+                    <option value="lost">Lost</option>
                 </select>
+            <?php endif; ?>
         </div>
         <div class="main-content">
             <?php
                 $category = "equipment";
+                $must_condition = "good_condition";
                 include_once "./_getAllEquipments.php";  // The $category variable will be passed here
             ?>
         </div>
@@ -113,24 +113,24 @@ $courses = [
     const searchEngine = document.querySelector(".search-engine input");
     const selectCourse = document.querySelector(".select-course");
     const selectUsed = document.querySelector(".select-used");
-    const itemCondition = document.querySelector("#item_condition");
+    const itemCondition = "good_condition";
     const category = "equipment";
 
     [searchEngine, selectCourse].forEach(el => {
         if (el) {
             el.addEventListener("input", function () {
-                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition?.value || false);
+                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition);
             });
         }
     });
 
-    [selectUsed, itemCondition].forEach(el => {
+    [selectUsed].forEach(el => {
         if (el) {
             el.addEventListener("input", function () {
             if (view === 100) {
-                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition?.value || false);
+                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition);
             } else {
-                getItemsOf(activeCategoryID, 0, false, false, { item_condition: itemCondition?.value || false });
+                getItemsOf(activeCategoryID, 0, false, false, { item_condition: itemCondition });
             }
         });
         }
@@ -144,7 +144,7 @@ $courses = [
         buttons.forEach((button, index) => {
             const offset = index * 10;
             button.addEventListener("click", function() {
-                view === 100 ? getAllCats(offset, searchEngine.value || false, category, selectCourse.value || false, selectUsed?.value || false, itemCondition?.value || false) : getItemsOf(activeCategoryID, offset, false, false, { item_condition: itemCondition?.value || false });
+                view === 100 ? getAllCats(offset, searchEngine.value || false, category, selectCourse.value || false, selectUsed?.value || false, itemCondition) : getItemsOf(activeCategoryID, offset, false, false, { item_condition: itemCondition });
             });
         });
     }
@@ -194,7 +194,7 @@ $courses = [
 
         if (back) {
             back.addEventListener("click", () => {
-                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition?.value || false);
+                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition);
             });
         }
 

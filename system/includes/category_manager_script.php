@@ -5,7 +5,7 @@
     import Popup from "./scripts/Popup.js";
     import { Ajax, ToData, addHtml, ListenToForm, ListenToOriginalSelect } from "./scripts/Tool.js";
     import AlertPopup, { AlertTypes } from "./scripts/AlertPopup.js";
-    import { ShowGettingQR, DownloadImage } from "./scripts/Functions.js";
+    import { ShowGettingQR, DownloadImage, Confirm } from "./scripts/Functions.js";
     import QRScanner from "./scripts/QRScanner.js";
     window.jsPDF = window.jspdf.jsPDF;
 
@@ -39,16 +39,18 @@
             const qrcodeImage = popup.ELEMENT.querySelectorAll(".qr-code-container IMG")[1];
 
             ListenToForm(form, data => {
-                Ajax({
-                    url: "_updateItem.php",
-                    type: "POST",
-                    data: ToData({ id, data: JSON.stringify(data) }),
-                    success: () => {
-                        popup.Remove();
-                        getItemsOf(activeCategoryID);
-                    },
+                Confirm("Update Item?", "Updating Item", "Are you sure to update this item?", function () {
+                    Ajax({
+                        url: "_updateItem.php",
+                        type: "POST",
+                        data: ToData({ id, data: JSON.stringify(data) }),
+                        success: () => {
+                            popup.Remove();
+                            getItemsOf(activeCategoryID);
+                        },
+                    });
                 });
-            });
+            }, ['picture']);
 
             if (dl) {
                 dl.addEventListener("click", () => DownloadImage(qrcodeImage.src, `item-${id}-qr-code.png`));

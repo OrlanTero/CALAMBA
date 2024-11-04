@@ -97,6 +97,7 @@ $user = $CONNECTION->Select("user", ["id" => $data['id']], false);
                     </div>
                 </div>
                 <div class="popup-footer">
+                    <button type="button" class="popup-button change-password-button">Change Password</button>
                     <button type="submit">Save User</button>
                 </div>
             </form>

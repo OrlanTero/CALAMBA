@@ -64,7 +64,7 @@ $isAdmin = $_SESSION['user_type'] == "admin";
                     </div>
                     <div class="form-group">
                         <label for="picture">Picture</label>
-                        <input type="file" id="picture" name="picture" required/>
+                        <input type="file" id="picture" name="picture"/>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>

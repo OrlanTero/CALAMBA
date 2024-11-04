@@ -44,7 +44,7 @@ $serial = GenerateSerialNumber($equipment['id']);
 
                     <div class="form-group">
                         <label for="picture">Picture</label>
-                        <input type="file" id="picture" name="picture" required/>
+                        <input type="file" id="picture" name="picture" />
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>

@@ -66,9 +66,7 @@ include_once("./includes/menu.php");
                         <option value="<?= $course ?>"><?= $course ?></option>
                     <?php endforeach; ?>
                 </select>
-            <?php endif; ?>
-
-            <select class="select-used" id="usedSelect" required style="margin-left: 20px">
+                <select class="select-used" id="usedSelect" required style="margin-left: 20px">
                     <option value="">-- Select Used --</option>
                     <option value="yes">Using</option>
                     <option value="no">Not Using</option>
@@ -81,9 +79,12 @@ include_once("./includes/menu.php");
                     <option value="damaged">Damaged</option>
                     <option value="lost">Lost</option>
                 </select>
+            <?php endif; ?>
         </div>
         <div class="main-content">
-            <?php include_once "./_getAllEquipments.php"; ?>
+            <?php 
+                $must_condition = "good_condition";
+                include_once "./_getAllEquipments.php"; ?>
         </div>
     </div>
 </div>
@@ -109,13 +110,13 @@ include_once("./includes/menu.php");
     const searchEngine = document.querySelector(".search-engine input");
     const selectCourse = document.querySelector(".select-course");
     const selectUsed = document.querySelector(".select-used");
-    const itemCondition = document.querySelector("#item_condition");
+    const itemCondition = "good_condition";
     const category = "tools";
 
     [searchEngine, selectCourse].forEach(el => {
         if (el) {
             el.addEventListener("input", function () {
-                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition?.value || false);
+                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition);
             });
         }
     });
@@ -124,9 +125,9 @@ include_once("./includes/menu.php");
         if (el) {
             el.addEventListener("input", function () {
             if (view === 100) {
-                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition?.value || false);
+                getAllCats(0, searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition);
             } else {
-                getItemsOf(activeCategoryID, 0, false, false, { item_condition: itemCondition?.value || false });
+                getItemsOf(activeCategoryID, 0, false, false, { item_condition: itemCondition });
             }
         });
         }
@@ -146,7 +147,7 @@ include_once("./includes/menu.php");
     }
 
     function getItemsOf(id, start = 0) {
-        GetItemsOf(id, start, true, false, { item_condition: itemCondition?.value || false, in_used: selectUsed?.value || false }).then(popup => {
+        GetItemsOf(id, start, true, false, { item_condition: itemCondition, in_used: selectUsed?.value || false }).then(popup => {
             activeCategoryID = id;
             view = 200;
             addHtml(content, popup);
@@ -190,13 +191,13 @@ include_once("./includes/menu.php");
 
         if (back) {
             back.addEventListener("click", () => {
-                getAllCats(0,searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition?.value || false);
+                getAllCats(0,searchEngine.value || false, category, selectCourse?.value || false, selectUsed?.value || false, itemCondition);
             });
         }
 
         if (addEq) {
             addEq.addEventListener("click", () => {
-                CreateNewEquipment(category, () => getAllCats(0, searchEngine.value || false, category, selectCourse.value || false, selectUsed?.value || false, itemCondition?.value || false));
+                CreateNewEquipment(category, () => getAllCats(0, searchEngine.value || false, category, selectCourse.value || false, selectUsed?.value || false, itemCondition));
             });
         }
 

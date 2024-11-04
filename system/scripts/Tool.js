@@ -534,6 +534,25 @@ export function VerifyFormData(formData, except = [], options = []) {
                 }
             }
         }
+
+        if (options.length) {
+            for (const option of options) {
+                if (option.matched) {
+                    const matches = option.matched; // this is an array
+                    const value1 = formData.get(option.input);
+                    
+                    for (const match of matches) {
+                        const matchValue = formData.get(match);
+                        if (value1 !== matchValue) {
+                            status = false;
+                            empty.push(option.input);
+                            empty.push(match);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     return {status, empty};

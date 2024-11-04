@@ -44,25 +44,27 @@ export function ViewEquipment(id, callback) {
         let changed = false;
 
         ListenToForm(form, async function (data) {
-            if (changed) {
-                await UploadImageFromFile(inputPicture.files[0], MakeID(10), "./../../uploads/").then((res) => {
-                    if (res.code == 200) {
-                        data.picture = res.body.path;
-                    }
-                })
-            } else {
-                delete data.picture;
-            }
-            
-            Ajax({
-                url: `_updateEquipment.php`,
-                type: "POST",
-                data: ToData({id:id, data: JSON.stringify(data)}),
-                success: (r) => {
-                    popup.Remove();
-
-                    callback && callback();
-                },
+            Confirm("Update Equipment?", "Updating Equipment", "Are you sure to update this equipment?", async function () {
+                if (changed) {
+                    await UploadImageFromFile(inputPicture.files[0], MakeID(10), "./../../uploads/").then((res) => {
+                        if (res.code == 200) {
+                            data.picture = res.body.path;
+                        }
+                    })
+                } else {
+                    delete data.picture;
+                }
+                
+                Ajax({
+                    url: `_updateEquipment.php`,
+                    type: "POST",
+                    data: ToData({id:id, data: JSON.stringify(data)}),
+                    success: (r) => {
+                        popup.Remove();
+    
+                        callback && callback();
+                    },
+                });
             });
         }, ['picture'])
 
@@ -89,37 +91,39 @@ export function ViewItem(id, callback) {
         const rm = popup.ELEMENT.querySelector(".remove-item");
 
         ListenToForm(form, function (data) {
-            new Promise((resolve) => {
-                if (data.picture.name == "") {
-                    resolve(false);
-                } else {
-                    UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
-                        if (res.code == 200){
-                            resolve(res.body.path);
-                        } else {
-                            resolve(false);
-                        }
-                    })
-                }
-            }).then((res) => {
-                if (res) {
-                    data.picture = res;
-                } else {
-                    delete data.picture;
-                }
-
-                Ajax({
-                    url: `_updateItem.php`,
-                    type: "POST",
-                    data: ToData({id:id, data: JSON.stringify(data)}),
-                    success: (r) => {
-                        popup.Remove();
+            Confirm("Update Item?", "Updating Item", "Are you sure to update this item?", function () {
+                new Promise((resolve) => {
+                    if (data.picture.name == "") {
+                        resolve(false);
+                    } else {
+                        UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
+                            if (res.code == 200){
+                                resolve(res.body.path);
+                            } else {
+                                resolve(false);
+                            }
+                        })
+                    }
+                }).then((res) => {
+                    if (res) {
+                        data.picture = res;
+                    } else {
+                        delete data.picture;
+                    }
     
-                        callback && callback();
-                    },
-                });
-            })
-        }, ['picture'])
+                    Ajax({
+                        url: `_updateItem.php`,
+                        type: "POST",
+                        data: ToData({id:id, data: JSON.stringify(data)}),
+                        success: (r) => {
+                            popup.Remove();
+        
+                            callback && callback();
+                        },
+                    });
+                })
+            });
+        }, ['picture', 'alert_level', 'quantity'])
 
         if(getItem) {
             getItem.addEventListener("click", function () {
@@ -196,38 +200,58 @@ export function CreateNewItem(id, callback) {
         ListenToForm(form, function (data) {
             data.equipment_id = id;
             
-            new Promise((resolve) => {
-                if (data.picture.name == "") {
-                    resolve(false);
-                } else {
-                    UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
-                        if (res.code == 200){
-                            resolve(res.body.path);
-                        } else {
-                            resolve(false);
-                        }
-                    })
-                }
-            }).then((res) => {
-                if (res) {
-                    data.picture = res;
-                } else {
-                    delete data.picture;
-                }
-
-                Ajax({
-                    url: `_insertItem.php`,
-                    type: "POST",
-                    data: ToData({data: JSON.stringify(data)}),
-                    success: (r) => {
-                        popup.Remove();
+            Confirm("Create Item?", "Creating Item", "Are you sure to create this item?", function () {
+                new Promise((resolve) => {
+                    if (data.picture.name == "") {
+                        resolve(false);
+                    } else {
+                        UploadImageFromFile(data.picture, MakeID(10), "./../../uploads/").then((res) => {
+                            if (res.code == 200){
+                                resolve(res.body.path);
+                            } else {
+                                resolve(false);
+                            }
+                        })
+                    }
+                }).then((res) => {
+                    if (res) {
+                        data.picture = res;
+                    } else {
+                        delete data.picture;
+                    }
     
-                        callback()
-                    },
-                });
-            })
+                    Ajax({
+                        url: `_insertItem.php`,
+                        type: "POST",
+                        data: ToData({data: JSON.stringify(data)}),
+                        success: (r) => {
+                            popup.Remove();
+        
+                            callback()
+                        },
+                    });
+                })
+            });
         }, ['picture'])
     });
+}
+
+export function Confirm(primary, secondary, message, callback) {
+    const pp = new AlertPopup({
+        primary,
+        secondary,
+        message,
+    }, {
+        alert_type: AlertTypes.YES_NO,
+    });
+
+    pp.AddListeners({
+        onYes: () => {
+            callback && callback();
+        }
+    })
+
+    pp.Create().then(() => { pp.Show() })
 }
 
 export function ShowBorrowQR(qr_key) {
@@ -374,34 +398,35 @@ export function ShowGettingQR(qr_key, callback) {
         });
 
         ListenToForm(form, function (data) {
-            if (data.borrow_status === 'returned' && !data.item_condition) {
-                alert("Please select the item condition");
-                return;
-            }
-            console.log(data);
-            if (data.status) {
-                Ajax({
-                    url: `_updateGetStatus.php`,
-                    type: "POST",
-                    data: ToData({ qr_key, status: data.status }),
-                    success: (p) => {
-                        popup.Remove();
-
-                        callback && callback();
-                    },
-                });
-            } else if (data.borrow_status) {
-                Ajax({
-                    url: `_updateGetBorrowStatus.php`,
-                    type: "POST",
-                    data: ToData({ qr_key, status: data.borrow_status,  condition: data.item_condition }),   
-                    success: (p) => {
-                        popup.Remove();
-
-                        callback && callback();
-                    },
-                })
-            }
+            Confirm("Update Item?", "Updating Item", "Are you sure to update this item?", function () {
+                if (data.borrow_status === 'returned' && !data.item_condition) {
+                    alert("Please select the item condition");
+                    return;
+                }
+                if (data.status) {
+                    Ajax({
+                        url: `_updateGetStatus.php`,
+                        type: "POST",
+                        data: ToData({ qr_key, status: data.status }),
+                        success: (p) => {
+                            popup.Remove();
+    
+                            callback && callback();
+                        },
+                    });
+                } else if (data.borrow_status) {
+                    Ajax({
+                        url: `_updateGetBorrowStatus.php`,
+                        type: "POST",
+                        data: ToData({ qr_key, status: data.borrow_status,  condition: data.item_condition }),   
+                        success: (p) => {
+                            popup.Remove();
+    
+                            callback && callback();
+                        },
+                    })
+                }
+            });
         }, ['item_condition']);
 
     });
@@ -521,8 +546,8 @@ export function RemoveEquipmentItem(id) {
     });
 }
 
-export function ViewUser(id,  callback) {
-    const popup = new Popup("users/viewUser.php", {id}, {
+export function ChangePassword(id, callback) {
+    const popup = new Popup("users/changePassword.php", {id}, {
         backgroundDismiss: false,
     });
 
@@ -532,15 +557,55 @@ export function ViewUser(id,  callback) {
         const form = popup.ELEMENT.querySelector("form");
 
         ListenToForm(form, function (data) {
-            Ajax({
-                url: `_updateUser.php`,
-                type: "POST",
-                data: ToData({id: id, data: JSON.stringify(data)}),
-                success: (r) => {
-                    popup.Remove(); 
-                    callback && callback();
-                },
+
+            delete data.confirm_password;
+
+            Confirm("Update Password?", "Updating Password", "Are you sure to update this password?", function () {
+                Ajax({
+                    url: `_updatePassword.php`,
+                    type: "POST",
+                    data: ToData({id: id, data: JSON.stringify(data)}),
+                    success: (r) => {
+                        console.log(r);
+                        popup.Remove();
+                        callback && callback();
+                    },
+                });
             });
+        }, [], [{
+            input: "password",
+            matched: ["confirm_password"],
+        }])
+    })
+}
+
+export function ViewUser(id,  callback) {
+    const popup = new Popup("users/viewUser.php", {id}, {
+        backgroundDismiss: false,
+    });
+
+    popup.Create().then(() => {
+        popup.Show();
+
+        const form = popup.ELEMENT.querySelector("form");
+        const changePasswordButton = popup.ELEMENT.querySelector(".change-password-button");
+
+        ListenToForm(form, function (data) {
+            Confirm("Update User?", "Updating User", "Are you sure to update this user?", function () {
+                Ajax({
+                    url: `_updateUser.php`,
+                    type: "POST",
+                    data: ToData({id: id, data: JSON.stringify(data)}),
+                    success: (r) => {
+                        popup.Remove(); 
+                        callback && callback();
+                    },
+                });
+            });
+        })
+
+        changePasswordButton.addEventListener("click", function () {
+            ChangePassword(id, callback);
         })
     });
 }
