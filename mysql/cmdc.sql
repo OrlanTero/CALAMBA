@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2024 at 08:39 PM
+-- Generation Time: Nov 04, 2024 at 10:19 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -85,6 +85,13 @@ CREATE TABLE `equipment_details` (
   `category` enum('equipment','tools','consumables') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `equipment_details`
+--
+
+INSERT INTO `equipment_details` (`id`, `equipment_id`, `serials`, `location`, `qr_key`, `picture`, `price`, `quantity`, `borrow_availability`, `item_condition`, `alert_level`, `deleted`, `date_rcvd`, `in_used`, `category`) VALUES
+(1, 1, 'EQU-0001-0001', 'Item 1', 'JPk9jEytBL', '', 100, 0, 0, 'good_condition', NULL, 0, NULL, 'no', 'equipment');
+
 -- --------------------------------------------------------
 
 --
@@ -106,6 +113,13 @@ CREATE TABLE `equipment_info` (
   `serials` varchar(255) NOT NULL,
   `deleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `equipment_info`
+--
+
+INSERT INTO `equipment_info` (`id`, `name`, `total_quantity`, `alert_level`, `description`, `available`, `picture`, `borrowed`, `price`, `course`, `category`, `serials`, `deleted`) VALUES
+(1, 'Equipment 1', 0, 0, 'AAAb', 0, 'lChsgER6Ue.png', 0, '0.00', 'RAC Servicing (DomRAC)', 'equipment', 'EQU-00000001', 0);
 
 -- --------------------------------------------------------
 
@@ -153,7 +167,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `student_id`, `pword`, `user_type`, `profile_picture`, `phone`, `course`, `attempts`, `lockout_time`, `archived`) VALUES
-(10, 'Jeff', 'Rodolfo', 'Dulay', 'N/A', '2021-01255', '$2y$10$w1biDl7HSs1agWMoCppB3eLVoWJtzr3ZhLbupdbQmNaHF6HTb5IKy', 'student', '', '09814800058', 'RAC Servicing (DomRAC)', 0, NULL, 0),
+(10, 'Jeff', 'Rodolfo', 'Dulay', 'N/A', '2021-01255', '$2y$10$cEwJASjk2Aj8rtaKjTTWDOReOcLiG3IaQk/.Q1mYx2EmUUKFqlbU.', 'student', '', '09814800058', 'RAC Servicing (DomRAC)', 0, NULL, 0),
 (12, 'Rosalie', 'Diocales', 'Dulay', 'N/A', '2023-51123', '$2y$10$/rVqNyw3XIwi.ngP05LYSO3YFcObSpHNyAoAmbtek2urcfni43dDe', 'admin', '', '09814800058', 'RAC Servicing (DomRAC)', 0, NULL, 0),
 (30, 'Jeff', 'Rodolfo', 'Dulay', 'Jr', '2021-01258', '$2y$10$hIoKVtb6fKNTXYKUdma0J.O0nx92/0FeZX0BXEasNAsIVUnCEFG/y', 'instructor', '', '09814800058', 'Advanced Shielded Metal Arc Welding', 0, NULL, 0);
 
@@ -220,13 +234,13 @@ ALTER TABLE `borrow_requests`
 -- AUTO_INCREMENT for table `equipment_details`
 --
 ALTER TABLE `equipment_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `equipment_info`
 --
 ALTER TABLE `equipment_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `material_get_requests`
